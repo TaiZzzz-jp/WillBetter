@@ -193,6 +193,32 @@ button{
     background:#e2f3e6;
 }
 
+.setup-connection{
+    margin:0 0 14px;
+    padding:12px 14px;
+    border-radius:15px;
+    background:#e2f3e6;
+    color:#3f7950;
+    font-size:13px;
+    line-height:1.6;
+}
+
+.process-card{margin:0 20px 8px;padding:15px 16px;border-radius:20px;background:rgba(255,255,255,.68);border:1px solid rgba(255,255,255,.9)}
+.process-title{margin:0 0 12px;font-size:14px;color:#52715b}
+.process-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
+.process-step{position:relative;color:#98a39b;font-size:10px;line-height:1.35}
+.process-step span{display:flex;width:30px;height:30px;margin:0 auto 4px;align-items:center;justify-content:center;border-radius:50%;background:#edf1ed;font-size:16px}
+.process-step.active{color:#3f7950;font-weight:bold}
+.process-step.active span{background:#d7eedc;box-shadow:0 0 0 2px #78b684}
+.process-step.done{color:#52715b}
+.process-step.done span{background:#e2f3e6}
+.process-note{margin:10px 0 0;color:#718078;font-size:12px;text-align:center}
+
+.choice-card.recommended{
+    border-color:#72a97d;
+    box-shadow:0 5px 14px rgba(92,147,105,.14);
+}
+
 .choice-card strong{
     display:block;
     margin-bottom:6px;
@@ -579,6 +605,12 @@ header h1{
 .half-step-controls button{flex:1;border:0;border-radius:13px;background:#e2f3e6;color:#52715b;font-weight:700}
 .day-complete-message{margin-top:12px;padding:14px;border-radius:16px;background:#e2f3e6;color:#3f7950;text-align:center;font-weight:bold}
 .day-complete-message[hidden]{display:none}
+.action-review{margin-top:12px;padding:15px;border-radius:17px;background:#f7eee2;color:#6f5a3f}
+.action-review[hidden]{display:none}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.review-button{padding:11px 6px;border:0;border-radius:13px;background:#fff;color:#6f5a3f;font-size:12px}
+.review-button.selected{background:#e2f3e6;color:#3f7950;box-shadow:inset 0 0 0 2px #78b684}
+.discovery-input{width:100%;min-height:64px;margin-top:10px;padding:11px;border:1px solid rgba(255,255,255,.9);border-radius:13px;background:#fff;outline:none;resize:vertical}
 .chart-wrap{display:grid;grid-template-columns:42px 1fr;align-items:start}
 .chart-scale{height:150px;display:flex;justify-content:space-between;flex-direction:column;color:#718078;font-size:10px;padding:2px 0 3px;text-align:right}
 
@@ -748,11 +780,11 @@ header h1{
 
 <section id="page1" class="setup-page active">
 
-<h1>まず、好きなことは？</h1>
+<h1>最近、ちょっと気になることは？</h1>
 
 <p class="description">
-夢がまだ決まっていなくても大丈夫。<br>
-好きなことをいくつでも選んでみよう。
+好きじゃなくても大丈夫。<br>
+「なんとなく」で選んでみよう。
 </p>
 
 <div id="interestGrid" class="interest-grid"></div>
@@ -770,11 +802,11 @@ header h1{
 
 <section id="page2" class="setup-page">
 
-<h1>あなたの夢は？</h1>
+<h1>気になることはある？</h1>
 
 <p class="description">
-決まっているなら教えてください。<br>
-決まっていなくても大丈夫です。
+夢が決まっていなくても大丈夫。<br>
+今ちょっと気になることだけで進めます。
 </p>
 
 <input id="dreamInput"
@@ -782,11 +814,11 @@ class="setup-input"
 placeholder="例：ゲームを作る">
 
 <button id="dreamNext" class="primary-button" style="margin-top:12px">
-この夢で進む
+このまま進む
 </button>
 
 <button id="noDreamButton" class="secondary-button">
-まだ夢がない
+気になることを選ぶ
 </button>
 
 <button id="dreamBack" class="secondary-button">
@@ -805,10 +837,18 @@ placeholder="例：ゲームを作る">
 いろいろな可能性を見つけてみよう。
 </p>
 
+<div class="setup-connection">
+気になるものを1つ選ぶだけで大丈夫。あとで変えても問題ありません。
+</div>
+
 <div id="dreamSuggestions"></div>
 
 <button id="startButton" class="primary-button">
 この中から探してみる
+</button>
+
+<button id="startWithoutDream" class="secondary-button">
+まだ決めずに始める
 </button>
 
 <button id="suggestBack" class="secondary-button">
@@ -825,6 +865,10 @@ placeholder="例：ゲームを作る">
 <p class="description">
 大きな夢も、まずは小さな一歩から。
 </p>
+
+<div id="goalConnection" class="setup-connection">
+ここで選んだ可能性を、まずは軽い気持ちで試してみよう。
+</div>
 
 <div id="goalList"></div>
 
@@ -850,6 +894,20 @@ Will Betterを始める
 <header>
 <h1>🌱 Will Better</h1>
 </header>
+
+<section class="process-card">
+<h2 class="process-title">あなたの今のプロセス</h2>
+<div class="process-steps">
+<div class="process-step" data-process="interest"><span>🌱</span>好き</div>
+<div class="process-step" data-process="curious"><span>💡</span>気になる</div>
+<div class="process-step" data-process="try"><span>👣</span>小さくやる</div>
+<div class="process-step" data-process="record"><span>📖</span>記録</div>
+<div class="process-step" data-process="reflect"><span>💭</span>どうだった？</div>
+<div class="process-step" data-process="deepen"><span>🔥</span>深まる</div>
+<div class="process-step" data-process="dream"><span>🎯</span>夢になる</div>
+</div>
+<p id="processNote" class="process-note">まずは気になることを1つ選んでみよう。</p>
+</section>
 
 <section class="fish-section">
 
@@ -910,6 +968,18 @@ Lv.1
 
 <div id="dayCompleteMessage" class="day-complete-message" hidden>
 今日はやりました。今日の作業は終わりです。
+</div>
+
+<div id="actionReview" class="action-review" hidden>
+<strong>やってみて、どうだった？</strong>
+<div class="review-grid">
+<button class="review-button" data-review="面白かった">😊 面白かった</button>
+<button class="review-button" data-review="もっと知りたい">💡 もっと知りたい</button>
+<button class="review-button" data-review="普通だった">😐 普通だった</button>
+<button class="review-button" data-review="思っていたのと違った">🔎 違った</button>
+</div>
+<textarea id="discoveryInput" class="discovery-input" placeholder="今日わかったことを一言だけ"></textarea>
+<button id="saveReview" class="secondary-button">今日の発見を保存</button>
 </div>
 
 <div id="extra" class="extra">
@@ -1062,7 +1132,7 @@ placeholder="何分？">
 <div id="dreamSearch" class="screen">
 
 <header>
-<h1>🌱 夢を探す</h1>
+<h1>💡 気になるを探す</h1>
 </header>
 
 <div class="page-content">
@@ -1070,12 +1140,12 @@ placeholder="何分？">
 <div class="card">
 
 <h2 class="section-title">
-自分の言葉で探す
+気になることを集める
 </h2>
 
 <p class="description">
 夢でなくても大丈夫。思いついた言葉を、いくつでも書いてみよう。<br>
-あとから組み合わせて、やってみたいことを見つけられます。
+試してみるテーマを見つけられます。
 </p>
 
 <div class="category-buttons">
@@ -1139,7 +1209,7 @@ style="margin-top:10px"
 
 <div id="interestSearch" class="search-card">
 
-<h3>💭 集めた言葉から広げる</h3>
+<h3>💭 気になることから広げる</h3>
 
 <p>
 言葉をタップすると、候補として確認できます。
@@ -1231,6 +1301,11 @@ style="margin-top:10px"
 まだ記録がありません。
 </div>
 
+</div>
+
+<div class="card">
+<h2 class="section-title">行動してわかったこと</h2>
+<div id="actionReviewHistory"></div>
 </div>
 
 <div class="card">
@@ -1394,7 +1469,7 @@ style="margin-top:10px"
 
 <button class="nav-item" data-screen="dreamSearch">
 <span>🌱</span>
-<small>夢を探す</small>
+<small>気になる</small>
 </button>
 
 <button class="nav-item" data-screen="discover">
@@ -1437,7 +1512,7 @@ const interests=[
 "🧪 科学","🌌 宇宙","🦖 生き物","🌱 自然","🌏 地理",
 "🏛️ 歴史","🧠 心理学","🔢 数学","🗣️ 英語","🌍 外国語",
 "🍳 料理","🍰 お菓子作り","☕ カフェ","✈️ 旅行","🚃 鉄道",
-"🚗 車","🏠 DIY","🧩 パズル","♟️ 将棋・チェス","💡 新しいことを試す"
+"🚗 車","🏠 DIY","🧩 パズル","♟️ 将棋・チェス","💡 新しいことを試す","🤔 特にない"
 ];
 
 
@@ -1527,11 +1602,14 @@ let records=[];
 let currentRandom=null;
 let searchIdeas=[];
 let calendarDate=new Date();
+let selectedPossibility=null;
 let mood="";
 let moodDate="";
 let moodHistory=[];
 let dreamLogs=[];
 let futureLetters=[];
+let actionReviews=[];
+let selectedReview="";
 let selectedExperiment=null;
 let defaultMinutes=15;
 let halfStepDefaultMinutes=5;
@@ -1601,19 +1679,14 @@ $("dreamNext").onclick=()=>{
     const value=
         $("dreamInput").value.trim();
 
-    if(!value){
-
-        alert("夢を入力してください");
-
-        return;
-    }
-
     dream=value;
+    selectedPossibility=value ? {title:value,reason:"自分で入力した気になること"} : null;
 
-    createGoals();
+    createGoals(dream);
 
     $("page2").classList.remove("active");
     $("page4").classList.add("active");
+    $("setupStep").textContent="STEP 3 / 3";
 };
 
 
@@ -1625,6 +1698,16 @@ $("noDreamButton").onclick=()=>{
     $("page3").classList.add("active");
 
     $("setupStep").textContent="STEP 2 / 3";
+};
+
+$("startWithoutDream").onclick=()=>{
+    dream="";
+    selectedPossibility=null;
+    selectedGoal=(selectedInterests[0]||"気になること")+"を5分だけ調べる";
+    createGoals("");
+    $("page3").classList.remove("active");
+    $("page4").classList.add("active");
+    $("setupStep").textContent="STEP 3 / 3";
 };
 
 
@@ -1702,8 +1785,8 @@ function createSuggestions(){
             card.classList.add("selected");
 
             dream=item.title;
-
-            createGoals();
+            selectedPossibility=item;
+            createGoals(item.title);
         };
 
         box.appendChild(card);
@@ -1721,7 +1804,7 @@ $("startButton").onclick=()=>{
         return;
     }
 
-    createGoals();
+    createGoals(selectedPossibility ? selectedPossibility.title : dream);
 
     $("page3").classList.remove("active");
     $("page4").classList.add("active");
@@ -1734,9 +1817,14 @@ $("startButton").onclick=()=>{
  目標
 ===================== */
 
-function createGoals(){
+function createGoals(connectionTitle=""){
 
     $("goalList").innerHTML="";
+
+    $("goalConnection").textContent=
+        connectionTitle
+            ? "「"+connectionTitle+"」から、まずは軽い気持ちで試せる一歩を選ぼう。合わなければ変更できます。"
+            : "ここで選んだ可能性を、まずは軽い気持ちで試してみよう。";
 
     const goals=[];
 
@@ -1749,9 +1837,12 @@ function createGoals(){
 
             text:
                 dream+
-                "について15分調べる"
+                "について5分調べる"
 
         });
+
+        goals.push({icon:"🌱",text:dream+"の動画や作品を10分見る"});
+        goals.push({icon:"🌱",text:dream+"を15分やってみる"});
 
     }
 
@@ -1781,6 +1872,9 @@ function createGoals(){
         if(x.includes("料理"))
             text="料理を15分してみる";
 
+        if(x.includes("特にない"))
+            text="気になることを5分だけ探す";
+
 
         goals.push({
 
@@ -1798,6 +1892,8 @@ function createGoals(){
         const card=document.createElement("div");
 
         card.className="choice-card";
+        if(connectionTitle&&item.text.includes(connectionTitle))
+            card.classList.add("recommended");
 
         card.innerHTML=`
             <strong>
@@ -1824,6 +1920,10 @@ function createGoals(){
             card.classList.add("selected");
 
             selectedGoal=item.text;
+
+            const source=connectionTitle||dream||"気になること";
+            $("goalConnection").textContent=
+                "「"+source+"」から始める一歩です。完璧にやらなくても大丈夫。";
 
             $("goalIcon").textContent=
                 item.icon;
@@ -1995,7 +2095,24 @@ function updateHome(){
     updateExperiments();
     updateSecondAction();
     updateSettings();
+    $("actionReview").hidden=!completedToday||!reflectionEnabled;
+    updateProcess();
 
+}
+
+function updateProcess(){
+    const today=getDateKey();
+    const review=actionReviews.find(item=>item.date===today);
+    const current=review ? "reflect" : completedToday ? "record" : moodDate===today ? "curious" : selectedGoal ? "try" : "interest";
+    const order=["interest","curious","try","record","reflect","deepen"];
+    const currentIndex=order.indexOf(current);
+    document.querySelectorAll(".process-step").forEach(step=>{
+        const index=order.indexOf(step.dataset.process);
+        step.classList.toggle("active",step.dataset.process===current);
+        step.classList.toggle("done",index<currentIndex);
+    });
+    const notes={interest:"まずは気になることを1つ選んでみよう。",curious:"気になるテーマを見つけたら、次は小さく試そう。",try:"今日は無理のない一歩をやってみよう。",record:"行動できた。結果を残すと次が見つかる。",reflect:"やってみてどうだったか、ひとこと残そう。",deepen:"興味が深まっている。もう少し続けてみよう。"};
+    $("processNote").textContent=review&&review.review==="思っていたのと違った" ? "違ったことも大切な発見。別の気になることを探せます。" : notes[current];
 }
 
 function updateSecondAction(){
@@ -2133,6 +2250,24 @@ function renderFutureLetters(){
         date.textContent=letter.date;
         item.appendChild(date);
         list.appendChild(item);
+    });
+}
+
+function renderActionReviewHistory(){
+    const list=$("actionReviewHistory");
+    list.innerHTML="";
+    if(actionReviews.length===0){
+        list.innerHTML='<div class="empty-state">行動すると、ここに気づきが残ります。</div>';
+        return;
+    }
+    actionReviews.slice(0,10).forEach(item=>{
+        const row=document.createElement("div");
+        row.className="log-item";
+        row.textContent=(item.review||"")+(item.discovery ? "："+item.discovery : "");
+        const date=document.createElement("small");
+        date.textContent=item.date;
+        row.appendChild(date);
+        list.appendChild(row);
     });
 }
 
@@ -2388,6 +2523,30 @@ document.querySelectorAll(".reflection-button").forEach(button=>{
     };
 });
 
+document.querySelectorAll(".review-button").forEach(button=>{
+    button.onclick=()=>{
+        selectedReview=button.dataset.review;
+        document.querySelectorAll(".review-button").forEach(item=>item.classList.remove("selected"));
+        button.classList.add("selected");
+    };
+});
+
+$("saveReview").onclick=()=>{
+    const discovery=$("discoveryInput").value.trim();
+    if(!selectedReview&&!discovery) return;
+    const today=getDateKey();
+    const existing=actionReviews.find(item=>item.date===today);
+    if(existing){
+        existing.review=selectedReview||existing.review;
+        existing.discovery=discovery||existing.discovery;
+    }else{
+        actionReviews.unshift({date:today,review:selectedReview,discovery});
+    }
+    save();
+    $("saveReview").textContent="保存しました";
+    updateProcess();
+};
+
 $("saveDreamLog").onclick=()=>{
     const text=$("dreamLogInput").value.trim();
     if(!text) return;
@@ -2562,18 +2721,6 @@ $("extraButton").onclick=()=>{
         Number(
             $("extraMinutes").value
         );
-
-
-    if(!minutes || minutes<=0){
-
-        alert(
-            "追加した時間を入力してください"
-        );
-
-        return;
-
-    }
-
 
     const xp=
         Math.max(
@@ -3144,6 +3291,7 @@ function updateRecords(){
     renderDreamLogs();
     renderFutureLetters();
     renderMoodHistory();
+    renderActionReviewHistory();
 
 
     if(records.length===0){
@@ -3245,4 +3393,360 @@ function showScreen(id){
 
 
     if(id==="records")
-        u
+        updateRecords();
+
+
+    if(id==="dreamSearch")
+        updateJobList();
+
+    if(id==="discover")
+        updatePossibilityMap();
+
+    if(id==="settings")
+        updateSettings();
+
+
+    if(id==="home")
+        updateQuote();
+
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+$("calendarPrev").onclick=()=>{
+    calendarDate.setMonth(calendarDate.getMonth()-1);
+    updateCalendar();
+};
+
+$("calendarNext").onclick=()=>{
+    calendarDate.setMonth(calendarDate.getMonth()+1);
+    updateCalendar();
+};
+
+
+navItems.forEach(n=>{
+
+    n.onclick=()=>{
+
+        showScreen(
+            n.dataset.screen
+        );
+
+    };
+
+});
+
+
+/* =====================
+ 魚
+===================== */
+
+$("fish").onclick=()=>{
+
+    $("fish")
+        .classList
+        .remove("bounce");
+
+
+    void $("fish").offsetWidth;
+
+
+    $("fish")
+        .classList
+        .add("bounce");
+
+};
+
+
+/* =====================
+ GAME
+===================== */
+
+$("gameButton").onclick=()=>{
+
+    if(fedDate===getDateKey()){
+        updateGameButton();
+        return;
+    }
+
+    fedDate=getDateKey();
+    addXP(5);
+
+    records.unshift({
+        date:getDateKey(),
+        title:"魚に餌やり",
+        minutes:0,
+        xp:5,
+        type:"feeding"
+    });
+
+    save();
+    updateRecords();
+
+    $("gameButton").textContent=
+        "✓ 今日の餌やり済み";
+
+    $("gameButton").classList.add("game-done");
+
+
+    $("fish")
+        .classList
+        .remove("bounce");
+
+
+    void $("fish").offsetWidth;
+
+
+    $("fish")
+        .classList
+        .add("bounce");
+
+
+    setTimeout(()=>{
+
+        updateGameButton();
+
+    },700);
+
+};
+
+
+/* =====================
+ SAVE / LOAD
+===================== */
+
+function save(){
+
+    localStorage.setItem(
+
+        "willBetterData",
+
+        JSON.stringify({
+
+            dream,
+
+            selectedInterests,
+
+            selectedGoal,
+
+            points,
+
+            streak,
+
+            level,
+
+            exp,
+
+            totalMinutes,
+
+            records,
+
+            selectedMinutes,
+
+            completedDate,
+
+            fedDate,
+
+            secondGoal,
+
+            secondMinutes,
+
+            secondCompletedDate,
+
+            searchIdeas,
+
+            mood,
+
+            moodDate,
+
+            moodHistory,
+
+            dreamLogs,
+
+            futureLetters,
+
+            actionReviews,
+
+            defaultMinutes,
+
+            halfStepDefaultMinutes,
+
+            reflectionEnabled,
+
+            notificationEnabled
+
+        })
+
+    );
+
+
+    localStorage.setItem(
+
+        "setupCompleted",
+
+        "true"
+
+    );
+
+}
+
+
+function load(){
+
+    const data=
+        localStorage.getItem(
+            "willBetterData"
+        );
+
+
+    if(!data)
+        return false;
+
+
+    let d;
+
+    try{
+        d=JSON.parse(data);
+    }catch(error){
+        localStorage.removeItem("willBetterData");
+        localStorage.removeItem("setupCompleted");
+        return false;
+    }
+
+
+    dream=
+        d.dream||
+        "";
+
+
+    selectedInterests=
+        d.selectedInterests||
+        [];
+
+
+    selectedGoal=
+        d.selectedGoal||
+        "";
+
+
+    points=
+        d.points||
+        0;
+
+
+    streak=
+        d.streak||
+        0;
+
+
+    level=
+        d.level||
+        1;
+
+
+    exp=
+        d.exp||
+        0;
+
+
+    totalMinutes=
+        d.totalMinutes||
+        0;
+
+    selectedMinutes=
+        d.selectedMinutes||
+        15;
+
+    completedDate=
+        d.completedDate||
+        "";
+
+    fedDate=
+        d.fedDate||
+        "";
+
+    secondGoal=d.secondGoal||"";
+    secondMinutes=d.secondMinutes||15;
+    secondCompletedDate=d.secondCompletedDate||"";
+
+    mood=d.mood||"";
+    moodDate=d.moodDate||"";
+    moodHistory=d.moodHistory||[];
+    if(mood&&moodDate&&!moodHistory.some(item=>item.date===moodDate))
+        moodHistory.unshift({date:moodDate,mood});
+    dreamLogs=d.dreamLogs||[];
+    futureLetters=d.futureLetters||[];
+    actionReviews=d.actionReviews||[];
+    defaultMinutes=d.defaultMinutes||15;
+    halfStepDefaultMinutes=d.halfStepDefaultMinutes||5;
+    reflectionEnabled=d.reflectionEnabled!==false;
+    notificationEnabled=d.notificationEnabled===true;
+
+    searchIdeas=
+        d.searchIdeas||
+        [];
+
+    syncDailyState();
+
+
+    records=
+        d.records||
+        [];
+
+
+    updateHome();
+
+
+    return true;
+
+}
+
+
+/* =====================
+ START
+===================== */
+
+if(
+
+    localStorage.getItem(
+        "setupCompleted"
+    )==="true"
+
+    &&
+
+    load()
+
+){
+
+    $("setup").style.display=
+        "none";
+
+
+    showScreen(
+        "home"
+    );
+
+
+}else{
+
+    $("setup").style.display=
+        "block";
+
+
+    $("home")
+        .classList
+        .remove("active");
+
+}
+
+</script>
+
+</body>
+</html>
