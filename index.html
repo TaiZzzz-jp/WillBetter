@@ -574,6 +574,11 @@ header h1{
 .calendar-legend{margin:12px 0 0;color:#718078;font-size:12px}
 .action-card.secondary-action{margin-top:10px;background:rgba(255,255,255,.48)}
 .secondary-action[hidden]{display:none}
+.half-step-controls{display:flex;gap:8px;margin-top:10px}
+.half-step-controls input{width:90px;padding:11px;border:1px solid rgba(255,255,255,.9);border-radius:13px;background:#fff;outline:none}
+.half-step-controls button{flex:1;border:0;border-radius:13px;background:#e2f3e6;color:#52715b;font-weight:700}
+.day-complete-message{margin-top:12px;padding:14px;border-radius:16px;background:#e2f3e6;color:#3f7950;text-align:center;font-weight:bold}
+.day-complete-message[hidden]{display:none}
 .chart-wrap{display:grid;grid-template-columns:42px 1fr;align-items:start}
 .chart-scale{height:150px;display:flex;justify-content:space-between;flex-direction:column;color:#718078;font-size:10px;padding:2px 0 3px;text-align:right}
 
@@ -584,6 +589,10 @@ header h1{
 .experiment-button{padding:13px;text-align:left;border:1px solid rgba(255,255,255,.9);border-radius:15px;background:rgba(255,255,255,.7);color:#385541}
 .experiment-button strong{display:block;margin-bottom:3px}
 .experiment-button small{color:#718078}
+.experiment-button.selected{background:#e2f3e6;border-color:#78b684;box-shadow:inset 0 0 0 2px #78b684}
+.experiment-add{width:100%;padding:12px;border:0;border-radius:14px;background:#5c9369;color:#fff;font-weight:700}
+.experiment-selection{display:grid;gap:8px;margin-top:10px}
+.experiment-selection[hidden]{display:none}
 .reflection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
 .reflection-button{padding:11px 5px;border:0;border-radius:14px;background:#f7eee2;color:#806541;font-size:12px}
 .log-input,.letter-input{width:100%;padding:13px;border:1px solid rgba(255,255,255,.9);border-radius:15px;background:rgba(255,255,255,.7);outline:none;resize:vertical}
@@ -601,6 +610,15 @@ header h1{
 .condition-chart .chart-line{fill:none;stroke:#5c9369;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
 .condition-chart .chart-point{fill:#fff;stroke:#5c9369;stroke-width:3}
 .chart-labels{display:flex;justify-content:space-between;color:#718078;font-size:11px;margin-top:4px}
+.settings-list{display:grid;gap:10px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(100,120,105,.12)}
+.settings-row:last-child{border-bottom:0}
+.settings-row strong{display:block;font-size:14px}
+.settings-row small{display:block;color:#718078;margin-top:3px;line-height:1.5}
+.settings-row input[type="number"],.settings-row select{width:92px;padding:9px;border:1px solid rgba(255,255,255,.9);border-radius:12px;background:#fff;color:#385541}
+.settings-row input[type="checkbox"]{width:22px;height:22px;accent-color:#5c9369}
+.settings-heading{margin:22px 0 8px;color:#52715b;font-size:13px;font-weight:700}
+.danger-button{width:100%;padding:13px;border:0;border-radius:15px;background:#f7e4e0;color:#a34d42;font-weight:700}
 
 /* =====================
    GAME
@@ -890,6 +908,10 @@ Lv.1
 15分できた！
 </button>
 
+<div id="dayCompleteMessage" class="day-complete-message" hidden>
+今日はやりました。今日の作業は終わりです。
+</div>
+
 <div id="extra" class="extra">
 
 <p class="description">
@@ -922,7 +944,12 @@ placeholder="追加した分数">
 <div id="secondMinutes" class="action-minutes"></div>
 </div>
 </div>
-<button id="secondCompleteButton" class="complete-button">追加の行動を完了</button>
+<div class="action-minutes">0.5歩</div>
+<div class="half-step-controls">
+<input id="secondMinutesInput" type="number" min="1" max="180" aria-label="0.5歩の分数">
+<button id="saveSecondMinutes">時間を変更</button>
+</div>
+<button id="secondCompleteButton" class="complete-button">0.5歩を完了</button>
 </div>
 
 
@@ -968,6 +995,9 @@ placeholder="何分？">
 <h2 class="section-title">今日の小さな実験</h2>
 <p id="experimentDescription" class="description">気になる一歩を選んで、夢との相性を試してみよう。</p>
 <div id="experimentList" class="experiment-list"></div>
+<div id="experimentSelection" class="experiment-selection" hidden>
+<button id="addHalfStep" class="experiment-add">0.5歩に追加</button>
+</div>
 </div>
 
 <div class="card">
@@ -1145,8 +1175,35 @@ style="margin-top:10px"
 <button id="discoverRandom" class="category-button">🎲<br>偶然を引く</button>
 <button id="discoverMix" class="category-button">🧩<br>好きを混ぜる</button>
 </div>
-<button id="discoverExperiment" class="primary-button" style="margin-top:10px">このテーマで実験を作る</button>
+<button id="discoverExperiment" class="primary-button" style="margin-top:10px">このテーマを選択</button>
+<button id="discoverHalfStep" class="experiment-add" style="margin-top:8px" hidden>0.5歩に追加</button>
 <div id="discoverResult" class="random-result"></div>
+</div>
+</div>
+</div>
+
+<div id="settings" class="screen">
+<header>
+<h1>⚙️ 設定</h1>
+</header>
+<div class="page-content">
+<div class="card">
+<div class="settings-heading">行動</div>
+<div class="settings-list">
+<div class="settings-row"><div><strong>今日の基本時間</strong><small>気分を選ばない日の目安</small></div><input id="defaultMinutesSetting" type="number" min="1" max="180"></div>
+<div class="settings-row"><div><strong>0.5歩の初期時間</strong><small>新しく追加する小さな行動</small></div><input id="halfStepMinutesSetting" type="number" min="1" max="180"></div>
+</div>
+</div>
+<div class="card">
+<div class="settings-heading">表示と記録</div>
+<div class="settings-list">
+<div class="settings-row"><div><strong>完了後も振り返りを表示</strong><small>今日の作業終了後に理由を残す</small></div><input id="reflectionSetting" type="checkbox"></div>
+<div class="settings-row"><div><strong>通知を許可</strong><small>この端末からの通知設定</small></div><input id="notificationSetting" type="checkbox"></div>
+</div>
+</div>
+<div class="card">
+<div class="settings-heading">データ</div>
+<button id="resetDataButton" class="danger-button">すべてのデータを初期化</button>
 </div>
 </div>
 </div>
@@ -1354,6 +1411,10 @@ style="margin-top:10px"
 <span>🎮</span>
 <small>あそぶ</small>
 </button>
+<button class="nav-item" data-screen="settings">
+<span>⚙️</span>
+<small>設定</small>
+</button>
 
 </nav>
 
@@ -1471,6 +1532,11 @@ let moodDate="";
 let moodHistory=[];
 let dreamLogs=[];
 let futureLetters=[];
+let selectedExperiment=null;
+let defaultMinutes=15;
+let halfStepDefaultMinutes=5;
+let reflectionEnabled=true;
+let notificationEnabled=false;
 
 
 /* =====================
@@ -1860,6 +1926,15 @@ function updateHome(){
         completedToday
     );
 
+    if(completedToday)
+        $("completeButton").textContent="✓ 今日の作業は完了";
+
+    $("dayCompleteMessage").hidden=!completedToday;
+    $("secondActionCard").hidden=completedToday||!secondGoal||!secondMinutes;
+    $("addActionButton").hidden=completedToday;
+    $("extra").classList.toggle("show",!completedToday&&$("extra").classList.contains("show"));
+    $("actionEditor").classList.toggle("show",!completedToday&&$("actionEditor").classList.contains("show"));
+
     updateGameButton();
 
 
@@ -1919,21 +1994,30 @@ function updateHome(){
     updateMood();
     updateExperiments();
     updateSecondAction();
+    updateSettings();
 
 }
 
 function updateSecondAction(){
     const card=$("secondActionCard");
-    if(!secondGoal || !secondMinutes){
+    if(completedToday || !secondGoal || !secondMinutes){
         card.hidden=true;
         return;
     }
     card.hidden=false;
     $("secondGoal").textContent=secondGoal;
     $("secondMinutes").textContent=secondMinutes+"分";
+    $("secondMinutesInput").value=secondMinutes;
     const done=secondCompletedDate===getDateKey();
     $("secondCompleteButton").textContent=done ? "✓ 追加の行動も完了" : "追加の行動を完了";
     $("secondCompleteButton").classList.toggle("done",done);
+}
+
+function updateSettings(){
+    $("defaultMinutesSetting").value=defaultMinutes;
+    $("halfStepMinutesSetting").value=halfStepDefaultMinutes;
+    $("reflectionSetting").checked=reflectionEnabled;
+    $("notificationSetting").checked=notificationEnabled;
 }
 
 
@@ -1972,23 +2056,29 @@ function updateMood(){
 }
 
 function updateExperiments(){
-    const minutes=mood==="疲れた" ? 5 : mood==="元気"||mood==="集中" ? 30 : 15;
+    const minutes=mood==="疲れた" ? 5 : mood==="元気"||mood==="集中" ? 30 : defaultMinutes;
     const ideas=[
         [dream+"を5分だけ調べる","知らないことを1つメモする",5],
-        [dream+"の作品や事例を1つ見る","好きな理由を1行書く",15],
+        [dream+"の作品や事例を1つ見る","好きな理由を1行書く",halfStepDefaultMinutes],
         [dream+"に関係することを"+minutes+"分やってみる","終わったら面白さを記録する",minutes]
     ];
     $("experimentDescription").textContent=mood ? mood+"日に合う小さな実験です。" : "気になる一歩を選んで、夢との相性を試してみよう。";
     $("experimentList").innerHTML="";
+    $("experimentSelection").hidden=completedToday||!selectedExperiment;
+    if(completedToday){
+        $("experimentDescription").textContent="今日は作業を終えました。明日また選べます。";
+        return;
+    }
     ideas.forEach(idea=>{
         const button=document.createElement("button");
         button.className="experiment-button";
         button.innerHTML="<strong>"+idea[0]+"</strong><small>"+idea[1]+"</small>";
         button.onclick=()=>{
-            secondGoal=idea[0];
-            secondMinutes=idea[2];
-            updateHome();
-            save();
+            if(completedToday) return;
+            document.querySelectorAll(".experiment-button").forEach(item=>item.classList.remove("selected"));
+            button.classList.add("selected");
+            selectedExperiment=idea;
+            $("experimentSelection").hidden=false;
         };
         $("experimentList").appendChild(button);
     });
@@ -2098,6 +2188,7 @@ $("discoverRandom").onclick=()=>{
     const item=dreamPool[Math.floor(Math.random()*dreamPool.length)];
     showDiscoverResult(item[0]+" "+item[1],item[2]);
     currentRandom=item;
+    $("discoverHalfStep").hidden=false;
 };
 
 $("discoverMix").onclick=()=>{
@@ -2111,6 +2202,7 @@ $("discoverMix").onclick=()=>{
     while(second===first&&pool.length>1) second=pool[Math.floor(Math.random()*pool.length)];
     currentRandom=["🧩",first+" × "+second,"2つを組み合わせた可能性"];
     showDiscoverResult(currentRandom[1],"この組み合わせを15分だけ試して、面白さを確かめてみよう。");
+    $("discoverHalfStep").hidden=false;
 };
 
 $("discoverExperiment").onclick=()=>{
@@ -2119,11 +2211,19 @@ $("discoverExperiment").onclick=()=>{
         showDiscoverResult("まずテーマを選ぼう","偶然を引くか、好きなことを2つ混ぜてみてください。");
         return;
     }
-    selectedGoal=title+"を15分だけ試す";
-    selectedMinutes=15;
-    save();
+    currentRandom=[currentRandom ? currentRandom[0] : "🧭",title+"を15分だけ試す","0.5歩として追加できます。"];
+    showDiscoverResult("テーマを選択しました",currentRandom[1]);
+    $("discoverHalfStep").hidden=false;
+};
+
+$("discoverHalfStep").onclick=()=>{
+    if(completedToday||!currentRandom) return;
+    secondGoal=currentRandom[1];
+    secondMinutes=15;
+    $("discoverHalfStep").hidden=true;
     updateHome();
-    showDiscoverResult("今日の実験を作りました",selectedGoal);
+    save();
+    showDiscoverResult("0.5歩に追加しました",secondGoal);
 };
 
 /* =====================
@@ -2279,6 +2379,7 @@ document.querySelectorAll(".mood-button").forEach(button=>{
 
 document.querySelectorAll(".reflection-button").forEach(button=>{
     button.onclick=()=>{
+    if(!reflectionEnabled) return;
         const today=getDateKey();
         if(records.some(record=>record.type==="reflection"&&record.date===today)) return;
         records.unshift({date:today,title:button.dataset.reflection,minutes:0,xp:0,type:"reflection"});
@@ -2306,12 +2407,74 @@ $("saveFutureLetter").onclick=()=>{
 };
 
 $("secondCompleteButton").onclick=()=>{
-    if(secondCompletedDate===getDateKey()) return;
-    secondCompletedDate=getDateKey();
-    records.unshift({date:secondCompletedDate,title:secondGoal,minutes:secondMinutes,xp:0,type:"secondary"});
-    updateSecondAction();
+    if(completedToday||secondCompletedDate===getDateKey()) return;
+    const today=getDateKey();
+    const yesterday=getDateKey(new Date(Date.now()-86400000));
+    if(completedDate!==yesterday) streak=0;
+    completedToday=true;
+    completedDate=today;
+    secondCompletedDate=today;
+    streak++;
+    totalMinutes+=secondMinutes;
+    const xp=Math.max(5,Math.floor(secondMinutes/5)*5);
+    records.unshift({date:today,title:secondGoal,minutes:secondMinutes,xp,type:"secondary"});
+    addXP(xp);
+    updateHome();
     save();
     updateRecords();
+};
+
+$("saveSecondMinutes").onclick=()=>{
+    if(completedToday||!secondGoal) return;
+    const minutes=Number($("secondMinutesInput").value);
+    if(!minutes||minutes<1||minutes>180) return;
+    secondMinutes=minutes;
+    updateSecondAction();
+    save();
+};
+
+$("defaultMinutesSetting").onchange=()=>{
+    const minutes=Number($("defaultMinutesSetting").value);
+    if(!minutes||minutes<1||minutes>180) return updateSettings();
+    defaultMinutes=minutes;
+    selectedMinutes=minutes;
+    updateHome();
+    save();
+};
+
+$("halfStepMinutesSetting").onchange=()=>{
+    const minutes=Number($("halfStepMinutesSetting").value);
+    if(!minutes||minutes<1||minutes>180) return updateSettings();
+    halfStepDefaultMinutes=minutes;
+    updateHome();
+    save();
+};
+
+$("reflectionSetting").onchange=()=>{
+    reflectionEnabled=$("reflectionSetting").checked;
+    save();
+};
+
+$("notificationSetting").onchange=()=>{
+    notificationEnabled=$("notificationSetting").checked;
+    save();
+};
+
+$("resetDataButton").onclick=()=>{
+    if(!confirm("すべてのデータを初期化しますか？")) return;
+    localStorage.removeItem("willBetterData");
+    localStorage.removeItem("setupCompleted");
+    location.reload();
+};
+
+$("addHalfStep").onclick=()=>{
+    if(completedToday||!selectedExperiment) return;
+    secondGoal=selectedExperiment[0];
+    secondMinutes=selectedExperiment[2];
+    selectedExperiment=null;
+    $("experimentSelection").hidden=true;
+    updateHome();
+    save();
 };
 
 
@@ -2324,9 +2487,6 @@ $("completeButton").onclick=()=>{
     syncDailyState();
 
     if(completedToday){
-
-        $("extra").classList.add("show");
-
         return;
 
     }
@@ -2384,6 +2544,7 @@ $("completeButton").onclick=()=>{
 
     save();
 
+    updateHome();
     updateRecords();
 
 };
@@ -2394,6 +2555,8 @@ $("completeButton").onclick=()=>{
 ===================== */
 
 $("extraButton").onclick=()=>{
+
+    if(completedToday) return;
 
     const minutes=
         Number(
@@ -2473,6 +2636,8 @@ $("addActionButton").onclick=()=>{
 
 
 $("saveAction").onclick=()=>{
+
+    if(completedToday) return;
 
     const title=
         $("newAction")
@@ -3080,342 +3245,4 @@ function showScreen(id){
 
 
     if(id==="records")
-        updateRecords();
-
-
-    if(id==="dreamSearch")
-        updateJobList();
-
-    if(id==="discover")
-        updatePossibilityMap();
-
-
-    if(id==="home")
-        updateQuote();
-
-
-    window.scrollTo({
-
-        top:0,
-
-        behavior:"smooth"
-
-    });
-
-}
-
-$("calendarPrev").onclick=()=>{
-    calendarDate.setMonth(calendarDate.getMonth()-1);
-    updateCalendar();
-};
-
-$("calendarNext").onclick=()=>{
-    calendarDate.setMonth(calendarDate.getMonth()+1);
-    updateCalendar();
-};
-
-
-navItems.forEach(n=>{
-
-    n.onclick=()=>{
-
-        showScreen(
-            n.dataset.screen
-        );
-
-    };
-
-});
-
-
-/* =====================
- 魚
-===================== */
-
-$("fish").onclick=()=>{
-
-    $("fish")
-        .classList
-        .remove("bounce");
-
-
-    void $("fish").offsetWidth;
-
-
-    $("fish")
-        .classList
-        .add("bounce");
-
-};
-
-
-/* =====================
- GAME
-===================== */
-
-$("gameButton").onclick=()=>{
-
-    if(fedDate===getDateKey()){
-        updateGameButton();
-        return;
-    }
-
-    fedDate=getDateKey();
-    addXP(5);
-
-    records.unshift({
-        date:getDateKey(),
-        title:"魚に餌やり",
-        minutes:0,
-        xp:5,
-        type:"feeding"
-    });
-
-    save();
-    updateRecords();
-
-    $("gameButton").textContent=
-        "✓ 今日の餌やり済み";
-
-    $("gameButton").classList.add("game-done");
-
-
-    $("fish")
-        .classList
-        .remove("bounce");
-
-
-    void $("fish").offsetWidth;
-
-
-    $("fish")
-        .classList
-        .add("bounce");
-
-
-    setTimeout(()=>{
-
-        updateGameButton();
-
-    },700);
-
-};
-
-
-/* =====================
- SAVE / LOAD
-===================== */
-
-function save(){
-
-    localStorage.setItem(
-
-        "willBetterData",
-
-        JSON.stringify({
-
-            dream,
-
-            selectedInterests,
-
-            selectedGoal,
-
-            points,
-
-            streak,
-
-            level,
-
-            exp,
-
-            totalMinutes,
-
-            records,
-
-            selectedMinutes,
-
-            completedDate,
-
-            fedDate,
-
-            secondGoal,
-
-            secondMinutes,
-
-            secondCompletedDate,
-
-            searchIdeas,
-
-            mood,
-
-            moodDate,
-
-            moodHistory,
-
-            dreamLogs,
-
-            futureLetters
-
-        })
-
-    );
-
-
-    localStorage.setItem(
-
-        "setupCompleted",
-
-        "true"
-
-    );
-
-}
-
-
-function load(){
-
-    const data=
-        localStorage.getItem(
-            "willBetterData"
-        );
-
-
-    if(!data)
-        return false;
-
-
-    let d;
-
-    try{
-        d=JSON.parse(data);
-    }catch(error){
-        localStorage.removeItem("willBetterData");
-        localStorage.removeItem("setupCompleted");
-        return false;
-    }
-
-
-    dream=
-        d.dream||
-        "";
-
-
-    selectedInterests=
-        d.selectedInterests||
-        [];
-
-
-    selectedGoal=
-        d.selectedGoal||
-        "";
-
-
-    points=
-        d.points||
-        0;
-
-
-    streak=
-        d.streak||
-        0;
-
-
-    level=
-        d.level||
-        1;
-
-
-    exp=
-        d.exp||
-        0;
-
-
-    totalMinutes=
-        d.totalMinutes||
-        0;
-
-    selectedMinutes=
-        d.selectedMinutes||
-        15;
-
-    completedDate=
-        d.completedDate||
-        "";
-
-    fedDate=
-        d.fedDate||
-        "";
-
-    secondGoal=d.secondGoal||"";
-    secondMinutes=d.secondMinutes||15;
-    secondCompletedDate=d.secondCompletedDate||"";
-
-    mood=d.mood||"";
-    moodDate=d.moodDate||"";
-    moodHistory=d.moodHistory||[];
-    if(mood&&moodDate&&!moodHistory.some(item=>item.date===moodDate))
-        moodHistory.unshift({date:moodDate,mood});
-    dreamLogs=d.dreamLogs||[];
-    futureLetters=d.futureLetters||[];
-
-    searchIdeas=
-        d.searchIdeas||
-        [];
-
-    syncDailyState();
-
-
-    records=
-        d.records||
-        [];
-
-
-    updateHome();
-
-
-    return true;
-
-}
-
-
-/* =====================
- START
-===================== */
-
-if(
-
-    localStorage.getItem(
-        "setupCompleted"
-    )==="true"
-
-    &&
-
-    load()
-
-){
-
-    $("setup").style.display=
-        "none";
-
-
-    showScreen(
-        "home"
-    );
-
-
-}else{
-
-    $("setup").style.display=
-        "block";
-
-
-    $("home")
-        .classList
-        .remove("active");
-
-}
-
-</script>
-
-</body>
-</html>
+        u
