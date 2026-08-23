@@ -1,0 +1,1985 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will Better</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif;
+    color:#26352c;
+    background:
+        radial-gradient(circle at 20% 10%,#dff7e5 0,transparent 32%),
+        radial-gradient(circle at 90% 30%,#dcecff 0,transparent 30%),
+        radial-gradient(circle at 50% 100%,#e9f7df 0,transparent 35%),
+        #eef3ef;
+    min-height:100vh;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    margin:auto;
+    padding-bottom:105px;
+    background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,255,255,.35));
+    backdrop-filter:blur(25px);
+}
+
+/* =====================
+   共通
+===================== */
+
+.screen{
+    display:none;
+    min-height:100vh;
+}
+
+.screen.active{
+    display:block;
+}
+
+.page-content{
+    padding:20px;
+}
+
+.card{
+    padding:20px;
+    margin-bottom:14px;
+    background:rgba(255,255,255,.65);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:22px;
+    box-shadow:0 10px 30px rgba(60,85,68,.08);
+}
+
+.section-title{
+    margin:0 0 14px;
+    font-size:21px;
+}
+
+.description{
+    color:#718078;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.primary-button{
+    width:100%;
+    padding:16px;
+    border:0;
+    border-radius:18px;
+    color:white;
+    font-weight:700;
+    background:linear-gradient(135deg,#5c9369,#78b684);
+    box-shadow:0 10px 25px rgba(92,147,105,.25);
+}
+
+.secondary-button{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:17px;
+    background:rgba(255,255,255,.7);
+    color:#52715b;
+    margin-top:10px;
+}
+
+/* =====================
+   初回設定
+===================== */
+
+.setup{
+    min-height:100vh;
+    padding:35px 22px 40px;
+}
+
+.setup-header{
+    text-align:center;
+    margin-bottom:32px;
+}
+
+.setup-logo{
+    font-size:30px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.setup-step{
+    color:#718078;
+    font-size:13px;
+}
+
+.setup-page{
+    display:none;
+}
+
+.setup-page.active{
+    display:block;
+}
+
+.setup h1{
+    font-size:25px;
+    margin:0 0 10px;
+}
+
+.interest-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    max-height:440px;
+    overflow-y:auto;
+    padding:3px;
+}
+
+.interest-tile{
+    min-height:70px;
+    border:1px solid rgba(255,255,255,.85);
+    border-radius:17px;
+    background:rgba(255,255,255,.58);
+    color:#26352c;
+}
+
+.interest-tile.selected{
+    background:#e2f3e6;
+    border:2px solid #72a97d;
+    transform:scale(1.02);
+}
+
+.selected-count{
+    text-align:center;
+    color:#718078;
+    font-size:13px;
+    margin:12px;
+}
+
+.setup-input{
+    width:100%;
+    padding:17px;
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:18px;
+    background:rgba(255,255,255,.65);
+    outline:none;
+}
+
+.choice-card{
+    padding:18px;
+    margin-bottom:10px;
+    border-radius:20px;
+    background:rgba(255,255,255,.65);
+    border:1px solid rgba(255,255,255,.85);
+}
+
+.choice-card.selected{
+    border:2px solid #72a97d;
+    background:#e2f3e6;
+}
+
+.choice-card strong{
+    display:block;
+    margin-bottom:6px;
+}
+
+.choice-card small{
+    color:#718078;
+}
+
+/* =====================
+   HOME
+===================== */
+
+header{
+    padding:25px 22px 5px;
+}
+
+header h1{
+    margin:0;
+    font-size:24px;
+}
+
+.fish-section{
+    text-align:center;
+    padding:15px 25px 10px;
+}
+
+.fish-stage{
+    height:190px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.fish{
+    width:175px;
+    height:175px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:100px;
+    border-radius:55px;
+    background:linear-gradient(145deg,rgba(255,255,255,.78),rgba(255,255,255,.28));
+    border:1px solid rgba(255,255,255,.85);
+    box-shadow:0 20px 50px rgba(72,102,81,.15);
+    animation:float 3s ease-in-out infinite;
+    user-select:none;
+}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(0)}
+    50%{transform:translateY(-8px) rotate(2deg)}
+}
+
+.fish.bounce{
+    animation:bounce .7s ease;
+}
+
+@keyframes bounce{
+    0%{transform:scale(1)}
+    30%{transform:scale(1.15) rotate(-7deg)}
+    60%{transform:scale(1.12) rotate(7deg)}
+    100%{transform:scale(1)}
+}
+
+.fish-name{
+    margin:0;
+    color:#718078;
+}
+
+.level{
+    font-size:23px;
+    font-weight:700;
+    margin:7px 0;
+}
+
+.exp-bar{
+    width:100%;
+    height:14px;
+    background:rgba(220,228,222,.55);
+    border-radius:50px;
+    overflow:hidden;
+}
+
+.exp{
+    width:0;
+    height:100%;
+    border-radius:50px;
+    background:linear-gradient(90deg,#6fa77b,#8fc99a);
+    transition:.6s;
+}
+
+.exp-text{
+    color:#718078;
+    font-size:13px;
+}
+
+.today{
+    padding:20px;
+}
+
+.action-card{
+    padding:18px;
+    border-radius:22px;
+    background:linear-gradient(135deg,rgba(255,255,255,.78),rgba(239,247,241,.45));
+    border:1px solid rgba(255,255,255,.9);
+}
+
+.action-top{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.action-icon{
+    width:48px;
+    height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:16px;
+    background:rgba(255,255,255,.55);
+    font-size:25px;
+}
+
+.action-title{
+    font-weight:700;
+}
+
+.action-minutes{
+    color:#718078;
+    font-size:13px;
+    margin-top:4px;
+}
+
+.complete-button{
+    width:100%;
+    margin-top:14px;
+    padding:16px;
+    border:0;
+    border-radius:20px;
+    background:linear-gradient(135deg,#5c9369,#78b684);
+    color:white;
+    font-weight:700;
+}
+
+.complete-button.done{
+    background:#93a999;
+}
+
+.extra{
+    display:none;
+    margin-top:12px;
+}
+
+.extra.show{
+    display:block;
+}
+
+.extra-row{
+    display:flex;
+    gap:8px;
+}
+
+.extra input{
+    flex:1;
+    padding:13px;
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:15px;
+    background:white;
+    outline:none;
+}
+
+.extra button{
+    border:0;
+    border-radius:15px;
+    padding:13px 16px;
+    background:#e2f3e6;
+    color:#52715b;
+    font-weight:bold;
+}
+
+.add-action{
+    width:100%;
+    margin-top:12px;
+    padding:14px;
+    border:1px dashed #91ae99;
+    border-radius:18px;
+    background:rgba(255,255,255,.45);
+    color:#52715b;
+}
+
+.action-editor{
+    display:none;
+    margin-top:12px;
+}
+
+.action-editor.show{
+    display:block;
+}
+
+.action-editor input{
+    width:100%;
+    padding:14px;
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:15px;
+    margin-bottom:8px;
+    outline:none;
+}
+
+.status{
+    display:flex;
+    gap:10px;
+    padding:10px 20px 25px;
+}
+
+.status div{
+    flex:1;
+    padding:15px 8px;
+    background:rgba(255,255,255,.65);
+    border-radius:20px;
+    text-align:center;
+}
+
+.status strong{
+    display:block;
+    font-size:20px;
+    margin-top:4px;
+}
+
+.status small{
+    color:#718078;
+}
+
+/* =====================
+   夢を探す
+===================== */
+
+.search-card{
+    padding:18px;
+    margin-bottom:12px;
+    border-radius:20px;
+    background:rgba(255,255,255,.65);
+}
+
+.search-card h3{
+    margin:0 0 6px;
+}
+
+.search-card p{
+    margin:0;
+    color:#718078;
+    font-size:13px;
+}
+
+.random-result{
+    text-align:center;
+    padding:15px;
+    display:none;
+}
+
+.random-result.show{
+    display:block;
+}
+
+.random-icon{
+    font-size:55px;
+}
+
+.random-title{
+    font-size:21px;
+    font-weight:bold;
+    margin:8px;
+}
+
+.category-buttons{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.category-button{
+    padding:17px 10px;
+    border:0;
+    border-radius:18px;
+    background:rgba(255,255,255,.7);
+    color:#385541;
+    font-weight:bold;
+}
+
+.job-list{
+    display:grid;
+    gap:10px;
+    margin-top:12px;
+}
+
+.job-card{
+    padding:17px;
+    background:rgba(255,255,255,.65);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.85);
+}
+
+.job-card strong{
+    display:block;
+    margin-bottom:5px;
+}
+
+.job-card small{
+    color:#718078;
+}
+
+/* =====================
+   記録
+===================== */
+
+.record-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 0;
+    border-bottom:1px solid rgba(100,120,105,.12);
+}
+
+.record-item:last-child{
+    border-bottom:0;
+}
+
+.record-time{
+    color:#5c9369;
+    font-weight:bold;
+}
+
+/* =====================
+   GAME
+===================== */
+
+.game-box{
+    text-align:center;
+    padding:35px 20px;
+}
+
+.game-fish{
+    font-size:100px;
+    display:inline-block;
+    animation:swim 2s ease-in-out infinite;
+}
+
+@keyframes swim{
+    0%,100%{transform:translateX(-15px)}
+    50%{transform:translateX(15px)}
+}
+
+.game-points{
+    font-size:25px;
+    font-weight:bold;
+    margin:20px;
+}
+
+/* =====================
+   NAV
+===================== */
+
+.bottom-nav{
+    position:fixed;
+    bottom:12px;
+    left:50%;
+    transform:translateX(-50%);
+    width:calc(100% - 24px);
+    max-width:406px;
+    height:70px;
+    display:flex;
+    padding:5px;
+    background:rgba(255,255,255,.68);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:25px;
+    box-shadow:0 15px 40px rgba(45,65,52,.16);
+    backdrop-filter:blur(25px);
+    z-index:100;
+}
+
+.nav-item{
+    flex:1;
+    border:0;
+    background:transparent;
+    color:#7b857e;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border-radius:20px;
+    transition:.2s;
+}
+
+.nav-item span{
+    font-size:21px;
+}
+
+.nav-item small{
+    font-size:10px;
+}
+
+.nav-item.active{
+    color:#4f8d5e;
+    background:rgba(255,255,255,.55);
+    font-weight:bold;
+}
+
+.nav-item:active{
+    transform:scale(.9);
+}
+
+@media(max-width:430px){
+    .bottom-nav{
+        bottom:8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =====================
+ 初回設定
+===================== -->
+
+<div id="setup" class="setup">
+
+<div class="setup-header">
+<div class="setup-logo">🌱 Will Better</div>
+<div id="setupStep" class="setup-step">STEP 1 / 3</div>
+</div>
+
+<section id="page1" class="setup-page active">
+
+<h1>まず、好きなことは？</h1>
+
+<p class="description">
+夢がまだ決まっていなくても大丈夫。<br>
+好きなことをいくつでも選んでみよう。
+</p>
+
+<div id="interestGrid" class="interest-grid"></div>
+
+<div id="selectedCount" class="selected-count">
+0個選択中
+</div>
+
+<button id="interestNext" class="primary-button">
+次へ
+</button>
+
+</section>
+
+
+<section id="page2" class="setup-page">
+
+<h1>あなたの夢は？</h1>
+
+<p class="description">
+決まっているなら教えてください。<br>
+決まっていなくても大丈夫です。
+</p>
+
+<input id="dreamInput"
+class="setup-input"
+placeholder="例：ゲームを作る">
+
+<button id="dreamNext" class="primary-button" style="margin-top:12px">
+この夢で進む
+</button>
+
+<button id="noDreamButton" class="secondary-button">
+まだ夢がない
+</button>
+
+<button id="dreamBack" class="secondary-button">
+戻る
+</button>
+
+</section>
+
+
+<section id="page3" class="setup-page">
+
+<h1>あなたの可能性</h1>
+
+<p class="description">
+選んだ「好き」を組み合わせて、<br>
+いろいろな可能性を見つけてみよう。
+</p>
+
+<div id="dreamSuggestions"></div>
+
+<button id="startButton" class="primary-button">
+この中から探してみる
+</button>
+
+<button id="suggestBack" class="secondary-button">
+戻る
+</button>
+
+</section>
+
+
+<section id="page4" class="setup-page">
+
+<h1>最初の一歩</h1>
+
+<p class="description">
+大きな夢も、まずは小さな一歩から。
+</p>
+
+<div id="goalList"></div>
+
+<button id="startFinalButton" class="primary-button">
+Will Betterを始める
+</button>
+
+<button id="goalBack" class="secondary-button">
+戻る
+</button>
+
+</section>
+
+</div>
+
+
+<!-- =====================
+ HOME
+===================== -->
+
+<div id="home" class="screen">
+
+<header>
+<h1>🌱 Will Better</h1>
+</header>
+
+<section class="fish-section">
+
+<div class="fish-stage">
+<div id="fish" class="fish">🐟</div>
+</div>
+
+<p id="fishName" class="fish-name">
+あなたの魚
+</p>
+
+<div id="level" class="level">
+Lv.1
+</div>
+
+<div class="exp-bar">
+<div id="exp" class="exp"></div>
+</div>
+
+<div id="expText" class="exp-text">
+0 / 100 XP
+</div>
+
+</section>
+
+
+<section class="today">
+
+<h2 class="section-title">
+今日の一歩
+</h2>
+
+<div class="action-card">
+
+<div class="action-top">
+
+<div id="goalIcon" class="action-icon">
+🌱
+</div>
+
+<div>
+
+<div id="todayGoal" class="action-title">
+今日の一歩
+</div>
+
+<div id="todayMinutes" class="action-minutes">
+15分
+</div>
+
+</div>
+
+</div>
+
+<button id="completeButton" class="complete-button">
+15分できた！
+</button>
+
+<div id="extra" class="extra">
+
+<p class="description">
+もっとできた？追加した時間も記録できます。
+</p>
+
+<div class="extra-row">
+
+<input
+id="extraMinutes"
+type="number"
+min="1"
+placeholder="追加した分数">
+
+<button id="extraButton">
+＋XP
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<button id="addActionButton" class="add-action">
+＋ 今日やることを変更
+</button>
+
+
+<div id="actionEditor" class="action-editor">
+
+<input
+id="newAction"
+placeholder="例：ギターを練習する">
+
+<input
+id="newMinutes"
+type="number"
+min="1"
+value="15"
+placeholder="何分？">
+
+<button id="saveAction" class="primary-button">
+この行動を追加
+</button>
+
+</div>
+
+</section>
+
+
+<section class="status">
+
+<div>
+🔥
+<strong id="streak">0</strong>
+<small>日連続</small>
+</div>
+
+<div>
+⭐
+<strong id="points">0</strong>
+<small>pt</small>
+</div>
+
+<div>
+⏱
+<strong id="totalMinutes">0</strong>
+<small>分</small>
+</div>
+
+</section>
+
+</div>
+
+
+<!-- =====================
+ 夢を探す
+===================== -->
+
+<div id="dreamSearch" class="screen">
+
+<header>
+<h1>🌱 夢を探す</h1>
+</header>
+
+<div class="page-content">
+
+<div class="card">
+
+<h2 class="section-title">
+何から探してみる？
+</h2>
+
+<div class="category-buttons">
+
+<button class="category-button" id="randomButton">
+🎲<br>ランダム
+</button>
+
+<button class="category-button" id="interestButton">
+❤️<br>好きなこと
+</button>
+
+<button class="category-button" id="jobButton">
+🔎<br>職業
+</button>
+
+<button class="category-button" id="curiousButton">
+💡<br>気になること
+</button>
+
+</div>
+
+</div>
+
+
+<div id="randomResult" class="search-card random-result">
+
+<div id="randomIcon" class="random-icon">
+💡
+</div>
+
+<div id="randomTitle" class="random-title">
+新しい可能性
+</div>
+
+<p id="randomDescription">
+</p>
+
+<button id="randomSet" class="primary-button">
+この夢をやってみる
+</button>
+
+</div>
+
+
+<div id="interestSearch" class="search-card">
+
+<h3>❤️ 好きなことから</h3>
+
+<p>
+選んだ好きなことの組み合わせから探します。
+</p>
+
+<div id="jobList" class="job-list"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================
+ 記録
+===================== -->
+
+<div id="records" class="screen">
+
+<header>
+<h1>📖 記録</h1>
+</header>
+
+<div class="page-content">
+
+<div class="card">
+
+<h2 class="section-title">
+今日までの一歩
+</h2>
+
+<div id="recordList">
+まだ記録がありません。
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================
+ GAME
+===================== -->
+
+<div id="game" class="screen">
+
+<header>
+<h1>🎮 あそぶ</h1>
+</header>
+
+<div class="page-content">
+
+<div class="card game-box">
+
+<div class="game-fish">
+🐟
+</div>
+
+<div class="game-points">
+⭐ <span id="gamePoints">0</span> pt
+</div>
+
+<p class="description">
+行動してXPを集めると、<br>
+魚が成長していきます。
+</p>
+
+<button id="gameButton" class="primary-button">
+魚にエサをあげる 🐟
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================
+ NAV
+===================== -->
+
+<nav class="bottom-nav">
+
+<button class="nav-item active" data-screen="home">
+<span>🏠</span>
+<small>ホーム</small>
+</button>
+
+<button class="nav-item" data-screen="dreamSearch">
+<span>🌱</span>
+<small>夢を探す</small>
+</button>
+
+<button class="nav-item" data-screen="records">
+<span>📖</span>
+<small>記録</small>
+</button>
+
+<button class="nav-item" data-screen="game">
+<span>🎮</span>
+<small>あそぶ</small>
+</button>
+
+</nav>
+
+</div>
+
+
+<script>
+
+/* =====================
+ DATA
+===================== */
+
+const interests=[
+"🎸 ギター","🎹 ピアノ","🎵 音楽","🎤 歌うこと","🎧 音楽を聴く",
+"🎮 ゲーム","💻 プログラミング","🤖 AI","📱 アプリ制作","🌐 Web制作",
+"🎨 絵","📷 写真","🎬 動画制作","✍️ 小説","📖 読書",
+"📝 文章を書く","🎥 映画","📺 アニメ","🎭 演劇","🎤 配信",
+"⚽ サッカー","🏀 バスケ","⚾ 野球","🎾 テニス","🏃 走る",
+"🚴 自転車","🏊 水泳","🏸 バドミントン","🥋 武道",
+"🧪 科学","🌌 宇宙","🦖 生き物","🌱 自然","🌏 地理",
+"🏛️ 歴史","🧠 心理学","🔢 数学","🗣️ 英語","🌍 外国語",
+"🍳 料理","🍰 お菓子作り","☕ カフェ","✈️ 旅行","🚃 鉄道",
+"🚗 車","🏠 DIY","🧩 パズル","♟️ 将棋・チェス","💡 新しいことを試す"
+];
+
+
+const dreamPool=[
+["🎮","ゲームを作る","遊ぶ側から、作る側へ。"],
+["🎸","音楽を作る","自分の音を作品にしてみる。"],
+["💻","アプリを作る","自分が欲しいサービスを作ってみる。"],
+["🎬","映像を作る","映像・音楽・編集を組み合わせる。"],
+["🎨","作品を発表する","自分の作品を誰かに届ける。"],
+["🧪","研究する","「なぜ？」を深く調べてみる。"],
+["🌍","海外で活動する","世界の人とつながってみる。"],
+["🚀","新しいものを作る","まだないものを考えて形にする。"],
+["🎤","自分の好きなことを発信する","音楽や動画などを発信する。"],
+["🏆","好きなことを仕事にする","好きなことを未来につなげてみる。"],
+["📱","サービスを作る","誰かの困りごとを解決する。"],
+["🎓","専門家になる","好きな分野を深く学んでみる。"]
+];
+
+
+let dream="";
+let selectedInterests=[];
+let selectedGoal="";
+let points=0;
+let streak=0;
+let level=1;
+let exp=0;
+let totalMinutes=0;
+let completedToday=false;
+let records=[];
+let currentRandom=null;
+
+
+/* =====================
+ DOM
+===================== */
+
+const $=id=>document.getElementById(id);
+
+
+/* =====================
+ 初回 好きなこと
+===================== */
+
+interests.forEach(x=>{
+
+    const b=document.createElement("button");
+
+    b.className="interest-tile";
+    b.textContent=x;
+
+    b.onclick=()=>{
+
+        b.classList.toggle("selected");
+
+        if(selectedInterests.includes(x)){
+            selectedInterests=
+                selectedInterests.filter(i=>i!==x);
+        }else{
+            selectedInterests.push(x);
+        }
+
+        $("selectedCount").textContent=
+            selectedInterests.length+"個選択中";
+    };
+
+    $("interestGrid").appendChild(b);
+});
+
+
+$("interestNext").onclick=()=>{
+
+    if(selectedInterests.length===0){
+        alert("好きなことを1つ以上選んでください");
+        return;
+    }
+
+    $("page1").classList.remove("active");
+    $("page2").classList.add("active");
+    $("setupStep").textContent="STEP 2 / 3";
+};
+
+
+$("dreamNext").onclick=()=>{
+
+    const value=$("dreamInput").value.trim();
+
+    if(!value){
+        alert("夢を入力してください");
+        return;
+    }
+
+    dream=value;
+
+    createGoals();
+
+    $("page2").classList.remove("active");
+    $("page4").classList.add("active");
+};
+
+
+$("noDreamButton").onclick=()=>{
+
+    createSuggestions();
+
+    $("page2").classList.remove("active");
+    $("page3").classList.add("active");
+
+    $("setupStep").textContent="STEP 2 / 3";
+};
+
+
+/* =====================
+ 夢候補
+===================== */
+
+function createSuggestions(){
+
+    const box=$("dreamSuggestions");
+
+    box.innerHTML="";
+
+    const combos=[];
+
+    selectedInterests.forEach((a,i)=>{
+
+        selectedInterests.forEach((b,j)=>{
+
+            if(i>=j)return;
+
+            combos.push({
+                title:a+" × "+b,
+                reason:
+                    a+"と"+b+
+                    "の両方を活かす可能性"
+            });
+
+        });
+
+    });
+
+    dreamPool.forEach(x=>{
+
+        combos.push({
+            title:x[1],
+            reason:x[2]
+        });
+
+    });
+
+    [...new Map(
+        combos.map(x=>[x.title,x])
+    ).values()]
+    .slice(0,10)
+    .forEach(item=>{
+
+        const card=document.createElement("div");
+
+        card.className="choice-card";
+
+        card.innerHTML=`
+            <strong>${item.title}</strong>
+            <small>${item.reason}</small>
+        `;
+
+        card.onclick=()=>{
+
+            document
+            .querySelectorAll("#dreamSuggestions .choice-card")
+            .forEach(c=>c.classList.remove("selected"));
+
+            card.classList.add("selected");
+
+            dream=item.title;
+
+            createGoals();
+        };
+
+        box.appendChild(card);
+    });
+}
+
+
+$("startButton").onclick=()=>{
+
+    if(!dream){
+        alert("気になるものを1つ選んでください");
+        return;
+    }
+
+    createGoals();
+
+    $("page3").classList.remove("active");
+    $("page4").classList.add("active");
+
+    $("setupStep").textContent="STEP 3 / 3";
+};
+
+
+/* =====================
+ 目標
+===================== */
+
+function createGoals(){
+
+    $("goalList").innerHTML="";
+
+    const goals=[];
+
+    if(dream){
+        goals.push({
+            icon:"🌱",
+            text:dream+"について15分調べる"
+        });
+    }
+
+    selectedInterests.forEach(x=>{
+
+        let text=x+"を15分やってみる";
+
+        if(x.includes("ギター"))
+            text="ギターを15分練習する";
+
+        if(x.includes("プログラミング"))
+            text="プログラミングを15分する";
+
+        if(x.includes("ゲーム"))
+            text="ゲームについて15分調べる";
+
+        if(x.includes("読書"))
+            text="本を15分読む";
+
+        if(x.includes("絵"))
+            text="絵を15分描く";
+
+        if(x.includes("料理"))
+            text="料理を15分してみる";
+
+        goals.push({
+            icon:x.split(" ")[0],
+            text
+        });
+
+    });
+
+    goals.slice(0,7).forEach(item=>{
+
+        const card=document.createElement("div");
+
+        card.className="choice-card";
+
+        card.innerHTML=`
+            <strong>${item.icon} ${item.text}</strong>
+            <small>小さな一歩としてやってみよう</small>
+        `;
+
+        card.onclick=()=>{
+
+            document
+            .querySelectorAll("#goalList .choice-card")
+            .forEach(c=>c.classList.remove("selected"));
+
+            card.classList.add("selected");
+
+            selectedGoal=item.text;
+
+            $("goalIcon").textContent=item.icon;
+        };
+
+        $("goalList").appendChild(card);
+    });
+}
+
+
+/* =====================
+ 戻る
+===================== */
+
+$("dreamBack").onclick=()=>{
+    $("page2").classList.remove("active");
+    $("page1").classList.add("active");
+};
+
+$("suggestBack").onclick=()=>{
+    $("page3").classList.remove("active");
+    $("page2").classList.add("active");
+};
+
+$("goalBack").onclick=()=>{
+    $("page4").classList.remove("active");
+
+    if(dream){
+        $("page2").classList.add("active");
+    }else{
+        $("page3").classList.add("active");
+    }
+};
+
+
+/* =====================
+ START
+===================== */
+
+$("startFinalButton").onclick=()=>{
+
+    if(!selectedGoal){
+        alert("最初の一歩を選んでください");
+        return;
+    }
+
+    save();
+
+    $("setup").style.display="none";
+
+    showScreen("home");
+};
+
+
+/* =====================
+ HOME
+===================== */
+
+function updateHome(){
+
+    $("todayGoal").textContent=
+        selectedGoal || "今日の一歩を追加しよう";
+
+    $("todayMinutes").textContent="15分";
+
+    $("points").textContent=points;
+    $("streak").textContent=streak;
+    $("totalMinutes").textContent=totalMinutes;
+
+    $("level").textContent="Lv."+level;
+
+    $("exp").style.width=exp+"%";
+
+    $("expText").textContent=
+        exp+" / 100 XP";
+
+    $("gamePoints").textContent=points;
+
+    if(level>=10){
+        $("fish").textContent="🐉";
+        $("fishName").textContent="あなたの竜";
+    }else if(level>=5){
+        $("fish").textContent="🐠";
+        $("fishName").textContent="成長した魚";
+    }else{
+        $("fish").textContent="🐟";
+        $("fishName").textContent="あなたの魚";
+    }
+}
+
+
+/* =====================
+ XP
+===================== */
+
+function addXP(amount){
+
+    exp+=amount;
+    points+=amount;
+
+    while(exp>=100){
+
+        exp-=100;
+        level++;
+
+        $("fish").classList.remove("bounce");
+
+        void $("fish").offsetWidth;
+
+        $("fish").classList.add("bounce");
+    }
+
+    updateHome();
+    save();
+}
+
+
+/* =====================
+ 15分
+===================== */
+
+$("completeButton").onclick=()=>{
+
+    if(completedToday){
+
+        $("extra").classList.add("show");
+
+        return;
+    }
+
+    completedToday=true;
+
+    streak++;
+
+    totalMinutes+=15;
+
+    addXP(20);
+
+    $("completeButton").textContent="✓ 15分達成！";
+
+    $("completeButton").classList.add("done");
+
+    $("extra").classList.add("show");
+
+    records.unshift({
+        date:new Date().toLocaleDateString("ja-JP"),
+        title:selectedGoal,
+        minutes:15,
+        xp:20
+    });
+
+    save();
+    updateRecords();
+};
+
+
+/* =====================
+ 追加時間
+===================== */
+
+$("extraButton").onclick=()=>{
+
+    const minutes=
+        Number($("extraMinutes").value);
+
+    if(!minutes || minutes<=0){
+        alert("追加した時間を入力してください");
+        return;
+    }
+
+    const xp=
+        Math.max(
+            5,
+            Math.floor(minutes/5)*5
+        );
+
+    totalMinutes+=minutes;
+
+    addXP(xp);
+
+    records.unshift({
+        date:new Date().toLocaleDateString("ja-JP"),
+        title:selectedGoal+"（追加）",
+        minutes,
+        xp
+    });
+
+    $("extraMinutes").value="";
+
+    save();
+    updateRecords();
+
+    alert(
+        "＋"+minutes+
+        "分！ ＋"+xp+"XP！"
+    );
+};
+
+
+/* =====================
+ 今日の行動を自由に追加
+===================== */
+
+$("addActionButton").onclick=()=>{
+
+    $("actionEditor").classList.toggle("show");
+
+};
+
+
+$("saveAction").onclick=()=>{
+
+    const title=$("newAction").value.trim();
+
+    const minutes=
+        Number($("newMinutes").value);
+
+    if(!title){
+        alert("やることを入力してください");
+        return;
+    }
+
+    if(!minutes || minutes<=0){
+        alert("時間を入力してください");
+        return;
+    }
+
+    selectedGoal=title;
+
+    $("todayGoal").textContent=title;
+    $("todayMinutes").textContent=minutes+"分";
+
+    $("goalIcon").textContent="🌱";
+
+    completedToday=false;
+
+    $("completeButton").textContent=
+        minutes+"分できた！";
+
+    $("completeButton").classList.remove("done");
+
+    $("extra").classList.remove("show");
+
+    $("newAction").value="";
+
+    $("actionEditor").classList.remove("show");
+
+    save();
+};
+
+
+/* =====================
+ 夢を探す
+===================== */
+
+$("randomButton").onclick=()=>{
+
+    const item=
+        dreamPool[
+            Math.floor(
+                Math.random()*dreamPool.length
+            )
+        ];
+
+    currentRandom=item;
+
+    $("randomIcon").textContent=item[0];
+    $("randomTitle").textContent=item[1];
+    $("randomDescription").textContent=item[2];
+
+    $("randomResult").classList.add("show");
+};
+
+
+$("randomSet").onclick=()=>{
+
+    if(!currentRandom)return;
+
+    dream=currentRandom[1];
+
+    selectedGoal=
+        dream+"について15分調べる";
+
+    save();
+    updateHome();
+
+    showScreen("home");
+};
+
+
+/* =====================
+ 好きなことから
+===================== */
+
+$("interestButton").onclick=()=>{
+
+    $("interestSearch").scrollIntoView({
+        behavior:"smooth"
+    });
+
+    updateJobList();
+};
+
+
+$("jobButton").onclick=()=>{
+
+    $("interestSearch").scrollIntoView({
+        behavior:"smooth"
+    });
+
+    updateJobList();
+};
+
+
+$("curiousButton").onclick=()=>{
+
+    const item=
+        dreamPool[
+            Math.floor(
+                Math.random()*dreamPool.length
+            )
+        ];
+
+    currentRandom=item;
+
+    $("randomIcon").textContent=item[0];
+    $("randomTitle").textContent=item[1];
+    $("randomDescription").textContent=
+        "「ちょっと気になる」から始めても大丈夫。";
+
+    $("randomResult").classList.add("show");
+};
+
+
+/* =====================
+ 好きなこと→夢
+===================== */
+
+function updateJobList(){
+
+    const list=$("jobList");
+
+    list.innerHTML="";
+
+    const results=[];
+
+    selectedInterests.forEach(x=>{
+
+        if(x.includes("ギター")||x.includes("音楽")){
+            results.push(
+                ["🎸 音楽クリエイター","音楽を作る・演奏する"]
+            );
+        }
+
+        if(x.includes("ゲーム")){
+            results.push(
+                ["🎮 ゲームクリエイター","ゲームを作る"]
+            );
+        }
+
+        if(x.includes("プログラミング")||x.includes("Web")){
+            results.push(
+                ["💻 ソフトウェアエンジニア","サービスやアプリを作る"]
+            );
+        }
+
+        if(x.includes("絵")){
+            results.push(
+                ["🎨 イラストレーター","絵を作品にする"]
+            );
+        }
+
+        if(x.includes("動画")){
+            results.push(
+                ["🎬 映像クリエイター","映像を作る"]
+            );
+        }
+
+        if(x.includes("料理")){
+            results.push(
+                ["🍳 料理人","料理を仕事にする"]
+            );
+        }
+
+        if(x.includes("科学")){
+            results.push(
+                ["🧪 研究者","好きなことを深く研究する"]
+            );
+        }
+
+        if(x.includes("旅行")||x.includes("外国語")){
+            results.push(
+                ["🌍 国際関係の仕事","世界と関わる"]
+            );
+        }
+
+    });
+
+
+    /* 好きなことの組み合わせ */
+
+    if(selectedInterests.length>=2){
+
+        results.push([
+            selectedInterests
+            .slice(0,3)
+            .join(" × ")+
+            "を組み合わせる",
+            "複数の「好き」を組み合わせる"
+        ]);
+
+    }
+
+
+    const unique=
+        [...new Map(
+            results.map(x=>[x[0],x])
+        ).values()];
+
+
+    if(unique.length===0){
+
+        list.innerHTML=
+            `<p class="description">
+            初回設定で好きなことを選ぶと、
+            ここに可能性が表示されます。
+            </p>`;
+
+        return;
+    }
+
+
+    unique.forEach(item=>{
+
+        const card=document.createElement("div");
+
+        card.className="job-card";
+
+        card.innerHTML=`
+            <strong>${item[0]}</strong>
+            <small>${item[1]}</small>
+        `;
+
+        card.onclick=()=>{
+
+            dream=item[0];
+
+            selectedGoal=
+                item[0]+"について15分調べる";
+
+            save();
+            updateHome();
+
+            showScreen("home");
+        };
+
+        list.appendChild(card);
+    });
+}
+
+
+/* =====================
+ 記録
+===================== */
+
+function updateRecords(){
+
+    const list=$("recordList");
+
+    if(records.length===0){
+
+        list.innerHTML=
+            "まだ記録がありません。";
+
+        return;
+    }
+
+    list.innerHTML="";
+
+    records.slice(0,30).forEach(r=>{
+
+        const item=document.createElement("div");
+
+        item.className="record-item";
+
+        item.innerHTML=`
+            <div>
+                <div>${r.date}</div>
+                <small>${r.title||""}</small>
+            </div>
+            <div class="record-time">
+                ${r.minutes}分<br>
+                +${r.xp}XP
+            </div>
+        `;
+
+        list.appendChild(item);
+    });
+}
+
+
+/* =====================
+ NAV
+===================== */
+
+const navItems=
+    document.querySelectorAll(".nav-item");
+
+const screens=
+    document.querySelectorAll(".screen");
+
+
+function showScreen(id){
+
+    screens.forEach(s=>
+        s.classList.remove("active")
+    );
+
+    const target=$(id);
+
+    if(target)
+        target.classList.add("active");
+
+    navItems.forEach(n=>
+        n.classList.toggle(
+            "active",
+            n.dataset.screen===id
+        )
+    );
+
+    if(id==="records")
+        updateRecords();
+
+    if(id==="dreamSearch")
+        updateJobList();
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+navItems.forEach(n=>{
+
+    n.onclick=()=>{
+        showScreen(n.dataset.screen);
+    };
+
+});
+
+
+/* =====================
+ 魚
+===================== */
+
+$("fish").onclick=()=>{
+
+    $("fish").classList.remove("bounce");
+
+    void $("fish").offsetWidth;
+
+    $("fish").classList.add("bounce");
+};
+
+
+/* =====================
+ GAME
+===================== */
+
+$("gameButton").onclick=()=>{
+
+    $("gameButton").textContent="🐟 ぱくっ！";
+
+    $("fish").classList.remove("bounce");
+
+    void $("fish").offsetWidth;
+
+    $("fish").classList.add("bounce");
+
+    setTimeout(()=>{
+
+        $("gameButton").textContent=
+            "魚にエサをあげる 🐟";
+
+    },700);
+};
+
+
+/* =====================
+ SAVE / LOAD
+===================== */
+
+function save(){
+
+    localStorage.setItem(
+        "willBetterData",
+        JSON.stringify({
+            dream,
+            selectedInterests,
+            selectedGoal,
+            points,
+            streak,
+            level,
+            exp,
+            totalMinutes,
+            records
+        })
+    );
+
+    localStorage.setItem(
+        "setupCompleted",
+        "true"
+    );
+}
+
+
+function load(){
+
+    const data=
+        localStorage.getItem(
+            "willBetterData"
+        );
+
+    if(!data)return false;
+
+    const d=JSON.parse(data);
+
+    dream=d.dream||"";
+    selectedInterests=d.selectedInterests||[];
+    selectedGoal=d.selectedGoal||"";
+    points=d.points||0;
+    streak=d.streak||0;
+    level=d.level||1;
+    exp=d.exp||0;
+    totalMinutes=d.totalMinutes||0;
+    records=d.records||[];
+
+    updateHome();
+
+    return true;
+}
+
+
+/* =====================
+ START
+===================== */
+
+if(
+    localStorage.getItem("setupCompleted")==="true"
+    && load()
+){
+
+    $("setup").style.display="none";
+    showScreen("home");
+
+}else{
+
+    $("setup").style.display="block";
+    $("home").classList.remove("active");
+
+}
+
+</script>
+
+</body>
+</html>
