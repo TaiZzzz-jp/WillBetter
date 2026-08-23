@@ -17,7 +17,8 @@ body{
         radial-gradient(circle at 90% 30%,#dcecff 0,transparent 30%),
         radial-gradient(circle at 50% 100%,#e9f7df 0,transparent 35%),
         #eef3ef;
-    min-height:100vh;
+    height:100dvh;
+    overflow:hidden;
 }
 
 button,input{
@@ -31,9 +32,8 @@ button{
 .app{
     width:100%;
     max-width:430px;
-    min-height:100vh;
+    height:100dvh;
     margin:auto;
-    padding-bottom:105px;
     background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(255,255,255,.35));
     backdrop-filter:blur(25px);
 }
@@ -44,7 +44,11 @@ button{
 
 .screen{
     display:none;
-    min-height:100vh;
+    height:100%;
+    min-height:0;
+    overflow-y:auto;
+    padding-bottom:105px;
+    -webkit-overflow-scrolling:touch;
 }
 
 .screen.active{
@@ -101,8 +105,11 @@ button{
 ===================== */
 
 .setup{
-    min-height:100vh;
+    height:100%;
+    overflow-y:auto;
     padding:35px 22px 40px;
+    padding-bottom:115px;
+    -webkit-overflow-scrolling:touch;
 }
 
 .setup-header{
@@ -333,7 +340,15 @@ header h1{
 }
 
 .complete-button.done{
-    background:#93a999;
+    background:#ffffff;
+    color:#52715b;
+    box-shadow:none;
+}
+
+.primary-button.game-done{
+    background:#ffffff;
+    color:#52715b;
+    box-shadow:none;
 }
 
 .extra{
@@ -418,6 +433,32 @@ header h1{
 
 .status small{
     color:#718078;
+}
+
+/* =====================
+   今日のひとこと
+===================== */
+
+.quote-card{
+    padding:20px;
+    margin:0 20px 10px;
+    background:rgba(255,255,255,.65);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:22px;
+    box-shadow:0 10px 30px rgba(60,85,68,.08);
+}
+
+.quote-text{
+    font-size:16px;
+    line-height:1.8;
+    margin:0 0 10px;
+}
+
+.quote-author{
+    color:#718078;
+    font-size:13px;
+    text-align:right;
+    margin:0;
 }
 
 /* =====================
@@ -543,6 +584,30 @@ header h1{
     font-size:25px;
     font-weight:bold;
     margin:20px;
+}
+
+.reason-card{
+    padding:20px;
+    margin-bottom:14px;
+    background:rgba(255,255,255,.65);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:22px;
+    box-shadow:0 10px 30px rgba(60,85,68,.08);
+}
+
+.reason-list{
+    margin:0;
+    padding-left:22px;
+}
+
+.reason-list li{
+    margin-bottom:12px;
+    line-height:1.7;
+    font-size:14px;
+}
+
+.reason-list li:last-child{
+    margin-bottom:0;
 }
 
 /* =====================
@@ -857,6 +922,25 @@ placeholder="何分？">
 
 </section>
 
+
+<!-- 今日のひとこと -->
+
+<section class="quote-card">
+
+<h2 class="section-title">
+💬 今日のひとこと
+</h2>
+
+<p id="quoteText" class="quote-text">
+「夢なき者に成功なし」
+</p>
+
+<p id="quoteAuthor" class="quote-author">
+— 吉田松陰
+</p>
+
+</section>
+
 </div>
 
 
@@ -875,28 +959,49 @@ placeholder="何分？">
 <div class="card">
 
 <h2 class="section-title">
-何から探してみる？
+自分の言葉で探す
 </h2>
+
+<p class="description">
+夢でなくても大丈夫。思いついた言葉を、いくつでも書いてみよう。<br>
+あとから組み合わせて、やってみたいことを見つけられます。
+</p>
 
 <div class="category-buttons">
 
 <button class="category-button" id="randomButton">
-🎲<br>ランダム
-</button>
-
-<button class="category-button" id="interestButton">
-❤️<br>好きなこと
-</button>
-
-<button class="category-button" id="jobButton">
-🔎<br>職業
-</button>
-
-<button class="category-button" id="curiousButton">
-💡<br>気になること
+🎲<br>偶然のきっかけ
 </button>
 
 </div>
+
+</div>
+
+
+<!-- 自由入力 -->
+
+<div class="search-card">
+
+<h3>✏️ 自分で書いてみる</h3>
+
+<p>
+好きなこと、気になること、やってみたいことを自由に追加できます。
+</p>
+
+<input
+id="freeDreamInput"
+class="setup-input"
+placeholder="例：ゲームを作ってみたい"
+style="margin-top:12px"
+>
+
+<button
+id="freeDreamButton"
+class="primary-button"
+style="margin-top:10px"
+>
+この言葉を追加
+</button>
 
 </div>
 
@@ -923,10 +1028,10 @@ placeholder="何分？">
 
 <div id="interestSearch" class="search-card">
 
-<h3>❤️ 好きなことから</h3>
+<h3>💭 集めた言葉から広げる</h3>
 
 <p>
-選んだ好きなことの組み合わせから探します。
+言葉をタップすると、候補として確認できます。
 </p>
 
 <div id="jobList" class="job-list"></div>
@@ -978,6 +1083,67 @@ placeholder="何分？">
 </header>
 
 <div class="page-content">
+
+
+<!-- 夢があった方がいい理由 -->
+
+<div class="reason-card">
+
+<h2 class="section-title">
+🌱 夢があると、何が変わる？
+</h2>
+
+<p class="description">
+夢は「絶対に叶えなければいけない目標」じゃない。<br>
+自分が進む方向を考えるための目印にもなる。
+</p>
+
+<ol class="reason-list">
+
+<li>
+やってみたいことに挑戦する理由ができる。
+</li>
+
+<li>
+「今日は何をしよう？」と迷ったときのヒントになる。
+</li>
+
+<li>
+勉強や練習が、未来とつながって見えることがある。
+</li>
+
+<li>
+小さな行動にも「やってみる意味」を見つけやすくなる。
+</li>
+
+<li>
+夢に近づくために、何を調べればいいか考えやすくなる。
+</li>
+
+<li>
+やってみて「違うな」と気づくことも、前進になる。
+</li>
+
+<li>
+夢は途中で変えてもいい。
+</li>
+
+<li>
+1つだけじゃなく、いくつ持っていてもいい。
+</li>
+
+<li>
+まだ夢がなくても、「好き」や「気になる」から始められる。
+</li>
+
+<li>
+大切なのは、完璧な夢を決めることより、小さく動いてみること。
+</li>
+
+</ol>
+
+</div>
+
 
 <div class="card game-box">
 
@@ -1061,7 +1227,7 @@ const dreamPool=[
 ["🎸","音楽を作る","自分の音を作品にしてみる。"],
 ["💻","アプリを作る","自分が欲しいサービスを作ってみる。"],
 ["🎬","映像を作る","映像・音楽・編集を組み合わせる。"],
-["🎨","作品を発表する","自分の作品を誰かに届ける。"],
+["🎨","作品を発表する","自分の作品を誰かに届けてみる。"],
 ["🧪","研究する","「なぜ？」を深く調べてみる。"],
 ["🌍","海外で活動する","世界の人とつながってみる。"],
 ["🚀","新しいものを作る","まだないものを考えて形にする。"],
@@ -1072,6 +1238,36 @@ const dreamPool=[
 ];
 
 
+/* =====================
+ 名言
+===================== */
+
+const quotes=[
+
+["天は人の上に人を造らず、人の下に人を造らず","福沢諭吉『学問のすゝめ』"],
+["学問は身を立てるの財本なり","福沢諭吉『学問のすゝめ』"],
+["為せば成る、為さねば成らぬ何事も","上杉鷹山"],
+["初心忘るべからず","世阿弥『花鏡』"],
+["過ちて改めざる、これを過ちという","孔子『論語』"],
+["己の欲せざる所は、人に施すこと勿れ","孔子『論語』"],
+["学びて時に之を習う、亦説ばしからずや","孔子『論語』"],
+
+["千里の行も一歩より始まる","老子『道徳経』"],
+["知る者は言わず、言う者は知らず","老子『道徳経』"],
+["学びて思わざれば則ち罔し、思いて学ばざれば則ち殆し","孔子『論語』"],
+["三人行、必ず我が師あり","孔子『論語』"],
+["読書百遍、義自ずから見わる","『三国志』魏志"],
+["雨垂れ石を穿つ","『漢書』枚乗伝"],
+["不積小流、無以成江海","荀子『勧学篇』"],
+["失敗は成功のもと","日本のことわざ"],
+["七転び八起き","日本のことわざ"],
+["石の上にも三年","日本のことわざ"],
+["塵も積もれば山となる","日本のことわざ"],
+["急がば回れ","日本のことわざ"],
+["継続は力なり","作者不詳の格言"]
+
+];
+
 let dream="";
 let selectedInterests=[];
 let selectedGoal="";
@@ -1080,9 +1276,13 @@ let streak=0;
 let level=1;
 let exp=0;
 let totalMinutes=0;
+let selectedMinutes=15;
 let completedToday=false;
+let completedDate="";
+let fedDate="";
 let records=[];
 let currentRandom=null;
+let searchIdeas=[];
 
 
 /* =====================
@@ -1108,10 +1308,14 @@ interests.forEach(x=>{
         b.classList.toggle("selected");
 
         if(selectedInterests.includes(x)){
+
             selectedInterests=
                 selectedInterests.filter(i=>i!==x);
+
         }else{
+
             selectedInterests.push(x);
+
         }
 
         $("selectedCount").textContent=
@@ -1125,22 +1329,28 @@ interests.forEach(x=>{
 $("interestNext").onclick=()=>{
 
     if(selectedInterests.length===0){
+
         alert("好きなことを1つ以上選んでください");
+
         return;
     }
 
     $("page1").classList.remove("active");
     $("page2").classList.add("active");
+
     $("setupStep").textContent="STEP 2 / 3";
 };
 
 
 $("dreamNext").onclick=()=>{
 
-    const value=$("dreamInput").value.trim();
+    const value=
+        $("dreamInput").value.trim();
 
     if(!value){
+
         alert("夢を入力してください");
+
         return;
     }
 
@@ -1183,24 +1393,32 @@ function createSuggestions(){
             if(i>=j)return;
 
             combos.push({
+
                 title:a+" × "+b,
+
                 reason:
                     a+"と"+b+
                     "の両方を活かす可能性"
+
             });
 
         });
 
     });
 
+
     dreamPool.forEach(x=>{
 
         combos.push({
+
             title:x[1],
+
             reason:x[2]
+
         });
 
     });
+
 
     [...new Map(
         combos.map(x=>[x.title,x])
@@ -1220,8 +1438,12 @@ function createSuggestions(){
         card.onclick=()=>{
 
             document
-            .querySelectorAll("#dreamSuggestions .choice-card")
-            .forEach(c=>c.classList.remove("selected"));
+            .querySelectorAll(
+                "#dreamSuggestions .choice-card"
+            )
+            .forEach(c=>
+                c.classList.remove("selected")
+            );
 
             card.classList.add("selected");
 
@@ -1231,6 +1453,7 @@ function createSuggestions(){
         };
 
         box.appendChild(card);
+
     });
 }
 
@@ -1238,7 +1461,9 @@ function createSuggestions(){
 $("startButton").onclick=()=>{
 
     if(!dream){
+
         alert("気になるものを1つ選んでください");
+
         return;
     }
 
@@ -1261,16 +1486,28 @@ function createGoals(){
 
     const goals=[];
 
+
     if(dream){
+
         goals.push({
+
             icon:"🌱",
-            text:dream+"について15分調べる"
+
+            text:
+                dream+
+                "について15分調べる"
+
         });
+
     }
+
 
     selectedInterests.forEach(x=>{
 
-        let text=x+"を15分やってみる";
+        let text=
+            x+
+            "を15分やってみる";
+
 
         if(x.includes("ギター"))
             text="ギターを15分練習する";
@@ -1290,12 +1527,17 @@ function createGoals(){
         if(x.includes("料理"))
             text="料理を15分してみる";
 
+
         goals.push({
+
             icon:x.split(" ")[0],
+
             text
+
         });
 
     });
+
 
     goals.slice(0,7).forEach(item=>{
 
@@ -1304,25 +1546,41 @@ function createGoals(){
         card.className="choice-card";
 
         card.innerHTML=`
-            <strong>${item.icon} ${item.text}</strong>
-            <small>小さな一歩としてやってみよう</small>
+            <strong>
+                ${item.icon} ${item.text}
+            </strong>
+
+            <small>
+                小さな一歩としてやってみよう
+            </small>
         `;
+
 
         card.onclick=()=>{
 
             document
-            .querySelectorAll("#goalList .choice-card")
-            .forEach(c=>c.classList.remove("selected"));
+            .querySelectorAll(
+                "#goalList .choice-card"
+            )
+            .forEach(c=>
+                c.classList.remove("selected")
+            );
+
 
             card.classList.add("selected");
 
             selectedGoal=item.text;
 
-            $("goalIcon").textContent=item.icon;
+            $("goalIcon").textContent=
+                item.icon;
+
         };
 
+
         $("goalList").appendChild(card);
+
     });
+
 }
 
 
@@ -1331,23 +1589,38 @@ function createGoals(){
 ===================== */
 
 $("dreamBack").onclick=()=>{
+
     $("page2").classList.remove("active");
+
     $("page1").classList.add("active");
+
 };
+
 
 $("suggestBack").onclick=()=>{
+
     $("page3").classList.remove("active");
+
     $("page2").classList.add("active");
+
 };
 
+
 $("goalBack").onclick=()=>{
+
     $("page4").classList.remove("active");
 
+
     if(dream){
+
         $("page2").classList.add("active");
+
     }else{
+
         $("page3").classList.add("active");
+
     }
+
 };
 
 
@@ -1358,15 +1631,19 @@ $("goalBack").onclick=()=>{
 $("startFinalButton").onclick=()=>{
 
     if(!selectedGoal){
+
         alert("最初の一歩を選んでください");
+
         return;
     }
+
 
     save();
 
     $("setup").style.display="none";
 
     showScreen("home");
+
 };
 
 
@@ -1377,33 +1654,104 @@ $("startFinalButton").onclick=()=>{
 function updateHome(){
 
     $("todayGoal").textContent=
-        selectedGoal || "今日の一歩を追加しよう";
+        selectedGoal ||
+        "今日の一歩を追加しよう";
 
-    $("todayMinutes").textContent="15分";
 
-    $("points").textContent=points;
-    $("streak").textContent=streak;
-    $("totalMinutes").textContent=totalMinutes;
+    $("todayMinutes").textContent=
+        selectedMinutes+
+        "分";
 
-    $("level").textContent="Lv."+level;
+    $("completeButton").textContent=
+        completedToday
+            ? "✓ "+selectedMinutes+"分達成！"
+            : selectedMinutes+"分できた！";
 
-    $("exp").style.width=exp+"%";
+    $("completeButton").classList.toggle(
+        "done",
+        completedToday
+    );
+
+    updateGameButton();
+
+
+    $("points").textContent=
+        points;
+
+
+    $("streak").textContent=
+        streak;
+
+
+    $("totalMinutes").textContent=
+        totalMinutes;
+
+
+    $("level").textContent=
+        "Lv."+level;
+
+
+    $("exp").style.width=
+        exp+"%";
+
 
     $("expText").textContent=
-        exp+" / 100 XP";
+        exp+
+        " / 100 XP";
 
-    $("gamePoints").textContent=points;
+
+    $("gamePoints").textContent=
+        points;
+
 
     if(level>=10){
+
         $("fish").textContent="🐉";
-        $("fishName").textContent="あなたの竜";
+
+        $("fishName").textContent=
+            "あなたの竜";
+
     }else if(level>=5){
+
         $("fish").textContent="🐠";
-        $("fishName").textContent="成長した魚";
+
+        $("fishName").textContent=
+            "成長した魚";
+
     }else{
+
         $("fish").textContent="🐟";
-        $("fishName").textContent="あなたの魚";
+
+        $("fishName").textContent=
+            "あなたの魚";
+
     }
+
+}
+
+
+/* =====================
+ 名言表示
+===================== */
+
+function updateQuote(){
+
+    const quote=
+        quotes[
+            Math.floor(
+                Math.random()*
+                quotes.length
+            )
+        ];
+
+
+    $("quoteText").textContent=
+        "「"+quote[0]+"」";
+
+
+    $("quoteAuthor").textContent=
+        "— "+quote[1];
+
 }
 
 
@@ -1414,22 +1762,64 @@ function updateHome(){
 function addXP(amount){
 
     exp+=amount;
+
     points+=amount;
+
 
     while(exp>=100){
 
         exp-=100;
+
         level++;
 
-        $("fish").classList.remove("bounce");
+
+        $("fish").classList.remove(
+            "bounce"
+        );
+
 
         void $("fish").offsetWidth;
 
-        $("fish").classList.add("bounce");
+
+        $("fish").classList.add(
+            "bounce"
+        );
+
     }
 
+
     updateHome();
+
     save();
+
+}
+
+function getDateKey(date=new Date()){
+
+    return date.toLocaleDateString("sv-SE");
+
+}
+
+function syncDailyState(){
+
+    completedToday=
+        completedDate===getDateKey();
+
+}
+
+function updateGameButton(){
+
+    const fedToday=fedDate===getDateKey();
+
+    $("gameButton").textContent=fedToday
+        ? "✓ 今日の餌やり済み"
+        : "魚にエサをあげる 🐟";
+
+    $("gameButton").classList.toggle(
+        "game-done",
+        fedToday
+    );
+
 }
 
 
@@ -1439,36 +1829,71 @@ function addXP(amount){
 
 $("completeButton").onclick=()=>{
 
+    syncDailyState();
+
     if(completedToday){
 
         $("extra").classList.add("show");
 
         return;
+
     }
 
-    completedToday=true;
 
+    const today=getDateKey();
+    const yesterday=getDateKey(
+        new Date(Date.now()-86400000)
+    );
+
+    if(completedDate!==yesterday)
+        streak=0;
+
+    completedToday=true;
+    completedDate=today;
     streak++;
 
-    totalMinutes+=15;
+    totalMinutes+=selectedMinutes;
 
-    addXP(20);
 
-    $("completeButton").textContent="✓ 15分達成！";
+    const xp=Math.max(
+        5,
+        Math.floor(selectedMinutes/5)*5
+    );
 
-    $("completeButton").classList.add("done");
 
-    $("extra").classList.add("show");
+    $("completeButton").textContent=
+        "✓ "+selectedMinutes+"分達成！";
+
+
+    $("completeButton").classList.add(
+        "done"
+    );
+
+
+    $("extra").classList.add(
+        "show"
+    );
+
 
     records.unshift({
-        date:new Date().toLocaleDateString("ja-JP"),
+
+        date:
+            new Date()
+            .toLocaleDateString("ja-JP"),
+
         title:selectedGoal,
-        minutes:15,
-        xp:20
+
+        minutes:selectedMinutes,
+
+        xp
+
     });
 
+
     save();
+
     updateRecords();
+
 };
 
 
@@ -1479,12 +1904,21 @@ $("completeButton").onclick=()=>{
 $("extraButton").onclick=()=>{
 
     const minutes=
-        Number($("extraMinutes").value);
+        Number(
+            $("extraMinutes").value
+        );
+
 
     if(!minutes || minutes<=0){
-        alert("追加した時間を入力してください");
+
+        alert(
+            "追加した時間を入力してください"
+        );
+
         return;
+
     }
+
 
     const xp=
         Math.max(
@@ -1492,26 +1926,46 @@ $("extraButton").onclick=()=>{
             Math.floor(minutes/5)*5
         );
 
+
     totalMinutes+=minutes;
+
 
     addXP(xp);
 
+
     records.unshift({
-        date:new Date().toLocaleDateString("ja-JP"),
-        title:selectedGoal+"（追加）",
+
+        date:
+            new Date()
+            .toLocaleDateString("ja-JP"),
+
+        title:
+            selectedGoal+
+            "（追加）",
+
         minutes,
+
         xp
+
     });
+
 
     $("extraMinutes").value="";
 
+
     save();
+
     updateRecords();
 
+
     alert(
-        "＋"+minutes+
-        "分！ ＋"+xp+"XP！"
+        "＋"+
+        minutes+
+        "分！ ＋"+
+        xp+
+        "XP！"
     );
+
 };
 
 
@@ -1521,49 +1975,95 @@ $("extraButton").onclick=()=>{
 
 $("addActionButton").onclick=()=>{
 
-    $("actionEditor").classList.toggle("show");
+    $("actionEditor")
+        .classList
+        .toggle("show");
 
 };
 
 
 $("saveAction").onclick=()=>{
 
-    const title=$("newAction").value.trim();
+    const title=
+        $("newAction")
+        .value
+        .trim();
+
 
     const minutes=
-        Number($("newMinutes").value);
+        Number(
+            $("newMinutes").value
+        );
+
 
     if(!title){
-        alert("やることを入力してください");
+
+        alert(
+            "やることを入力してください"
+        );
+
         return;
+
     }
+
 
     if(!minutes || minutes<=0){
-        alert("時間を入力してください");
+
+        alert(
+            "時間を入力してください"
+        );
+
         return;
+
     }
 
+
     selectedGoal=title;
+    selectedMinutes=minutes;
 
-    $("todayGoal").textContent=title;
-    $("todayMinutes").textContent=minutes+"分";
 
-    $("goalIcon").textContent="🌱";
+    $("todayGoal").textContent=
+        title;
 
-    completedToday=false;
+
+    $("todayMinutes").textContent=
+        minutes+
+        "分";
+
+
+    $("goalIcon").textContent=
+        "🌱";
+
+
+    syncDailyState();
 
     $("completeButton").textContent=
-        minutes+"分できた！";
+        completedToday
+            ? "✓ "+selectedMinutes+"分達成！"
+            : selectedMinutes+"分できた！";
 
-    $("completeButton").classList.remove("done");
 
-    $("extra").classList.remove("show");
+    $("completeButton").classList.toggle(
+        "done",
+        completedToday
+    );
+
+
+    $("extra")
+        .classList
+        .remove("show");
+
 
     $("newAction").value="";
 
-    $("actionEditor").classList.remove("show");
+
+    $("actionEditor")
+        .classList
+        .remove("show");
+
 
     save();
+
 };
 
 
@@ -1576,33 +2076,104 @@ $("randomButton").onclick=()=>{
     const item=
         dreamPool[
             Math.floor(
-                Math.random()*dreamPool.length
+                Math.random()*
+                dreamPool.length
             )
         ];
 
+
     currentRandom=item;
 
-    $("randomIcon").textContent=item[0];
-    $("randomTitle").textContent=item[1];
-    $("randomDescription").textContent=item[2];
 
+    $("randomIcon").textContent=
+        item[0];
+
+
+    $("randomTitle").textContent=
+        item[1];
+
+
+    $("randomDescription").textContent=
+        item[2];
+
+
+    $("randomResult")
+        .classList
+        .add("show");
+
+};
+
+
+/* =====================
+ 自由入力から夢・気になること
+===================== */
+
+$("freeDreamButton").onclick=()=>{
+
+    const value=
+        $("freeDreamInput")
+        .value
+        .trim();
+
+
+    if(!value){
+
+        alert(
+            "気になることや、やってみたいことを入力してください"
+        );
+
+        return;
+
+    }
+
+    currentRandom=[
+        "✏️",
+        value,
+        "あなたが考えたことから、最初の一歩を作れます。"
+    ];
+
+    if(!searchIdeas.includes(value))
+        searchIdeas.push(value);
+
+    $("randomIcon").textContent=currentRandom[0];
+    $("randomTitle").textContent=currentRandom[1];
+    $("randomDescription").textContent=currentRandom[2];
     $("randomResult").classList.add("show");
+
+    $("randomResult").scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+    });
+
+    $("freeDreamInput").value="";
+    save();
+    updateJobList();
+
 };
 
 
 $("randomSet").onclick=()=>{
 
-    if(!currentRandom)return;
+    if(!currentRandom)
+        return;
 
-    dream=currentRandom[1];
+
+    dream=
+        currentRandom[1];
+
 
     selectedGoal=
-        dream+"について15分調べる";
+        dream+
+        "について15分調べる";
+
 
     save();
+
     updateHome();
 
+
     showScreen("home");
+
 };
 
 
@@ -1610,43 +2181,62 @@ $("randomSet").onclick=()=>{
  好きなことから
 ===================== */
 
-$("interestButton").onclick=()=>{
+if($("interestButton")) $("interestButton").onclick=()=>{
 
-    $("interestSearch").scrollIntoView({
-        behavior:"smooth"
-    });
+    $("interestSearch")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
 
     updateJobList();
+
 };
 
 
-$("jobButton").onclick=()=>{
+if($("jobButton")) $("jobButton").onclick=()=>{
 
-    $("interestSearch").scrollIntoView({
-        behavior:"smooth"
-    });
+    $("interestSearch")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
 
     updateJobList();
+
 };
 
 
-$("curiousButton").onclick=()=>{
+if($("curiousButton")) $("curiousButton").onclick=()=>{
 
     const item=
         dreamPool[
             Math.floor(
-                Math.random()*dreamPool.length
+                Math.random()*
+                dreamPool.length
             )
         ];
 
+
     currentRandom=item;
 
-    $("randomIcon").textContent=item[0];
-    $("randomTitle").textContent=item[1];
+
+    $("randomIcon").textContent=
+        item[0];
+
+
+    $("randomTitle").textContent=
+        item[1];
+
+
     $("randomDescription").textContent=
         "「ちょっと気になる」から始めても大丈夫。";
 
-    $("randomResult").classList.add("show");
+
+    $("randomResult")
+        .classList
+        .add("show");
+
 };
 
 
@@ -1656,84 +2246,179 @@ $("curiousButton").onclick=()=>{
 
 function updateJobList(){
 
-    const list=$("jobList");
+    const list=
+        $("jobList");
+
 
     list.innerHTML="";
 
+
     const results=[];
+
+
+    searchIdeas.forEach(idea=>{
+
+        results.push([
+            idea,
+            "自分で追加した言葉"
+        ]);
+
+    });
+
+    searchIdeas.forEach((a,i)=>{
+
+        searchIdeas.forEach((b,j)=>{
+
+            if(i>=j)return;
+
+            results.push([
+                a+" × "+b,
+                "2つの言葉を組み合わせる"
+            ]);
+
+        });
+
+    });
+
 
     selectedInterests.forEach(x=>{
 
-        if(x.includes("ギター")||x.includes("音楽")){
+        results.push([
+            x,
+            "初回設定で選んだ好きなこと"
+        ]);
+
+        if(
+            x.includes("ギター")||
+            x.includes("音楽")
+        ){
+
             results.push(
-                ["🎸 音楽クリエイター","音楽を作る・演奏する"]
+                [
+                    "🎸 音楽クリエイター",
+                    "音楽を作る・演奏する"
+                ]
             );
+
         }
+
 
         if(x.includes("ゲーム")){
+
             results.push(
-                ["🎮 ゲームクリエイター","ゲームを作る"]
+                [
+                    "🎮 ゲームクリエイター",
+                    "ゲームを作る"
+                ]
             );
+
         }
 
-        if(x.includes("プログラミング")||x.includes("Web")){
+
+        if(
+            x.includes("プログラミング")||
+            x.includes("Web")
+        ){
+
             results.push(
-                ["💻 ソフトウェアエンジニア","サービスやアプリを作る"]
+                [
+                    "💻 ソフトウェアエンジニア",
+                    "サービスやアプリを作る"
+                ]
             );
+
         }
+
 
         if(x.includes("絵")){
+
             results.push(
-                ["🎨 イラストレーター","絵を作品にする"]
+                [
+                    "🎨 イラストレーター",
+                    "絵を作品にする"
+                ]
             );
+
         }
+
 
         if(x.includes("動画")){
+
             results.push(
-                ["🎬 映像クリエイター","映像を作る"]
+                [
+                    "🎬 映像クリエイター",
+                    "映像を作る"
+                ]
             );
+
         }
+
 
         if(x.includes("料理")){
+
             results.push(
-                ["🍳 料理人","料理を仕事にする"]
+                [
+                    "🍳 料理人",
+                    "料理を仕事にする"
+                ]
             );
+
         }
+
 
         if(x.includes("科学")){
+
             results.push(
-                ["🧪 研究者","好きなことを深く研究する"]
+                [
+                    "🧪 研究者",
+                    "好きなことを深く研究する"
+                ]
             );
+
         }
 
-        if(x.includes("旅行")||x.includes("外国語")){
+
+        if(
+            x.includes("旅行")||
+            x.includes("外国語")
+        ){
+
             results.push(
-                ["🌍 国際関係の仕事","世界と関わる"]
+                [
+                    "🌍 国際関係の仕事",
+                    "世界と関わる"
+                ]
             );
+
         }
 
     });
 
 
-    /* 好きなことの組み合わせ */
-
     if(selectedInterests.length>=2){
 
         results.push([
+
             selectedInterests
-            .slice(0,3)
-            .join(" × ")+
-            "を組み合わせる",
+                .slice(0,3)
+                .join(" × ")+
+                "を組み合わせる",
+
             "複数の「好き」を組み合わせる"
+
         ]);
 
     }
 
 
     const unique=
-        [...new Map(
-            results.map(x=>[x[0],x])
-        ).values()];
+        [
+            ...new Map(
+                results.map(
+                    x=>[x[0],x]
+                )
+            ).values()
+        ];
 
 
     if(unique.length===0){
@@ -1745,35 +2430,55 @@ function updateJobList(){
             </p>`;
 
         return;
+
     }
 
 
     unique.forEach(item=>{
 
-        const card=document.createElement("div");
+        const card=
+            document.createElement(
+                "div"
+            );
 
-        card.className="job-card";
 
-        card.innerHTML=`
-            <strong>${item[0]}</strong>
-            <small>${item[1]}</small>
-        `;
+        card.className=
+            "job-card";
+
+
+        const title=document.createElement("strong");
+        title.textContent=item[0];
+
+        const reason=document.createElement("small");
+        reason.textContent=item[1];
+
+        card.append(title,reason);
+
 
         card.onclick=()=>{
 
-            dream=item[0];
+            currentRandom=[
+                "💭",
+                item[0],
+                item[1]+"。このテーマから最初の一歩を作れます。"
+            ];
 
-            selectedGoal=
-                item[0]+"について15分調べる";
+            $("randomIcon").textContent=currentRandom[0];
+            $("randomTitle").textContent=currentRandom[1];
+            $("randomDescription").textContent=currentRandom[2];
+            $("randomResult").classList.add("show");
+            $("randomResult").scrollIntoView({
+                behavior:"smooth",
+                block:"nearest"
+            });
 
-            save();
-            updateHome();
-
-            showScreen("home");
         };
 
+
         list.appendChild(card);
+
     });
+
 }
 
 
@@ -1783,7 +2488,9 @@ function updateJobList(){
 
 function updateRecords(){
 
-    const list=$("recordList");
+    const list=
+        $("recordList");
+
 
     if(records.length===0){
 
@@ -1791,29 +2498,44 @@ function updateRecords(){
             "まだ記録がありません。";
 
         return;
+
     }
+
 
     list.innerHTML="";
 
-    records.slice(0,30).forEach(r=>{
 
-        const item=document.createElement("div");
+    records
+        .slice(0,30)
+        .forEach(r=>{
 
-        item.className="record-item";
+            const item=
+                document.createElement(
+                    "div"
+                );
 
-        item.innerHTML=`
-            <div>
-                <div>${r.date}</div>
-                <small>${r.title||""}</small>
-            </div>
-            <div class="record-time">
-                ${r.minutes}分<br>
-                +${r.xp}XP
-            </div>
-        `;
 
-        list.appendChild(item);
-    });
+            item.className=
+                "record-item";
+
+
+            item.innerHTML=`
+                <div>
+                    <div>${r.date}</div>
+                    <small>${r.title||""}</small>
+                </div>
+
+                <div class="record-time">
+                    ${r.type==="feeding" ? "餌やり" : r.minutes+"分"}<br>
+                    +${r.xp}XP
+                </div>
+            `;
+
+
+            list.appendChild(item);
+
+        });
+
 }
 
 
@@ -1822,47 +2544,80 @@ function updateRecords(){
 ===================== */
 
 const navItems=
-    document.querySelectorAll(".nav-item");
+    document.querySelectorAll(
+        ".nav-item"
+    );
+
 
 const screens=
-    document.querySelectorAll(".screen");
+    document.querySelectorAll(
+        ".screen"
+    );
 
 
 function showScreen(id){
 
     screens.forEach(s=>
-        s.classList.remove("active")
-    );
-
-    const target=$(id);
-
-    if(target)
-        target.classList.add("active");
-
-    navItems.forEach(n=>
-        n.classList.toggle(
-            "active",
-            n.dataset.screen===id
+        s.classList.remove(
+            "active"
         )
     );
+
+
+    const target=
+        $(id);
+
+
+    if(target)
+        target.classList.add(
+            "active"
+        );
+
+
+    navItems.forEach(n=>
+
+        n.classList.toggle(
+
+            "active",
+
+            n.dataset.screen===id
+
+        )
+
+    );
+
 
     if(id==="records")
         updateRecords();
 
+
     if(id==="dreamSearch")
         updateJobList();
 
+
+    if(id==="home")
+        updateQuote();
+
+
     window.scrollTo({
+
         top:0,
+
         behavior:"smooth"
+
     });
+
 }
 
 
 navItems.forEach(n=>{
 
     n.onclick=()=>{
-        showScreen(n.dataset.screen);
+
+        showScreen(
+            n.dataset.screen
+        );
+
     };
 
 });
@@ -1874,11 +2629,18 @@ navItems.forEach(n=>{
 
 $("fish").onclick=()=>{
 
-    $("fish").classList.remove("bounce");
+    $("fish")
+        .classList
+        .remove("bounce");
+
 
     void $("fish").offsetWidth;
 
-    $("fish").classList.add("bounce");
+
+    $("fish")
+        .classList
+        .add("bounce");
+
 };
 
 
@@ -1888,20 +2650,50 @@ $("fish").onclick=()=>{
 
 $("gameButton").onclick=()=>{
 
-    $("gameButton").textContent="🐟 ぱくっ！";
+    if(fedDate===getDateKey()){
+        updateGameButton();
+        return;
+    }
 
-    $("fish").classList.remove("bounce");
+    fedDate=getDateKey();
+    addXP(5);
+
+    records.unshift({
+        date:getDateKey(),
+        title:"魚に餌やり",
+        minutes:0,
+        xp:5,
+        type:"feeding"
+    });
+
+    save();
+    updateRecords();
+
+    $("gameButton").textContent=
+        "✓ 今日の餌やり済み";
+
+    $("gameButton").classList.add("game-done");
+
+
+    $("fish")
+        .classList
+        .remove("bounce");
+
 
     void $("fish").offsetWidth;
 
-    $("fish").classList.add("bounce");
+
+    $("fish")
+        .classList
+        .add("bounce");
+
 
     setTimeout(()=>{
 
-        $("gameButton").textContent=
-            "魚にエサをあげる 🐟";
+        updateGameButton();
 
     },700);
+
 };
 
 
@@ -1912,24 +2704,42 @@ $("gameButton").onclick=()=>{
 function save(){
 
     localStorage.setItem(
+
         "willBetterData",
+
         JSON.stringify({
+
             dream,
+
             selectedInterests,
+
             selectedGoal,
+
             points,
+
             streak,
+
             level,
+
             exp,
+
             totalMinutes,
+
             records
+
         })
+
     );
 
+
     localStorage.setItem(
+
         "setupCompleted",
+
         "true"
+
     );
+
 }
 
 
@@ -1940,23 +2750,90 @@ function load(){
             "willBetterData"
         );
 
-    if(!data)return false;
 
-    const d=JSON.parse(data);
+    if(!data)
+        return false;
 
-    dream=d.dream||"";
-    selectedInterests=d.selectedInterests||[];
-    selectedGoal=d.selectedGoal||"";
-    points=d.points||0;
-    streak=d.streak||0;
-    level=d.level||1;
-    exp=d.exp||0;
-    totalMinutes=d.totalMinutes||0;
-    records=d.records||[];
+
+    let d;
+
+    try{
+        d=JSON.parse(data);
+    }catch(error){
+        localStorage.removeItem("willBetterData");
+        localStorage.removeItem("setupCompleted");
+        return false;
+    }
+
+
+    dream=
+        d.dream||
+        "";
+
+
+    selectedInterests=
+        d.selectedInterests||
+        [];
+
+
+    selectedGoal=
+        d.selectedGoal||
+        "";
+
+
+    points=
+        d.points||
+        0;
+
+
+    streak=
+        d.streak||
+        0;
+
+
+    level=
+        d.level||
+        1;
+
+
+    exp=
+        d.exp||
+        0;
+
+
+    totalMinutes=
+        d.totalMinutes||
+        0;
+
+    selectedMinutes=
+        d.selectedMinutes||
+        15;
+
+    completedDate=
+        d.completedDate||
+        "";
+
+    fedDate=
+        d.fedDate||
+        "";
+
+    searchIdeas=
+        d.searchIdeas||
+        [];
+
+    syncDailyState();
+
+
+    records=
+        d.records||
+        [];
+
 
     updateHome();
 
+
     return true;
+
 }
 
 
@@ -1965,17 +2842,35 @@ function load(){
 ===================== */
 
 if(
-    localStorage.getItem("setupCompleted")==="true"
-    && load()
+
+    localStorage.getItem(
+        "setupCompleted"
+    )==="true"
+
+    &&
+
+    load()
+
 ){
 
-    $("setup").style.display="none";
-    showScreen("home");
+    $("setup").style.display=
+        "none";
+
+
+    showScreen(
+        "home"
+    );
+
 
 }else{
 
-    $("setup").style.display="block";
-    $("home").classList.remove("active");
+    $("setup").style.display=
+        "block";
+
+
+    $("home")
+        .classList
+        .remove("active");
 
 }
 
