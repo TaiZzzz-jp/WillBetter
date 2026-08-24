@@ -828,7 +828,7 @@ header h1{
    初回使い方ガイド
 ===================== */
 .guide{position:fixed;inset:0;z-index:9999;display:none;pointer-events:none;}
-.guide-backdrop{position:absolute;inset:0;background:rgba(20,35,26,.58);backdrop-filter:blur(2px);pointer-events:auto;}
+.guide-backdrop{position:absolute;inset:0;background:rgba(20,35,26,.58);backdrop-filter:none;-webkit-backdrop-filter:none;pointer-events:auto;}
 .guide-spotlight{position:fixed;z-index:10001;border-radius:22px;box-shadow:0 0 0 4px rgba(255,255,255,.95),0 0 0 9999px rgba(20,35,26,.58),0 12px 45px rgba(0,0,0,.28);pointer-events:none;transition:all .35s ease;}
 .guide-tooltip{position:fixed;z-index:10002;width:min(360px,calc(100vw - 28px));padding:17px 17px 14px;background:#fff;border-radius:20px;box-shadow:0 16px 45px rgba(0,0,0,.24);pointer-events:auto;transition:top .35s ease,left .35s ease;}
 .guide-tooltip::before{content:"";position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg);top:-7px;left:32px;}
@@ -1529,6 +1529,19 @@ style="margin-top:10px"
 </div>
 
 <div class="card">
+<div class="settings-heading">📱 iPhone</div>
+<div class="settings-list">
+<div class="settings-row">
+<div>
+<strong>ホーム画面への追加をおすすめ</strong>
+<small>iPhoneで最初に1回だけ表示する案内</small>
+</div>
+<input id="iosInstallSetting" type="checkbox">
+</div>
+</div>
+</div>
+
+<div class="card">
 <div class="settings-heading">データ</div>
 <p class="description">バックアップや機種変更のために、Will Betterのデータを保存・復元できます。</p>
 <button id="exportDataButton" class="secondary-button">📦 データを書き出す</button>
@@ -1897,6 +1910,7 @@ let notificationEnabled=false;
 let detailRecordEnabled=true;
 let conditionRecordEnabled=true;
 let processEnabled=true;
+let iosInstallEnabled=true;
 let todayActions=[];
 let activeActionIndex=0;
 let themeColor="green";
@@ -2552,6 +2566,7 @@ function updateSettings(){
     if($("themeColorSetting")) $("themeColorSetting").value=themeColor||"green";
     if($("levelUpAnimationSetting")) $("levelUpAnimationSetting").checked=levelUpAnimationEnabled;
     applyThemeColor();
+    if($("iosInstallSetting")) $("iosInstallSetting").checked=iosInstallEnabled;
 }
 
 
@@ -3046,6 +3061,8 @@ function normalizeImportedData(input){
     out.detailRecordEnabled=d.detailRecordEnabled!==false;
     out.conditionRecordEnabled=d.conditionRecordEnabled!==false;
     out.processEnabled=d.processEnabled!==false;
+    out.iosInstallEnabled=d.iosInstallEnabled!==false;
+iosInstallEnabled=d.iosInstallEnabled!==false;
     out.themeColor=["green","blue","purple","orange","pink"].includes(d.themeColor)?d.themeColor:"green";
     out.levelUpAnimationEnabled=d.levelUpAnimationEnabled!==false;
     return out;
@@ -3066,6 +3083,19 @@ $("importDataFile").onchange=async(event)=>{
         console.error(e);
         alert("JSONを読み込めませんでした。Will Betterから書き出したJSONファイルを選んでください。");
     }finally{event.target.value="";}
+};
+
+$("iosInstallSetting").onchange=()=>{
+    iosInstallEnabled=$("iosInstallSetting").checked;
+    save();
+
+    if(!iosInstallEnabled){
+        localStorage.setItem("iosInstallNoticeShown","true");
+        const notice=$("iosInstallNotice");
+        if(notice) notice.hidden=true;
+    }else{
+        localStorage.removeItem("iosInstallNoticeShown");
+    }
 };
 
 $("resetDataButton").onclick=()=>{
@@ -4006,32 +4036,32 @@ if(
 
 
 /* =====================
-   iPhone / iPad PWA案内
-   一度だけ表示
+   iPhone / iPad ホーム画面追加おすすめ
+   初回のみ・設定でOFF可能
 ===================== */
 (function setupIOSInstallNotice(){
 
-    const notice = document.getElementById("iosInstallNotice");
-    const okButton = document.getElementById("iosInstallOk");
+    const notice=$("iosInstallNotice");
+    const okButton=$("iosInstallOk");
 
     if(!notice || !okButton) return;
 
-    const isIOS =
+    const isIOS=
         /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+        (navigator.platform==="MacIntel" && navigator.maxTouchPoints>1);
 
-    const isStandalone =
+    const isStandalone=
         window.matchMedia("(display-mode: standalone)").matches ||
-        window.navigator.standalone === true;
+        window.navigator.standalone===true;
 
-    const alreadyShown =
-        localStorage.getItem("iosInstallNoticeShown") === "true";
+    const alreadyShown=
+        localStorage.getItem("iosInstallNoticeShown")==="true";
 
-    if(!isIOS || isStandalone || alreadyShown) return;
+    if(!isIOS || isStandalone || alreadyShown || iosInstallEnabled===false) return;
 
     setTimeout(()=>{
         notice.hidden=false;
-    },900);
+    },700);
 
     okButton.onclick=()=>{
         localStorage.setItem("iosInstallNoticeShown","true");
@@ -4054,14 +4084,15 @@ if("serviceWorker" in navigator){
 <div id="iosInstallNotice" class="ios-install-notice" hidden>
     <div class="ios-install-card">
         <div class="ios-install-icon">🌱</div>
-        <h2>Will Betterをホーム画面に追加</h2>
+        <h2>iPhoneならホーム画面への追加を強くおすすめします</h2>
         <p>
-            iPhoneでは、Will Betterをホーム画面に追加すると
+            iPhoneでは、iPhoneならホーム画面への追加を強くおすすめしますすると
             アプリのようにすぐ開けます。
         </p>
         <div class="ios-install-steps">
             <div>① Safariの「共有」ボタンをタップ</div>
             <div>②「ホーム画面に追加」を選択</div>
+            <div>③ 追加したWill Betterをホーム画面から起動</div>
         </div>
         <button id="iosInstallOk" class="ios-install-ok">
             OK
@@ -4079,8 +4110,8 @@ if("serviceWorker" in navigator){
     justify-content:center;
     padding:22px;
     background:rgba(24,35,28,.28);
-    backdrop-filter:blur(10px);
-    -webkit-backdrop-filter:blur(10px);
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
 }
 .ios-install-notice[hidden]{
     display:none;
