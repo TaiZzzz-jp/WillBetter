@@ -4076,6 +4076,29 @@ if("serviceWorker" in navigator){
         navigator.serviceWorker.register("./sw.js").catch(()=>{});
     });
 }
+// ① 初回起動の処理が完了したタイミングで呼び出す関数
+function showWelcomeModal() {
+    // 過去に案内を表示済みかチェック（localStorageを使用）
+    const isNoticeShown = localStorage.getItem('willbetter_notice_shown');
+
+    if (!isNoticeShown) {
+        // hiddenを外して画面に表示
+        const noticeElement = document.getElementById('iosInstallNotice');
+        if (noticeElement) {
+            noticeElement.removeAttribute('hidden');
+        }
+    }
+}
+
+// ② 「OK」ボタンを押した時の処理
+document.getElementById('iosInstallOk').addEventListener('click', () => {
+    // 案内済みフラグを保存（次回以降は表示されない）
+    localStorage.setItem('willbetter_notice_shown', 'true');
+    
+    // モーダルを非表示にする
+    document.getElementById('iosInstallNotice').setAttribute('hidden', '');
+});
+
 
 </script>
 
