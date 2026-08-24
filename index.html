@@ -1025,6 +1025,14 @@ body{
 }
 
 </style>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#5c9369">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Will Better">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+
 </head>
 
 <body>
@@ -3996,7 +4004,139 @@ if(
 
 }
 
+
+/* =====================
+   iPhone / iPad PWA案内
+   一度だけ表示
+===================== */
+(function setupIOSInstallNotice(){
+
+    const notice = document.getElementById("iosInstallNotice");
+    const okButton = document.getElementById("iosInstallOk");
+
+    if(!notice || !okButton) return;
+
+    const isIOS =
+        /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
+    const isStandalone =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+
+    const alreadyShown =
+        localStorage.getItem("iosInstallNoticeShown") === "true";
+
+    if(!isIOS || isStandalone || alreadyShown) return;
+
+    setTimeout(()=>{
+        notice.hidden=false;
+    },900);
+
+    okButton.onclick=()=>{
+        localStorage.setItem("iosInstallNoticeShown","true");
+        notice.hidden=true;
+    };
+
+})();
+
+
+if("serviceWorker" in navigator){
+    window.addEventListener("load",()=>{
+        navigator.serviceWorker.register("./sw.js").catch(()=>{});
+    });
+}
+
 </script>
+
+
+<!-- iPhone / iPad ホーム画面追加おすすめ -->
+<div id="iosInstallNotice" class="ios-install-notice" hidden>
+    <div class="ios-install-card">
+        <div class="ios-install-icon">🌱</div>
+        <h2>Will Betterをホーム画面に追加</h2>
+        <p>
+            iPhoneでは、Will Betterをホーム画面に追加すると
+            アプリのようにすぐ開けます。
+        </p>
+        <div class="ios-install-steps">
+            <div>① Safariの「共有」ボタンをタップ</div>
+            <div>②「ホーム画面に追加」を選択</div>
+        </div>
+        <button id="iosInstallOk" class="ios-install-ok">
+            OK
+        </button>
+    </div>
+</div>
+
+<style>
+.ios-install-notice{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:22px;
+    background:rgba(24,35,28,.28);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+}
+.ios-install-notice[hidden]{
+    display:none;
+}
+.ios-install-card{
+    width:min(390px,100%);
+    padding:26px 22px 20px;
+    border-radius:28px;
+    background:rgba(255,255,255,.92);
+    border:1px solid rgba(255,255,255,.95);
+    box-shadow:0 22px 60px rgba(40,60,45,.20);
+    text-align:center;
+}
+.ios-install-icon{
+    width:62px;
+    height:62px;
+    margin:0 auto 12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:20px;
+    background:var(--theme-light);
+    font-size:32px;
+}
+.ios-install-card h2{
+    margin:0 0 10px;
+    font-size:21px;
+    color:var(--theme-dark);
+}
+.ios-install-card p{
+    margin:0;
+    color:#647169;
+    font-size:14px;
+    line-height:1.75;
+}
+.ios-install-steps{
+    margin:18px 0;
+    padding:14px;
+    border-radius:18px;
+    background:var(--theme-light);
+    color:var(--theme-dark);
+    text-align:left;
+    font-size:13px;
+    line-height:1.8;
+}
+.ios-install-ok{
+    width:100%;
+    padding:14px;
+    border:0;
+    border-radius:17px;
+    color:#fff;
+    font-weight:700;
+    background:linear-gradient(135deg,var(--theme-main),var(--theme-dark));
+    box-shadow:0 9px 22px var(--theme-shadow);
+}
+</style>
 
 </body>
 </html>
