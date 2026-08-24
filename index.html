@@ -806,6 +806,23 @@ header h1{
 .reason-card .description{margin-bottom:8px;}
 .nav-item small{font-size:10px;}
 
+.home-quick-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:0 20px 12px;}
+.home-quick-card{border:1px solid rgba(255,255,255,.9);border-radius:18px;padding:13px 14px;background:rgba(255,255,255,.68);color:#385541;text-align:left;cursor:pointer;box-shadow:0 8px 22px rgba(60,85,68,.05);}
+.home-quick-card strong{display:block;font-size:13px;}
+.home-quick-card small{display:block;color:#718078;margin-top:4px;line-height:1.45;}
+.info-modal{position:fixed;inset:0;background:rgba(35,55,43,.24);backdrop-filter:blur(3px);z-index:1000;display:none;align-items:center;justify-content:center;padding:12px;}
+.info-modal.show{display:flex;}
+.info-sheet{width:min(500px,calc(100% - 20px));max-height:68vh;overflow:auto;background:#f8fbf8;border-radius:20px;padding:12px;box-shadow:0 18px 50px rgba(30,55,40,.20);}
+.info-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px;}
+.info-head h2{margin:0;color:#385541;font-size:17px;}
+.info-close{border:0;background:#e2f3e6;color:#52715b;border-radius:9px;width:30px;height:30px;font-size:17px;line-height:1;}
+.info-sheet>.description{margin:3px 2px 7px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.info-item{border:1px solid rgba(255,255,255,.95);border-radius:11px;background:#fff;margin-top:5px;overflow:hidden;}
+.info-item button{width:100%;border:0;background:transparent;padding:9px 11px;text-align:left;color:#385541;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;min-height:36px;}
+.info-detail{display:none;padding:0 11px 9px;color:#607168;font-size:12px;line-height:1.45;}
+.info-item.open .info-detail{display:block;}
+@media(max-width:420px){.home-quick-row{grid-template-columns:1fr;} .info-sheet{width:calc(100% - 14px);padding:10px;border-radius:17px;}.info-item button{padding:8px 10px;}}
+
 </style>
 </head>
 
@@ -958,6 +975,17 @@ placeholder="例：ゲームを作ってみたい">
 <button id="whyDreamLink" class="home-link-card" type="button">
 <div><strong>🌱 なぜ夢に向かうの？</strong><small>夢がなくても、ここから始められます。</small></div><span>›</span>
 </button>
+
+<div class="home-quick-row">
+<button id="homeConditionLink" class="home-quick-card" type="button">
+<strong>🌤️ 今日のコンディション</strong>
+<small id="homeConditionText">今の調子を記録する →</small>
+</button>
+<button id="infoLink" class="home-quick-card" type="button">
+<strong>ℹ️ 各種情報</strong>
+<small>このアプリの使い方を見る →</small>
+</button>
+</div>
 
 <section class="fish-section">
 
@@ -1255,6 +1283,10 @@ style="margin-top:10px"
 </div>
 <div class="card">
 <div class="settings-heading">データ</div>
+<p class="description">バックアップや機種変更のために、Will Betterのデータを保存・復元できます。</p>
+<button id="exportDataButton" class="secondary-button">📦 データを書き出す</button>
+<button id="importDataButton" class="secondary-button">📥 データをインポート・読み込む</button>
+<input id="importDataFile" type="file" accept="application/json,.json" hidden>
 <button id="resetDataButton" class="danger-button">すべてのデータを初期化</button>
 </div>
 </div>
@@ -1441,6 +1473,26 @@ style="margin-top:10px"
 
 </div>
 
+
+<!-- =====================
+ 各種情報 POPUP
+===================== -->
+<div id="infoModal" class="info-modal" aria-hidden="true">
+  <div class="info-sheet" role="dialog" aria-modal="true" aria-labelledby="infoModalTitle">
+    <div class="info-head">
+      <h2 id="infoModalTitle">ℹ️ 各種情報</h2>
+      <button id="infoClose" class="info-close" type="button" aria-label="閉じる">×</button>
+    </div>
+    <p class="description">気になった項目をタップすると、詳しい説明が開きます。</p>
+    <div class="info-item"><button type="button">🌱 気になること <span>＋</span></button><div class="info-detail">今ちょっと気になることを登録します。夢が決まっていなくても大丈夫。①ギター ②音楽 のように複数持てて、いつでも変更できます。</div></div>
+    <div class="info-item"><button type="button">🎯 夢 <span>＋</span></button><div class="info-detail">夢は固定するものではありません。変えても、複数あってもOK。毎日の行動の理由や、迷ったときの方向を考える手がかりになります。</div></div>
+    <div class="info-item"><button type="button">👣 今日の一歩 <span>＋</span></button><div class="info-detail">夢まで一気に進むのではなく、今日できる小さな行動にします。1つ終わると、余力があれば次の一歩も自動で出てきます。</div></div>
+    <div class="info-item"><button type="button">📝 記録 <span>＋</span></button><div class="info-detail">「何をしたか」を残す場所です。やってみて分かったことは発見として記録に残り、次の一歩につながります。</div></div>
+    <div class="info-item"><button type="button">🌤️ コンディション <span>＋</span></button><div class="info-detail">その日の調子を残します。元気・普通・疲れた・集中・好奇心から選べます。自分の調子と行動の関係を後から振り返れます。</div></div>
+    <div class="info-item"><button type="button">🐟 XPと魚の成長 <span>＋</span></button><div class="info-detail">行動するとXPがたまり、レベルが上がるほど次の進化に必要なXPも増えます。小魚から調べる魚、探究する魚、鯛、大きな鯉、ちっちゃい龍、龍、黒龍へ成長します。</div></div>
+    <div class="info-item"><button type="button">💬 今日のひとこと <span>＋</span></button><div class="info-detail">毎日のひとことは、今の行動をちょっと考えるきっかけです。表示されている格言はそのまま残ります。</div></div>
+  </div>
+</div>
 
 <!-- =====================
  NAV
@@ -1963,16 +2015,14 @@ function updateHome(){
     $("streak").textContent=streak;
     $("totalMinutes").textContent=totalMinutes;
     $("level").textContent="Lv."+level;
-    $("exp").style.width=exp+"%";
-    $("expText").textContent=exp+" / 100 XP";
+    const xpNeed=getXPToNextLevel();
+    $("exp").style.width=Math.min(100,(exp/xpNeed)*100)+"%";
+    $("expText").textContent=exp+" / "+xpNeed+" XP";
     $("gamePoints").textContent=points;
-
-    if(level>=10){$("fish").textContent="🐉";$("fishName").textContent="あなたの竜";}
-    else if(level>=5){$("fish").textContent="🐠";$("fishName").textContent="成長した魚";}
-    else{$("fish").textContent="🐟";$("fishName").textContent="あなたの魚";}
-
     updateFishAppearance();
     updateMood();
+    const homeConditionText=$("homeConditionText");
+    if(homeConditionText) homeConditionText.textContent=(moodDate===getDateKey()&&mood)?("今日："+mood+"　変更する →"):"今の調子を記録する →";
     updateExperiments();
     updateSettings();
     updateDiscoveryCard();
@@ -2092,7 +2142,17 @@ function completeAction(index){
     selectedGoal=action.title;
     selectedMinutes=Number(action.minutes)||15;
     completedToday=todayActions.some(a=>a.completed);
-    save(); updateHome(); updateRecords();
+
+    const nextTitle=buildNextStep("","");
+    if(nextTitle && !todayActions.some(a=>!a.completed && a.title===nextTitle)){
+        const nextMinutes=Math.min(15,Math.max(5,Math.round((Number(action.minutes)||15)/5)*5));
+        addSuggestedAction(nextTitle,nextMinutes,"🌱",false);
+    }
+    save();
+    updateHome();
+    updateRecords();
+    const msg=$("dayCompleteMessage");
+    if(msg){msg.hidden=false;msg.textContent="一歩達成！ もう一つ、余力があれば頑張ってみよう 🌱";}
 }
 
 function saveActionReview(index,card){
@@ -2113,10 +2173,10 @@ function saveActionReview(index,card){
     updateHome();
 }
 
-function addSuggestedAction(title,minutes=10,icon="🌱"){
+function addSuggestedAction(title,minutes=10,icon="🌱",focus=true){
     if(!title)return;
     todayActions.push({id:Date.now()+Math.random(),title,minutes,icon,completed:false,date:getDateKey()});
-    activeActionIndex=todayActions.length-1;
+    if(focus) activeActionIndex=todayActions.length-1;
     save();
     updateHome();
 }
@@ -2213,32 +2273,28 @@ function updateSettings(){
 }
 
 
+function getXPToNextLevel(){
+    return 100 + Math.max(0, level - 1) * 50;
+}
+
+function getFishStage(){
+    const stages=[
+        {fish:"🐟",name:"小魚"},
+        {fish:"🔎🐟",name:"調べる魚"},
+        {fish:"🐠",name:"探究する魚"},
+        {fish:"🐟",name:"鯛"},
+        {fish:"🐟",name:"大きな鯉"},
+        {fish:"🐲",name:"ちっちゃい龍"},
+        {fish:"🐉",name:"龍"},
+        {fish:"🐉",name:"黒龍"}
+    ];
+    return stages[Math.min(level, stages.length)-1];
+}
+
 function updateFishAppearance(){
-
-    const titles=records.filter(r=>r.type!=="feeding"&&r.type!=="reflection").map(r=>r.title||"").join(" ");
-    let fish="🐟";
-    let name="あなたの魚";
-
-    if(level>=10){
-        fish="🐉";
-        name="あなたの竜";
-    }else if(titles.includes("作")||titles.includes("制作")){
-        fish="🛸";
-        name="つくる魚";
-    }else if(titles.includes("調べ")||titles.includes("読む")){
-        fish="🐡";
-        name="しらべる魚";
-    }else if(titles.includes("練習")||titles.includes("やってみる")){
-        fish="🐠";
-        name="続ける魚";
-    }else if(level>=5){
-        fish="🐠";
-        name="成長した魚";
-    }
-
-    $("fish").textContent=fish;
-    $("fishName").textContent=name;
-
+    const stage=getFishStage();
+    $("fish").textContent=stage.fish;
+    $("fishName").textContent=stage.name;
 }
 
 function updateMood(){
@@ -2510,38 +2566,21 @@ function updateQuote(){
 ===================== */
 
 function addXP(amount){
-
     exp+=amount;
-
     points+=amount;
-
-
-    while(exp>=100){
-
-        exp-=100;
-
+    let leveledUp=false;
+    while(exp>=getXPToNextLevel()){
+        exp-=getXPToNextLevel();
         level++;
-
-
-        $("fish").classList.remove(
-            "bounce"
-        );
-
-
-        void $("fish").offsetWidth;
-
-
-        $("fish").classList.add(
-            "bounce"
-        );
-
+        leveledUp=true;
     }
-
-
+    if(leveledUp){
+        $("fish").classList.remove("bounce");
+        void $("fish").offsetWidth;
+        $("fish").classList.add("bounce");
+    }
     updateHome();
-
     save();
-
 }
 
 function getDateKey(date=new Date()){
@@ -2704,6 +2743,87 @@ $("processSetting").onchange=()=>{
     updateHome();
 };
 
+
+function buildBackupData(){
+    const raw=localStorage.getItem("willBetterData");
+    let data={};
+    try{ data=raw?JSON.parse(raw):{}; }catch(e){ data={}; }
+    return {
+        app:"Will Better",
+        schemaVersion:2,
+        exportedAt:new Date().toISOString(),
+        data
+    };
+}
+
+function exportData(){
+    const backup=buildBackupData();
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");
+    a.href=url;
+    a.download="willbetter-backup-"+getDateKey()+".json";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$("exportDataButton").onclick=exportData;
+$("importDataButton").onclick=()=>$("importDataFile").click();
+
+function normalizeImportedData(input){
+    let d=input&&typeof input==="object" ? (input.data&&typeof input.data==="object" ? input.data : input) : null;
+    if(!d) throw new Error("invalid");
+    const arr=(v)=>Array.isArray(v)?v:[];
+    const num=(v,def=0,min=-Infinity,max=Infinity)=>{
+        const n=Number(v);
+        return Number.isFinite(n)?Math.min(max,Math.max(min,n)):def;
+    };
+    const out={...d};
+    out.dream=typeof d.dream==="string"?d.dream:"";
+    out.selectedInterests=arr(d.selectedInterests).filter(x=>typeof x==="string");
+    out.selectedGoal=typeof d.selectedGoal==="string"?d.selectedGoal:"";
+    out.points=num(d.points,0,0);
+    out.streak=num(d.streak,0,0);
+    out.level=num(d.level,1,1);
+    out.exp=num(d.exp,0,0);
+    out.totalMinutes=num(d.totalMinutes,0,0);
+    out.selectedMinutes=num(d.selectedMinutes,15,1,180);
+    out.records=arr(d.records);
+    out.todayActions=arr(d.todayActions);
+    out.moodHistory=arr(d.moodHistory);
+    out.dreamLogs=arr(d.dreamLogs);
+    out.futureLetters=arr(d.futureLetters);
+    out.actionReviews=arr(d.actionReviews);
+    out.searchIdeas=arr(d.searchIdeas);
+    out.mood=typeof d.mood==="string"?d.mood:"";
+    out.moodDate=typeof d.moodDate==="string"?d.moodDate:"";
+    out.defaultMinutes=num(d.defaultMinutes,15,1,180);
+    out.halfStepDefaultMinutes=num(d.halfStepDefaultMinutes,5,1,180);
+    out.reflectionEnabled=d.reflectionEnabled!==false;
+    out.notificationEnabled=d.notificationEnabled===true;
+    out.detailRecordEnabled=d.detailRecordEnabled!==false;
+    out.conditionRecordEnabled=d.conditionRecordEnabled!==false;
+    out.processEnabled=d.processEnabled!==false;
+    return out;
+}
+
+$("importDataFile").onchange=async(event)=>{
+    const file=event.target.files&&event.target.files[0];
+    if(!file)return;
+    try{
+        const parsed=JSON.parse(await file.text());
+        const data=normalizeImportedData(parsed);
+        if(!confirm("このJSONデータを現在のWill Betterに読み込みますか？")) return;
+        localStorage.setItem("willBetterData",JSON.stringify(data));
+        localStorage.setItem("setupCompleted","true");
+        alert("データを読み込みました。画面を更新します。");
+        location.reload();
+    }catch(e){
+        console.error(e);
+        alert("JSONを読み込めませんでした。Will Betterから書き出したJSONファイルを選んでください。");
+    }finally{event.target.value="";}
+};
 
 $("resetDataButton").onclick=()=>{
     if(!confirm("すべてのデータを初期化しますか？")) return;
@@ -3197,6 +3317,33 @@ function updateRecords(){
     });
     updateCalendar();
 }
+
+function openInfoModal(){
+  const modal=$("infoModal");
+  if(!modal)return;
+  modal.classList.add("show");
+  modal.setAttribute("aria-hidden","false");
+}
+function closeInfoModal(){
+  const modal=$("infoModal");
+  if(!modal)return;
+  modal.classList.remove("show");
+  modal.setAttribute("aria-hidden","true");
+}
+$("infoLink").onclick=openInfoModal;
+$("infoClose").onclick=closeInfoModal;
+$("infoModal").addEventListener("click",e=>{if(e.target.id==="infoModal")closeInfoModal();});
+document.querySelectorAll(".info-item > button").forEach(button=>{
+  button.onclick=()=>{
+    const item=button.parentElement;
+    item.classList.toggle("open");
+    button.querySelector("span").textContent=item.classList.contains("open")?"−":"＋";
+  };
+});
+$("homeConditionLink").onclick=()=>{
+  showScreen("records");
+  setTimeout(()=>document.getElementById("recordMoodGrid")?.scrollIntoView({behavior:"smooth",block:"start"}),80);
+};
 
 /* =====================
  NAV
