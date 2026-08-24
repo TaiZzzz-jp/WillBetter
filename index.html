@@ -760,6 +760,52 @@ header h1{
         bottom:8px;
     }
 }
+
+/* ===== UI clarity upgrade ===== */
+.home-topics{padding:0 20px 10px;}
+.topic-panel{padding:16px;border-radius:22px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.92);box-shadow:0 10px 30px rgba(60,85,68,.07);}
+.topic-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.topic-head strong{font-size:15px;}
+.topic-edit{border:0;background:#e2f3e6;color:#52715b;border-radius:12px;padding:7px 10px;font-size:12px;font-weight:700;}
+.topic-list{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 4px;scrollbar-width:none;}
+.topic-list::-webkit-scrollbar{display:none;}
+.topic-chip{flex:0 0 auto;padding:9px 12px;border-radius:14px;background:#f7faf7;color:#385541;font-size:13px;font-weight:700;border:1px solid rgba(114,169,125,.18);}
+.topic-dream{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;margin-top:10px;border-top:1px solid rgba(100,120,105,.1);}
+.topic-dream-text{font-weight:700;color:#385541;font-size:14px;}
+.topic-empty{color:#718078;font-size:13px;}
+.process-card{margin-bottom:8px;}
+.process-steps{overflow-x:auto;grid-template-columns:repeat(7,minmax(54px,1fr));padding-bottom:3px;scrollbar-width:none;}
+.process-steps::-webkit-scrollbar{display:none;}
+.process-step{min-width:54px;}
+.action-shell{position:relative;}
+.action-carousel{position:relative;overflow-x:auto;overflow-y:visible;scroll-snap-type:x mandatory;scrollbar-width:none;-ms-overflow-style:none;touch-action:pan-x pan-y;-webkit-overflow-scrolling:touch;border-radius:24px;}
+.action-carousel::-webkit-scrollbar{display:none;}
+.action-track{display:flex;align-items:stretch;}
+.action-slide{flex:0 0 100%;width:100%;scroll-snap-align:start;padding:2px;}
+.action-slide .action-card{min-height:205px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 14px 34px rgba(60,85,68,.1);}
+.action-card .action-review{margin-top:14px;}
+.action-counter{display:flex;justify-content:space-between;align-items:center;margin:9px 2px 0;color:#718078;font-size:12px;}
+.action-dots{display:flex;justify-content:center;gap:7px;margin:7px 0 2px;}
+.action-dot{width:7px;height:7px;border:0;border-radius:50%;padding:0;background:#b9c7bc;transition:.2s;}
+.action-dot.active{width:20px;border-radius:10px;background:#5c9369;}
+.action-add-wrap{margin-top:10px;}
+.compact-section{padding-top:6px;}
+.home-link-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;margin:0 20px 12px;border-radius:20px;background:rgba(255,255,255,.68);border:1px solid rgba(255,255,255,.9);color:#385541;}
+.home-link-card strong{font-size:14px;}
+.home-link-card small{display:block;color:#718078;margin-top:3px;}
+.record-item{cursor:pointer;display:grid;grid-template-columns:1fr auto;align-items:center;gap:8px;padding:14px;border:1px solid rgba(255,255,255,.65);border-radius:17px;margin-bottom:8px;background:rgba(255,255,255,.48);}
+.record-item:last-child{margin-bottom:0;}
+.record-main{min-width:0;}
+.record-title{font-weight:700;line-height:1.45;}
+.record-meta{color:#718078;font-size:12px;margin-top:4px;}
+.record-expanded{display:none;margin-top:10px;padding-top:10px;border-top:1px solid rgba(100,120,105,.1);color:#52645a;font-size:13px;line-height:1.65;}
+.record-item.expanded .record-expanded{display:block;grid-column:1 / -1;}
+.record-chevron{font-size:13px;color:#718078;transition:.2s;}
+.record-item.expanded .record-chevron{transform:rotate(180deg);}
+.reason-card{margin-bottom:12px;}
+.reason-card .description{margin-bottom:8px;}
+.nav-item small{font-size:10px;}
+
 </style>
 </head>
 
@@ -802,23 +848,23 @@ header h1{
 
 <section id="page2" class="setup-page">
 
-<h1>気になることはある？</h1>
+<h1>気になることを1つ書いてみる？</h1>
 
 <p class="description">
-夢が決まっていなくても大丈夫。<br>
-今ちょっと気になることだけで進めます。
+夢じゃなくて大丈夫。<br>
+「ちょっと気になる」だけで進めます。
 </p>
 
 <input id="dreamInput"
 class="setup-input"
-placeholder="例：ゲームを作る">
+placeholder="例：ゲームを作ってみたい">
 
 <button id="dreamNext" class="primary-button" style="margin-top:12px">
-このまま進む
+このことを試してみる
 </button>
 
 <button id="noDreamButton" class="secondary-button">
-気になることを選ぶ
+まだ決めずに進む
 </button>
 
 <button id="dreamBack" class="secondary-button">
@@ -830,11 +876,11 @@ placeholder="例：ゲームを作る">
 
 <section id="page3" class="setup-page">
 
-<h1>あなたの可能性</h1>
+<h1>次に試してみたいこと</h1>
 
 <p class="description">
-選んだ「好き」を組み合わせて、<br>
-いろいろな可能性を見つけてみよう。
+今の「気になる」から、試してみたいことを選びます。<br>
+合わなかったら、別のことを試してOK。
 </p>
 
 <div class="setup-connection">
@@ -844,11 +890,11 @@ placeholder="例：ゲームを作る">
 <div id="dreamSuggestions"></div>
 
 <button id="startButton" class="primary-button">
-この中から探してみる
+これを試してみる
 </button>
 
 <button id="startWithoutDream" class="secondary-button">
-まだ決めずに始める
+別のことを試す
 </button>
 
 <button id="suggestBack" class="secondary-button">
@@ -860,10 +906,10 @@ placeholder="例：ゲームを作る">
 
 <section id="page4" class="setup-page">
 
-<h1>最初の一歩</h1>
+<h1>今日の一歩</h1>
 
 <p class="description">
-大きな夢も、まずは小さな一歩から。
+5〜15分くらいの小さな行動から始めよう。
 </p>
 
 <div id="goalConnection" class="setup-connection">
@@ -873,7 +919,7 @@ placeholder="例：ゲームを作る">
 <div id="goalList"></div>
 
 <button id="startFinalButton" class="primary-button">
-Will Betterを始める
+この一歩から始める
 </button>
 
 <button id="goalBack" class="secondary-button">
@@ -909,6 +955,10 @@ Will Betterを始める
 <p id="processNote" class="process-note">まずは気になることを1つ選んでみよう。</p>
 </section>
 
+<button id="whyDreamLink" class="home-link-card" type="button">
+<div><strong>🌱 なぜ夢に向かうの？</strong><small>夢がなくても、ここから始められます。</small></div><span>›</span>
+</button>
+
 <section class="fish-section">
 
 <div class="fish-stage">
@@ -940,92 +990,16 @@ Lv.1
 今日の一歩
 </h2>
 
-<div class="action-card">
-
-<div class="action-top">
-
-<div id="goalIcon" class="action-icon">
-🌱
+<div class="action-shell">
+<div id="actionCarousel" class="action-carousel">
+<div id="actionTrack" class="action-track"></div>
 </div>
-
-<div>
-
-<div id="todayGoal" class="action-title">
-今日の一歩
+<div class="action-counter"><span id="actionSwipeHint">今日の一歩</span><span id="actionCounter">1 / 1</span></div>
+<div id="actionDots" class="action-dots"></div>
 </div>
-
-<div id="todayMinutes" class="action-minutes">
-15分
+<div class="action-add-wrap">
+<button id="addActionButton" class="add-action">＋ 今日の一歩を追加</button>
 </div>
-
-</div>
-
-</div>
-
-<button id="completeButton" class="complete-button">
-15分できた！
-</button>
-
-<div id="dayCompleteMessage" class="day-complete-message" hidden>
-今日はやりました。今日の作業は終わりです。
-</div>
-
-<div id="actionReview" class="action-review" hidden>
-<strong>やってみて、どうだった？</strong>
-<div class="review-grid">
-<button class="review-button" data-review="面白かった">😊 面白かった</button>
-<button class="review-button" data-review="もっと知りたい">💡 もっと知りたい</button>
-<button class="review-button" data-review="普通だった">😐 普通だった</button>
-<button class="review-button" data-review="思っていたのと違った">🔎 違った</button>
-</div>
-<textarea id="discoveryInput" class="discovery-input" placeholder="今日わかったことを一言だけ"></textarea>
-<button id="saveReview" class="secondary-button">今日の発見を保存</button>
-</div>
-
-<div id="extra" class="extra">
-
-<p class="description">
-もっとできた？追加した時間も記録できます。
-</p>
-
-<div class="extra-row">
-
-<input
-id="extraMinutes"
-type="number"
-min="1"
-placeholder="追加した分数">
-
-<button id="extraButton">
-＋XP
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<div id="secondActionCard" class="action-card secondary-action" hidden>
-<div class="action-top">
-<div class="action-icon">🧪</div>
-<div>
-<div id="secondGoal" class="action-title"></div>
-<div id="secondMinutes" class="action-minutes"></div>
-</div>
-</div>
-<div class="action-minutes">0.5歩</div>
-<div class="half-step-controls">
-<input id="secondMinutesInput" type="number" min="1" max="180" aria-label="0.5歩の分数">
-<button id="saveSecondMinutes">時間を変更</button>
-</div>
-<button id="secondCompleteButton" class="complete-button">0.5歩を完了</button>
-</div>
-
-
-<button id="addActionButton" class="add-action">
-＋ やることを追加
-</button>
 
 
 <div id="actionEditor" class="action-editor">
@@ -1049,37 +1023,21 @@ placeholder="何分？">
 
 </section>
 
-<div class="card">
-<h2 class="section-title">今日のコンディション</h2>
-<p class="description">今の気分に合わせて、今日の一歩を調整できます。</p>
-<div id="moodGrid" class="mood-grid">
-<button class="mood-button" data-mood="元気">☀️<br>元気</button>
-<button class="mood-button" data-mood="普通">🌿<br>普通</button>
-<button class="mood-button" data-mood="疲れた">🌙<br>疲れた</button>
-<button class="mood-button" data-mood="集中">🎯<br>集中</button>
-<button class="mood-button" data-mood="好奇心">💡<br>好奇心</button>
+<section class="today">
+<h2 class="section-title">💡 前回の発見</h2>
+<div class="action-card">
+<div id="latestDiscovery" class="action-title">まずは今日の一歩をやってみよう。</div>
+<div id="nextStepHint" class="action-minutes">やってみた後の「どうだった？」が、次の一歩につながります。</div>
 </div>
-</div>
+</section>
 
-<div class="card">
-<h2 class="section-title">今日の小さな実験</h2>
-<p id="experimentDescription" class="description">気になる一歩を選んで、夢との相性を試してみよう。</p>
-<div id="experimentList" class="experiment-list"></div>
-<div id="experimentSelection" class="experiment-selection" hidden>
-<button id="addHalfStep" class="experiment-add">0.5歩に追加</button>
+<section class="home-topics">
+<div class="topic-panel">
+<div class="topic-head"><strong>🌱 今の「気になること」</strong><button id="editInterestsButton" class="topic-edit">変更</button></div>
+<div id="myInterests" class="topic-list"></div>
+<div class="topic-dream"><div><div style="font-size:12px;color:#718078;">🎯 今の夢</div><div id="myDream" class="topic-dream-text"></div></div><button id="editDreamButton" class="topic-edit">変更</button></div>
 </div>
-</div>
-
-<div class="card">
-<h2 class="section-title">できなかった日のメモ</h2>
-<p class="description">できなかった理由も、次の一歩を見つける大切な記録です。</p>
-<div class="reflection-grid">
-<button class="reflection-button" data-reflection="疲れていた">今日は休む</button>
-<button class="reflection-button" data-reflection="難しかった">難しかった</button>
-<button class="reflection-button" data-reflection="興味が変わった">興味が変わった</button>
-</div>
-</div>
-
+</section>
 
 <section class="status">
 
@@ -1132,10 +1090,31 @@ placeholder="何分？">
 <div id="dreamSearch" class="screen">
 
 <header>
-<h1>💡 気になるを探す</h1>
+<h1>🔎 次の一歩を探す</h1>
 </header>
 
 <div class="page-content">
+
+<div class="card">
+<h2 class="section-title">今日のコンディション</h2>
+<p class="description">今の気分に合わせて、今日の一歩を調整できます。</p>
+<div id="moodGrid" class="mood-grid">
+<button class="mood-button" data-mood="元気">☀️<br>元気</button>
+<button class="mood-button" data-mood="普通">🌿<br>普通</button>
+<button class="mood-button" data-mood="疲れた">🌙<br>疲れた</button>
+<button class="mood-button" data-mood="集中">🎯<br>集中</button>
+<button class="mood-button" data-mood="好奇心">💡<br>好奇心</button>
+</div>
+</div>
+
+<div class="card">
+<h2 class="section-title">👣 次に試してみる</h2>
+<p id="experimentDescription" class="description">「気になる」を小さく試して、次の一歩を見つけよう。</p>
+<div id="experimentList" class="experiment-list"></div>
+<div id="experimentSelection" class="experiment-selection" hidden>
+<button id="addHalfStep" class="experiment-add">0.5歩に追加</button>
+</div>
+</div>
 
 <div class="card">
 
@@ -1152,6 +1131,10 @@ placeholder="何分？">
 
 <button class="category-button" id="randomButton">
 🎲<br>偶然のきっかけ
+</button>
+
+<button class="category-button" id="mixButton">
+🧩<br>好きを混ぜる
 </button>
 
 </div>
@@ -1201,7 +1184,11 @@ style="margin-top:10px"
 </p>
 
 <button id="randomSet" class="primary-button">
-この夢をやってみる
+今日の一歩にする
+</button>
+
+<button id="randomHalfStep" class="secondary-button">
+0.5歩に追加する
 </button>
 
 </div>
@@ -1219,37 +1206,24 @@ style="margin-top:10px"
 
 </div>
 
-</div>
-
-</div>
-
-
-<!-- =====================
- 可能性マップ
-===================== -->
-
-<div id="discover" class="screen">
-<header>
-<h1>🧭 発見</h1>
-</header>
-<div class="page-content">
 <div class="card">
-<h2 class="section-title">可能性マップ</h2>
-<p class="description">好きなことを組み合わせると、思いがけない方向が見えてきます。</p>
+<h2 class="section-title">🌱 今までの「気になる」</h2>
+<p class="description">やってみたことや気になったことが、次の可能性につながります。</p>
 <div id="possibilityMap" class="map-grid"></div>
 </div>
+
 <div class="card">
-<h2 class="section-title">発見ラボ</h2>
-<p class="description">まだ知らない自分に出会うための入口です。</p>
-<div class="category-buttons">
-<button id="discoverRandom" class="category-button">🎲<br>偶然を引く</button>
-<button id="discoverMix" class="category-button">🧩<br>好きを混ぜる</button>
-</div>
-<button id="discoverExperiment" class="primary-button" style="margin-top:10px">このテーマを選択</button>
-<button id="discoverHalfStep" class="experiment-add" style="margin-top:8px" hidden>0.5歩に追加</button>
-<div id="discoverResult" class="random-result"></div>
+<h2 class="section-title">できなかった日のメモ</h2>
+<p class="description">できなかった理由も、次の一歩を見つける大切な記録です。</p>
+<div class="reflection-grid">
+<button class="reflection-button" data-reflection="疲れていた">今日は休む</button>
+<button class="reflection-button" data-reflection="難しかった">難しかった</button>
+<button class="reflection-button" data-reflection="興味が変わった">興味が変わった</button>
 </div>
 </div>
+
+</div>
+
 </div>
 
 <div id="settings" class="screen">
@@ -1269,6 +1243,14 @@ style="margin-top:10px"
 <div class="settings-list">
 <div class="settings-row"><div><strong>完了後も振り返りを表示</strong><small>今日の作業終了後に理由を残す</small></div><input id="reflectionSetting" type="checkbox"></div>
 <div class="settings-row"><div><strong>通知を許可</strong><small>この端末からの通知設定</small></div><input id="notificationSetting" type="checkbox"></div>
+<div class="settings-row"><div><strong>記録を詳しく表示</strong><small>記録カードを開いたときに発見や次の一歩も表示</small></div><input id="detailRecordSetting" type="checkbox"></div>
+<div class="settings-row"><div><strong>今日のコンディションを記録</strong><small>記録画面から今日の気分を変更できます</small></div><input id="conditionRecordSetting" type="checkbox"></div>
+</div>
+</div>
+<div class="card">
+<div class="settings-heading">ホーム</div>
+<div class="settings-list">
+<div class="settings-row"><div><strong>プロセスを表示</strong><small>「気になる → やってみる → 記録」の流れをホームに表示</small></div><input id="processSetting" type="checkbox"></div>
 </div>
 </div>
 <div class="card">
@@ -1286,7 +1268,7 @@ style="margin-top:10px"
 <div id="records" class="screen">
 
 <header>
-<h1>📖 記録</h1>
+<h1>📝 記録</h1>
 </header>
 
 <div class="page-content">
@@ -1294,8 +1276,9 @@ style="margin-top:10px"
 <div class="card">
 
 <h2 class="section-title">
-今日までの一歩
+📝 今日までの一歩
 </h2>
+<p class="description">カードをタップすると、詳しい記録が開きます。</p>
 
 <div id="recordList">
 まだ記録がありません。
@@ -1304,20 +1287,20 @@ style="margin-top:10px"
 </div>
 
 <div class="card">
-<h2 class="section-title">行動してわかったこと</h2>
+<h2 class="section-title">💡 行動してわかったこと</h2>
 <div id="actionReviewHistory"></div>
 </div>
 
 <div class="card">
-<h2 class="section-title">夢ログ</h2>
-<p class="description">今日気づいたことや、夢の変化を短く残せます。</p>
+<h2 class="section-title">🌱 夢の芽ログ</h2>
+<p class="description">今日の発見や「もっとやりたい」を残せます。</p>
 <textarea id="dreamLogInput" class="log-input" placeholder="例：調べてみたら、作る方が楽しそうだった"></textarea>
-<button id="saveDreamLog" class="primary-button" style="margin-top:10px">夢ログを残す</button>
+<button id="saveDreamLog" class="primary-button" style="margin-top:10px">発見を残す</button>
 <div id="dreamLogList"></div>
 </div>
 
 <div class="card">
-<h2 class="section-title">未来の自分へ</h2>
+<h2 class="section-title">✉️ 未来の自分へ</h2>
 <p class="description">今の気持ちを手紙にして、いつでも読み返せます。</p>
 <textarea id="futureLetterInput" class="letter-input" placeholder="今の自分が気になっていること、続けたいこと"></textarea>
 <button id="saveFutureLetter" class="secondary-button">手紙を保存</button>
@@ -1325,8 +1308,10 @@ style="margin-top:10px"
 </div>
 
 <div class="card">
-<h2 class="section-title">コンディション記録</h2>
-<p class="description">その日の気分と、選んだ行動を振り返れます。</p>
+<h2 class="section-title">🌤️ コンディション記録</h2>
+<p class="description">その日の気分を残しておくと、自分の調子と行動の関係を振り返れます。</p>
+<div id="recordMoodGrid" class="mood-grid"></div>
+<div id="todayMoodStatus" class="description" style="margin-top:10px"></div>
 <div class="chart-wrap">
 <div class="chart-scale"><span>好奇心</span><span>集中</span><span>元気</span><span>普通</span><span>疲れた</span></div>
 <div>
@@ -1364,7 +1349,7 @@ style="margin-top:10px"
 <div id="game" class="screen">
 
 <header>
-<h1>🎮 あそぶ</h1>
+<h1>🌱 なぜ夢に向かう？</h1>
 </header>
 
 <div class="page-content">
@@ -1380,7 +1365,8 @@ style="margin-top:10px"
 
 <p class="description">
 夢は「絶対に叶えなければいけない目標」じゃない。<br>
-自分が進む方向を考えるための目印にもなる。
+自分が進む方向を考えるための目印にもなる。<br>
+<strong>大切なのは、夢を決めることより「気になる」から小さく動いてみること。</strong>
 </p>
 
 <ol class="reason-list">
@@ -1469,12 +1455,7 @@ style="margin-top:10px"
 
 <button class="nav-item" data-screen="dreamSearch">
 <span>🌱</span>
-<small>気になる</small>
-</button>
-
-<button class="nav-item" data-screen="discover">
-<span>🧭</span>
-<small>発見</small>
+<small>探す</small>
 </button>
 
 <button class="nav-item" data-screen="records">
@@ -1482,10 +1463,7 @@ style="margin-top:10px"
 <small>記録</small>
 </button>
 
-<button class="nav-item" data-screen="game">
-<span>🎮</span>
-<small>あそぶ</small>
-</button>
+
 <button class="nav-item" data-screen="settings">
 <span>⚙️</span>
 <small>設定</small>
@@ -1611,10 +1589,17 @@ let futureLetters=[];
 let actionReviews=[];
 let selectedReview="";
 let selectedExperiment=null;
+let latestDiscovery="";
+let nextStepHint="";
 let defaultMinutes=15;
 let halfStepDefaultMinutes=5;
 let reflectionEnabled=true;
 let notificationEnabled=false;
+let detailRecordEnabled=true;
+let conditionRecordEnabled=true;
+let processEnabled=true;
+let todayActions=[];
+let activeActionIndex=0;
 
 
 /* =====================
@@ -1703,7 +1688,7 @@ $("noDreamButton").onclick=()=>{
 $("startWithoutDream").onclick=()=>{
     dream="";
     selectedPossibility=null;
-    selectedGoal=(selectedInterests[0]||"気になること")+"を5分だけ調べる";
+    selectedGoal=(selectedInterests[0]||"気になること")+"について5分調べてみる";
     createGoals("");
     $("page3").classList.remove("active");
     $("page4").classList.add("active");
@@ -1818,125 +1803,86 @@ $("startButton").onclick=()=>{
 ===================== */
 
 function createGoals(connectionTitle=""){
-
     $("goalList").innerHTML="";
-
-    $("goalConnection").textContent=
-        connectionTitle
-            ? "「"+connectionTitle+"」から、まずは軽い気持ちで試せる一歩を選ぼう。合わなければ変更できます。"
-            : "ここで選んだ可能性を、まずは軽い気持ちで試してみよう。";
+    $("goalConnection").textContent=connectionTitle
+        ? "「"+connectionTitle+"」から、まずは軽い気持ちで試せる一歩を選ぼう。合わなければ変更できます。"
+        : "ここで選んだ可能性を、まずは軽い気持ちで試してみよう。";
 
     const goals=[];
+    const add=(icon,text)=>goals.push({icon,text});
 
+    const makeNaturalSteps=(topic)=>{
+        const t=topic||"気になること";
+        if(/宇宙|科学|歴史|外国語|旅行|自然|生き物|天気/.test(t)) return [
+            ["🔎",t+"について5分調べてみる"],
+            ["🎥",t+"についての動画を10分見てみる"],
+            ["💡",t+"について気になったことを1つ探してみる"]
+        ];
+        if(/作品|発表|展示|創作/.test(t)) return [
+            ["🎥",t+"についての動画や、実際の作品を10分見てみる"],
+            ["🔎",t+"を発表する方法を10分調べてみる"],
+            ["✏️",t+"してみたい作品を1つ選んでみる"]
+        ];
+        if(/ゲーム/.test(t)) return [
+            ["🎮",t+"を遊んで、面白いところを1つ探してみる"],
+            ["🎥",t+"制作についての動画を10分見てみる"],
+            ["💡",t+"で作ってみたいものを1つ考えてみる"]
+        ];
+        if(/ギター|音楽|楽器/.test(t)) return [
+            ["🎸",t+"を15分やってみる"],
+            ["🎧",t+"の好きな曲や演奏を10分聴いてみる"],
+            ["🎵",t+"について、やってみたいことを1つ探してみる"]
+        ];
+        if(/動画|映像/.test(t)) return [
+            ["🎥",t+"を10分見て、好きなところを1つ探してみる"],
+            ["🔎",t+"の作り方を10分調べてみる"],
+            ["🎬",t+"を短く1つ作ってみる"]
+        ];
+        if(/絵|イラスト|デザイン/.test(t)) return [
+            ["🎨",t+"を15分描いてみる"],
+            ["🖼️",t+"の作品を10分見てみる"],
+            ["✏️",t+"で試してみたいことを1つ決めてみる"]
+        ];
+        if(/料理/.test(t)) return [
+            ["🍳",t+"を15分やってみる"],
+            ["🎥",t+"の動画を10分見てみる"],
+            ["🔎",t+"について気になることを1つ調べてみる"]
+        ];
+        if(/プログラミング|Web|アプリ/.test(t)) return [
+            ["💻",t+"を10分触ってみる"],
+            ["🎥",t+"についての動画を10分見てみる"],
+            ["🔎",t+"の作り方を10分調べてみる"]
+        ];
+        return [
+            ["🔎",t+"について5分調べてみる"],
+            ["🎥",t+"についての動画や作品を10分見てみる"],
+            ["💡",t+"を15分、できる範囲で試してみる"]
+        ];
+    };
 
-    if(dream){
-
-        goals.push({
-
-            icon:"🌱",
-
-            text:
-                dream+
-                "について5分調べる"
-
-        });
-
-        goals.push({icon:"🌱",text:dream+"の動画や作品を10分見る"});
-        goals.push({icon:"🌱",text:dream+"を15分やってみる"});
-
-    }
-
-
+    const topic=connectionTitle||dream;
+    if(topic) makeNaturalSteps(topic).forEach(x=>add(x[0],x[1]));
     selectedInterests.forEach(x=>{
-
-        let text=
-            x+
-            "を15分やってみる";
-
-
-        if(x.includes("ギター"))
-            text="ギターを15分練習する";
-
-        if(x.includes("プログラミング"))
-            text="プログラミングを15分する";
-
-        if(x.includes("ゲーム"))
-            text="ゲームについて15分調べる";
-
-        if(x.includes("読書"))
-            text="本を15分読む";
-
-        if(x.includes("絵"))
-            text="絵を15分描く";
-
-        if(x.includes("料理"))
-            text="料理を15分してみる";
-
-        if(x.includes("特にない"))
-            text="気になることを5分だけ探す";
-
-
-        goals.push({
-
-            icon:x.split(" ")[0],
-
-            text
-
-        });
-
+        if(goals.length>=7) return;
+        makeNaturalSteps(x).slice(0,2).forEach(y=>add(y[0],y[1]));
     });
+    if(goals.length===0) add("🌱","気になることを5分だけ探してみる");
 
-
-    goals.slice(0,7).forEach(item=>{
-
+    [...new Map(goals.map(x=>[x.text,x])).values()].slice(0,7).forEach(item=>{
         const card=document.createElement("div");
-
         card.className="choice-card";
-        if(connectionTitle&&item.text.includes(connectionTitle))
-            card.classList.add("recommended");
-
-        card.innerHTML=`
-            <strong>
-                ${item.icon} ${item.text}
-            </strong>
-
-            <small>
-                小さな一歩としてやってみよう
-            </small>
-        `;
-
-
+        card.innerHTML=`<strong>${item.icon} ${item.text}</strong><small>小さな一歩としてやってみよう</small>`;
         card.onclick=()=>{
-
-            document
-            .querySelectorAll(
-                "#goalList .choice-card"
-            )
-            .forEach(c=>
-                c.classList.remove("selected")
-            );
-
-
+            document.querySelectorAll("#goalList .choice-card").forEach(c=>c.classList.remove("selected"));
             card.classList.add("selected");
-
             selectedGoal=item.text;
-
             const source=connectionTitle||dream||"気になること";
-            $("goalConnection").textContent=
-                "「"+source+"」から始める一歩です。完璧にやらなくても大丈夫。";
-
-            $("goalIcon").textContent=
-                item.icon;
-
+            $("goalConnection").textContent="「"+source+"」から始める一歩です。完璧にやらなくても大丈夫。";
+            $("goalIcon").textContent=item.icon;
         };
-
-
         $("goalList").appendChild(card);
-
     });
-
 }
-
 
 /* =====================
  戻る
@@ -1996,7 +1942,10 @@ $("startFinalButton").onclick=()=>{
 
     $("setup").style.display="none";
 
+    ensureTodayActions();
     showScreen("home");
+    updateHome();
+    updateProcess();
 
 };
 
@@ -2006,135 +1955,261 @@ $("startFinalButton").onclick=()=>{
 ===================== */
 
 function updateHome(){
+    syncDailyState();
+    ensureTodayActions();
+    renderActionCarousel();
 
-    $("todayGoal").textContent=
-        selectedGoal ||
-        "今日の一歩を追加しよう";
+    $("points").textContent=points;
+    $("streak").textContent=streak;
+    $("totalMinutes").textContent=totalMinutes;
+    $("level").textContent="Lv."+level;
+    $("exp").style.width=exp+"%";
+    $("expText").textContent=exp+" / 100 XP";
+    $("gamePoints").textContent=points;
 
-
-    $("todayMinutes").textContent=
-        selectedMinutes+
-        "分";
-
-    $("completeButton").textContent=
-        completedToday
-            ? "✓ "+selectedMinutes+"分達成！"
-            : selectedMinutes+"分できた！";
-
-    $("completeButton").classList.toggle(
-        "done",
-        completedToday
-    );
-
-    if(completedToday)
-        $("completeButton").textContent="✓ 今日の作業は完了";
-
-    $("dayCompleteMessage").hidden=!completedToday;
-    $("secondActionCard").hidden=completedToday||!secondGoal||!secondMinutes;
-    $("addActionButton").hidden=completedToday;
-    $("extra").classList.toggle("show",!completedToday&&$("extra").classList.contains("show"));
-    $("actionEditor").classList.toggle("show",!completedToday&&$("actionEditor").classList.contains("show"));
-
-    updateGameButton();
-
-
-    $("points").textContent=
-        points;
-
-
-    $("streak").textContent=
-        streak;
-
-
-    $("totalMinutes").textContent=
-        totalMinutes;
-
-
-    $("level").textContent=
-        "Lv."+level;
-
-
-    $("exp").style.width=
-        exp+"%";
-
-
-    $("expText").textContent=
-        exp+
-        " / 100 XP";
-
-
-    $("gamePoints").textContent=
-        points;
-
-
-    if(level>=10){
-
-        $("fish").textContent="🐉";
-
-        $("fishName").textContent=
-            "あなたの竜";
-
-    }else if(level>=5){
-
-        $("fish").textContent="🐠";
-
-        $("fishName").textContent=
-            "成長した魚";
-
-    }else{
-
-        $("fish").textContent="🐟";
-
-        $("fishName").textContent=
-            "あなたの魚";
-
-    }
+    if(level>=10){$("fish").textContent="🐉";$("fishName").textContent="あなたの竜";}
+    else if(level>=5){$("fish").textContent="🐠";$("fishName").textContent="成長した魚";}
+    else{$("fish").textContent="🐟";$("fishName").textContent="あなたの魚";}
 
     updateFishAppearance();
     updateMood();
     updateExperiments();
-    updateSecondAction();
     updateSettings();
-    $("actionReview").hidden=!completedToday||!reflectionEnabled;
+    updateDiscoveryCard();
+    renderMyTopics();
     updateProcess();
-
+    const processCard=document.querySelector(".process-card");
+    if(processCard) processCard.style.display=processEnabled ? "" : "none";
 }
+
+function ensureTodayActions(){
+    if(!Array.isArray(todayActions)) todayActions=[];
+    const today=getDateKey();
+
+    // 今日以外の一時カードだけを整理。保存済みの今日のカードは絶対に消さない。
+    todayActions=todayActions.filter(a=>!a.date||a.date===today);
+
+    todayActions.forEach((a,index)=>{
+        if(!a.id) a.id=Date.now()+index+Math.random();
+        a.date=today;
+        a.minutes=Number(a.minutes)||15;
+        a.icon=a.icon||"🌱";
+        a.completed=!!a.completed;
+    });
+
+    // 初回だけ、最初の一歩を1枚作る。追加したカードは上書きしない。
+    if(todayActions.length===0){
+        todayActions.push({
+            id:Date.now()+Math.random(),
+            title:selectedGoal||"気になることを5分だけ探してみる",
+            minutes:selectedMinutes||5,
+            icon:"🌱",
+            completed:false,
+            date:today
+        });
+    }
+
+    if(activeActionIndex>=todayActions.length) activeActionIndex=todayActions.length-1;
+    if(activeActionIndex<0) activeActionIndex=0;
+}
+function renderActionCarousel(){
+    const track=$("actionTrack"), dots=$("actionDots");
+    if(!track||!dots)return;
+    track.innerHTML=""; dots.innerHTML="";
+    todayActions.forEach((action,index)=>{
+        const slide=document.createElement("div");
+        slide.className="action-slide";
+        const card=document.createElement("div");
+        card.className="action-card";
+        const review=action.review||"";
+        card.innerHTML=`
+          <div>
+            <div class="action-top"><div class="action-icon">${action.icon||"🌱"}</div><div><div class="action-title">${escapeHTML(action.title)}</div><div class="action-minutes">⏱ ${action.minutes}分</div></div></div>
+          </div>
+          <div>
+            <button class="complete-button ${action.completed?"done":""}" ${action.completed?"disabled":""}>${action.completed?"✓ やってみた！":action.minutes+"分、やってみる"}</button>
+            ${action.completed?'<div class="day-complete-message">一歩できた。次は「どうだった？」を残そう。</div>':""}
+            <div class="action-review" ${action.completed?"":"hidden"}>
+              <strong>やってみて、どうだった？</strong>
+              <div class="review-grid">
+                <button class="review-button ${review==="面白かった"?"selected":""}" data-review="面白かった">😊 面白かった</button>
+                <button class="review-button ${review==="もっと知りたい"?"selected":""}" data-review="もっと知りたい">💡 もっと知りたい</button>
+                <button class="review-button ${review==="普通だった"?"selected":""}" data-review="普通だった">😐 普通だった</button>
+                <button class="review-button ${review==="思っていたのと違った"?"selected":""}" data-review="思っていたのと違った">🔎 違った</button>
+              </div>
+              <textarea class="discovery-input" placeholder="今日わかったことを一言だけ">${escapeHTML(action.discovery||"")}</textarea>
+              <button class="secondary-button review-save">記録に残す</button>
+            </div>
+          </div>`;
+        card.querySelector(".complete-button").onclick=()=>completeAction(index);
+        card.querySelectorAll(".review-button").forEach(btn=>btn.onclick=()=>{action.review=btn.dataset.review;card.querySelectorAll(".review-button").forEach(x=>x.classList.remove("selected"));btn.classList.add("selected");});
+        card.querySelector(".review-save").onclick=()=>saveActionReview(index,card);
+        slide.appendChild(card); track.appendChild(slide);
+
+        const dot=document.createElement("button");
+        dot.type="button"; dot.className="action-dot"+(index===activeActionIndex?" active":"");
+        dot.setAttribute("aria-label",`${index+1}枚目`);
+        dot.onclick=()=>{activeActionIndex=index;const carousel=$("actionCarousel");carousel.scrollTo({left:carousel.clientWidth*index,behavior:"smooth"});renderActionCounter();};
+        dots.appendChild(dot);
+    });
+    renderActionCounter();
+    const carousel=$("actionCarousel");
+    if(carousel&&!carousel.dataset.bound){
+        carousel.dataset.bound="1";
+        let scrollTimer;
+        carousel.addEventListener("scroll",()=>{
+            clearTimeout(scrollTimer);
+            scrollTimer=setTimeout(()=>{
+                const width=carousel.clientWidth||1;
+                const next=Math.max(0,Math.min(todayActions.length-1,Math.round(carousel.scrollLeft/width)));
+                if(next!==activeActionIndex){activeActionIndex=next;renderActionCounter();}
+            },100);
+        },{passive:true});
+    }
+}
+
+function renderActionCounter(){
+    const counter=$("actionCounter"), hint=$("actionSwipeHint"), dots=document.querySelectorAll(".action-dot");
+    if(counter)counter.textContent=todayActions.length?`${activeActionIndex+1} / ${todayActions.length}`:"0 / 0";
+    if(hint)hint.textContent=todayActions.length>1?"左右にスワイプ":"今日の一歩";
+    dots.forEach((dot,i)=>dot.classList.toggle("active",i===activeActionIndex));
+}
+
+function escapeHTML(value){return String(value||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));}
+
+function completeAction(index){
+    const action=todayActions[index];
+    if(!action||action.completed)return;
+    const today=getDateKey(), yesterday=getDateKey(new Date(Date.now()-86400000));
+    if(completedDate!==today){ if(completedDate!==yesterday) streak=0; streak++; completedDate=today; }
+    action.completed=true;
+    action.completedDate=today;
+    activeActionIndex=index;
+    totalMinutes+=Number(action.minutes)||0;
+    const xp=Math.max(5,Math.floor((Number(action.minutes)||5)/5)*5);
+    addXP(xp);
+    records.unshift({date:today,title:action.title,minutes:Number(action.minutes)||0,xp,type:"challenge",actionId:action.id});
+    selectedGoal=action.title;
+    selectedMinutes=Number(action.minutes)||15;
+    completedToday=todayActions.some(a=>a.completed);
+    save(); updateHome(); updateRecords();
+}
+
+function saveActionReview(index,card){
+    const action=todayActions[index];
+    if(!action)return;
+    const discovery=card.querySelector(".discovery-input").value.trim();
+    if(!action.review&&!discovery)return;
+    action.discovery=discovery;
+    const nextStep=buildNextStep(action.review,discovery);
+    action.nextStep=nextStep;
+    const existing=actionReviews.find(item=>item.date===getDateKey()&&item.actionId===action.id);
+    const data={date:getDateKey(),actionId:action.id,review:action.review||"",discovery,nextStep};
+    if(existing) Object.assign(existing,data); else actionReviews.unshift(data);
+    latestDiscovery=(action.review||"やってみた")+(discovery?"：「"+discovery+"」":"");
+    nextStepHint="次は："+nextStep;
+    save();
+    if(nextStep && !todayActions.some(a=>a.title===nextStep && !a.completed)) addSuggestedAction(nextStep,10,"🌱");
+    updateHome();
+}
+
+function addSuggestedAction(title,minutes=10,icon="🌱"){
+    if(!title)return;
+    todayActions.push({id:Date.now()+Math.random(),title,minutes,icon,completed:false,date:getDateKey()});
+    activeActionIndex=todayActions.length-1;
+    save();
+    updateHome();
+}
+
+function renderMyTopics(){
+    const interestsBox=$("myInterests");
+    const dreamBox=$("myDream");
+    if(interestsBox){
+        interestsBox.innerHTML="";
+        if(!selectedInterests.length){
+            const empty=document.createElement("span");
+            empty.className="topic-empty";
+            empty.textContent="まだ選んでいません";
+            interestsBox.appendChild(empty);
+        }else{
+            selectedInterests.forEach((item,index)=>{
+                const chip=document.createElement("div");
+                chip.className="topic-chip";
+                chip.textContent=(index+1)+". "+item;
+                interestsBox.appendChild(chip);
+            });
+        }
+    }
+    if(dreamBox){
+        dreamBox.textContent=dream||"まだ決めていません";
+        dreamBox.classList.toggle("topic-empty",!dream);
+    }
+}
+
+function editInterests(){
+    const current=selectedInterests.length
+        ? selectedInterests.map((item,index)=>(index+1)+". "+item).join("\n")
+        : "なし";
+    const value=prompt("気になることを1行に1つずつ入力してください。\n\n現在：\n"+current,selectedInterests.map(x=>x.replace(/^\S+\s/,"")).join("\n"));
+    if(value===null)return;
+    const lines=value.split(/\n|、|,/).map(x=>x.trim()).filter(Boolean);
+    if(!lines.length){alert("1つ以上入力してください");return;}
+    const matched=[];
+    lines.slice(0,8).forEach(line=>{
+        const found=interests.find(item=>item.replace(/^\S+\s/,"")===line);
+        matched.push(found||("💭 "+line));
+    });
+    selectedInterests=[...new Set(matched)];
+    save();
+    renderMyTopics();
+    updateExperiments();
+    updatePossibilityMap();
+    updateProcess();
+}
+
+function editDream(){
+    const value=prompt("今の夢を入力してください。\nまだ決めたくない場合は空欄でも大丈夫です。",dream);
+    if(value===null)return;
+    dream=value.trim();
+    if(dream) selectedPossibility={title:dream,reason:"現在の夢"};
+    else selectedPossibility=null;
+    save();
+    renderMyTopics();
+    updateExperiments();
+    updatePossibilityMap();
+    updateProcess();
+}
+
+$("editInterestsButton").onclick=editInterests;
+$("editDreamButton").onclick=editDream;
 
 function updateProcess(){
     const today=getDateKey();
     const review=actionReviews.find(item=>item.date===today);
-    const current=review ? "reflect" : completedToday ? "record" : moodDate===today ? "curious" : selectedGoal ? "try" : "interest";
-    const order=["interest","curious","try","record","reflect","deepen"];
+    const hasTodayAction=todayActions.some(a=>a.date===today);
+    const hasCompletedAction=todayActions.some(a=>a.date===today&&a.completed);
+    const current=review ? (review.nextStep ? "deepen" : "reflect") : hasCompletedAction ? "record" : moodDate===today ? "curious" : hasTodayAction ? "try" : (selectedInterests.length ? "interest" : "interest");
+    const order=["interest","curious","try","record","reflect","deepen","dream"];
     const currentIndex=order.indexOf(current);
     document.querySelectorAll(".process-step").forEach(step=>{
         const index=order.indexOf(step.dataset.process);
         step.classList.toggle("active",step.dataset.process===current);
         step.classList.toggle("done",index<currentIndex);
     });
-    const notes={interest:"まずは気になることを1つ選んでみよう。",curious:"気になるテーマを見つけたら、次は小さく試そう。",try:"今日は無理のない一歩をやってみよう。",record:"行動できた。結果を残すと次が見つかる。",reflect:"やってみてどうだったか、ひとこと残そう。",deepen:"興味が深まっている。もう少し続けてみよう。"};
+    const notes={interest:"まずは気になることを1つ選んでみよう。",curious:"気になるテーマを見つけたら、次は小さく試そう。",try:"今日は無理のない一歩をやってみよう。",record:"行動できた。結果を残すと次が見つかる。",reflect:"やってみてどうだったか、ひとこと残そう。",deepen:"発見から次の一歩が生まれました。明日はここから続けよう。",dream:"いくつもの発見がつながると、自分の夢の芽が見えてきます。"};
     $("processNote").textContent=review&&review.review==="思っていたのと違った" ? "違ったことも大切な発見。別の気になることを探せます。" : notes[current];
 }
 
-function updateSecondAction(){
-    const card=$("secondActionCard");
-    if(completedToday || !secondGoal || !secondMinutes){
-        card.hidden=true;
-        return;
-    }
-    card.hidden=false;
-    $("secondGoal").textContent=secondGoal;
-    $("secondMinutes").textContent=secondMinutes+"分";
-    $("secondMinutesInput").value=secondMinutes;
-    const done=secondCompletedDate===getDateKey();
-    $("secondCompleteButton").textContent=done ? "✓ 追加の行動も完了" : "追加の行動を完了";
-    $("secondCompleteButton").classList.toggle("done",done);
-}
+function updateSecondAction(){ /* 複数カード方式に統合 */ }
 
 function updateSettings(){
     $("defaultMinutesSetting").value=defaultMinutes;
     $("halfStepMinutesSetting").value=halfStepDefaultMinutes;
     $("reflectionSetting").checked=reflectionEnabled;
     $("notificationSetting").checked=notificationEnabled;
+    $("detailRecordSetting").checked=detailRecordEnabled;
+    $("conditionRecordSetting").checked=conditionRecordEnabled;
+    $("processSetting").checked=processEnabled;
 }
 
 
@@ -2172,26 +2247,62 @@ function updateMood(){
     });
 }
 
+function getCurrentTopic(){
+    if(dream) return dream;
+    if(searchIdeas.length) return searchIdeas[searchIdeas.length-1];
+    if(selectedGoal){
+        return selectedGoal
+            .replace(/について\d+分調べ(?:てみる)?$/," ")
+            .replace(/についての動画や作品を\d+分見(?:てみる)?$/," ")
+            .replace(/を\d+分だけ試(?:す|してみる)$/," ")
+            .replace(/を\d+分練習(?:する)?$/," ")
+            .replace(/を\d+分(?:する|やってみる)$/," ")
+            .replace(/の動画や作品を\d+分(?:見る|見てみる)$/," ")
+            .replace(/を\d+分読む$/," ")
+            .trim();
+    }
+    if(selectedInterests.length) return selectedInterests[0];
+    return "";
+}
+
+function buildNextStep(review, discovery=""){
+    const topic=getCurrentTopic()||"気になること";
+    if(review==="もっと知りたい") return topic+"について、もう少し調べてみる";
+    if(review==="面白かった") return topic+"を、今度は少し違うやり方で試してみる";
+    if(review==="普通だった") return topic+"に関係する別のことを5分だけ試してみる";
+    if(review==="思っていたのと違った") return "別の「気になること」を5分だけ探してみる";
+    if(discovery) return discovery+"について5分調べてみる";
+    return topic+"について5分調べてみる";
+}
+function updateDiscoveryCard(){
+    const latest=actionReviews[0];
+    if(latest){
+        latestDiscovery=(latest.review||"やってみた")+(latest.discovery ? "：「"+latest.discovery+"」" : "");
+        nextStepHint=latest.nextStep ? "次は："+latest.nextStep : "次は、もう少し続けるか別のことを試してみよう。";
+    }else{
+        latestDiscovery="まだ発見はありません。今日の一歩をやってみよう。";
+        nextStepHint="やってみた後の「どうだった？」が、次の一歩につながります。";
+    }
+    if($("latestDiscovery")) $("latestDiscovery").textContent=latestDiscovery;
+    if($("nextStepHint")) $("nextStepHint").textContent=nextStepHint;
+}
+
 function updateExperiments(){
     const minutes=mood==="疲れた" ? 5 : mood==="元気"||mood==="集中" ? 30 : defaultMinutes;
+    const topic=getCurrentTopic()||"気になること";
     const ideas=[
-        [dream+"を5分だけ調べる","知らないことを1つメモする",5],
-        [dream+"の作品や事例を1つ見る","好きな理由を1行書く",halfStepDefaultMinutes],
-        [dream+"に関係することを"+minutes+"分やってみる","終わったら面白さを記録する",minutes]
+        [topic+"について5分調べてみる","知らないことを1つ見つける",5],
+        [topic+"についての動画や作品を1つ見てみる","面白いところを1つ見つける",halfStepDefaultMinutes],
+        [topic+"を"+minutes+"分、できる範囲で試してみる","終わったら発見を1つ残す",minutes]
     ];
-    $("experimentDescription").textContent=mood ? mood+"日に合う小さな実験です。" : "気になる一歩を選んで、夢との相性を試してみよう。";
+    $("experimentDescription").textContent=mood ? mood+"日に合う小さな実験です。" : "今の「気になる」から、小さな実験を選ぼう。";
     $("experimentList").innerHTML="";
-    $("experimentSelection").hidden=completedToday||!selectedExperiment;
-    if(completedToday){
-        $("experimentDescription").textContent="今日は作業を終えました。明日また選べます。";
-        return;
-    }
+    $("experimentSelection").hidden=!selectedExperiment;
     ideas.forEach(idea=>{
         const button=document.createElement("button");
         button.className="experiment-button";
         button.innerHTML="<strong>"+idea[0]+"</strong><small>"+idea[1]+"</small>";
         button.onclick=()=>{
-            if(completedToday) return;
             document.querySelectorAll(".experiment-button").forEach(item=>item.classList.remove("selected"));
             button.classList.add("selected");
             selectedExperiment=idea;
@@ -2200,7 +2311,6 @@ function updateExperiments(){
         $("experimentList").appendChild(button);
     });
 }
-
 function updatePossibilityMap(){
     const map=$("possibilityMap");
     map.innerHTML="";
@@ -2263,12 +2373,44 @@ function renderActionReviewHistory(){
     actionReviews.slice(0,10).forEach(item=>{
         const row=document.createElement("div");
         row.className="log-item";
-        row.textContent=(item.review||"")+(item.discovery ? "："+item.discovery : "");
+        row.textContent=(item.review||"")+(item.discovery ? "：「"+item.discovery+"」" : "")+(item.nextStep ? " → 次は「"+item.nextStep+"」" : "");
         const date=document.createElement("small");
         date.textContent=item.date;
         row.appendChild(date);
         list.appendChild(row);
     });
+}
+
+function renderRecordMood(){
+    const grid=$("recordMoodGrid");
+    const status=$("todayMoodStatus");
+    if(!grid||!status) return;
+    grid.innerHTML="";
+    const moods=[["元気","☀️"],["普通","🌿"],["疲れた","🌙"],["集中","🎯"],["好奇心","💡"]];
+    moods.forEach(([name,icon])=>{
+        const b=document.createElement("button");
+        b.className="mood-button";
+        b.dataset.mood=name;
+        b.innerHTML=icon+"<br>"+name;
+        if(mood===name&&moodDate===getDateKey()) b.classList.add("selected");
+        b.onclick=()=>setTodayMood(name);
+        grid.appendChild(b);
+    });
+    status.textContent=moodDate===getDateKey()&&mood ? "今日のコンディション："+mood : "今日はまだ記録していません。";
+}
+
+function setTodayMood(nextMood){
+    mood=nextMood;
+    moodDate=getDateKey();
+    const previous=moodHistory.find(item=>item.date===moodDate);
+    if(previous) previous.mood=mood;
+    else moodHistory.unshift({date:moodDate,mood});
+    const minutes=mood==="疲れた" ? 5 : mood==="元気"||mood==="集中" ? 30 : 15;
+    selectedMinutes=minutes;
+    renderRecordMood();
+    renderMoodHistory();
+    updateHome();
+    save();
 }
 
 function renderMoodHistory(){
@@ -2306,59 +2448,36 @@ function renderMoodHistory(){
     });
 }
 
-function showDiscoverResult(title,description){
-    const result=$("discoverResult");
-    result.innerHTML="";
-    result.classList.add("show");
-    const heading=document.createElement("div");
-    heading.className="random-title";
-    heading.textContent=title;
-    const text=document.createElement("p");
-    text.className="description";
-    text.textContent=description;
-    result.append(heading,text);
-}
-
-$("discoverRandom").onclick=()=>{
-    const item=dreamPool[Math.floor(Math.random()*dreamPool.length)];
-    showDiscoverResult(item[0]+" "+item[1],item[2]);
-    currentRandom=item;
-    $("discoverHalfStep").hidden=false;
-};
-
-$("discoverMix").onclick=()=>{
+$("mixButton").onclick=()=>{
     const pool=[...selectedInterests,...searchIdeas];
     if(pool.length<2){
-        showDiscoverResult("好きなことを2つ集めよう","夢を探す画面で、気になる言葉を追加してください。");
-        return;
+        currentRandom=["🧩","好きなことを2つ集めよう","初回設定や自由入力で、気になる言葉をもう1つ追加してください。"];
+    }else{
+        const first=pool[Math.floor(Math.random()*pool.length)];
+        let second=pool[Math.floor(Math.random()*pool.length)];
+        while(second===first&&pool.length>1) second=pool[Math.floor(Math.random()*pool.length)];
+        currentRandom=["🧩",first+" × "+second,"この組み合わせを15分だけ試して、面白さを確かめてみよう。"];
     }
-    const first=pool[Math.floor(Math.random()*pool.length)];
-    let second=pool[Math.floor(Math.random()*pool.length)];
-    while(second===first&&pool.length>1) second=pool[Math.floor(Math.random()*pool.length)];
-    currentRandom=["🧩",first+" × "+second,"2つを組み合わせた可能性"];
-    showDiscoverResult(currentRandom[1],"この組み合わせを15分だけ試して、面白さを確かめてみよう。");
-    $("discoverHalfStep").hidden=false;
+    $("randomIcon").textContent=currentRandom[0];
+    $("randomTitle").textContent=currentRandom[1];
+    $("randomDescription").textContent=currentRandom[2];
+    $("randomResult").classList.add("show");
+    $("randomResult").scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+    });
 };
 
-$("discoverExperiment").onclick=()=>{
-    const title=currentRandom ? currentRandom[1] : (dream||selectedGoal);
-    if(!title){
-        showDiscoverResult("まずテーマを選ぼう","偶然を引くか、好きなことを2つ混ぜてみてください。");
-        return;
-    }
-    currentRandom=[currentRandom ? currentRandom[0] : "🧭",title+"を15分だけ試す","0.5歩として追加できます。"];
-    showDiscoverResult("テーマを選択しました",currentRandom[1]);
-    $("discoverHalfStep").hidden=false;
-};
-
-$("discoverHalfStep").onclick=()=>{
+$("randomHalfStep").onclick=()=>{
     if(completedToday||!currentRandom) return;
-    secondGoal=currentRandom[1];
-    secondMinutes=15;
-    $("discoverHalfStep").hidden=true;
+    secondGoal=currentRandom[1]+"を5分だけ試す";
+    secondMinutes=halfStepDefaultMinutes;
     updateHome();
     save();
-    showDiscoverResult("0.5歩に追加しました",secondGoal);
+    $("randomHalfStep").textContent="✓ 0.5歩に追加しました";
+    setTimeout(()=>{
+        $("randomHalfStep").textContent="0.5歩に追加する";
+    },1500);
 };
 
 /* =====================
@@ -2497,16 +2616,11 @@ function updateGameButton(){
 }
 
 
-document.querySelectorAll(".mood-button").forEach(button=>{
+document.querySelectorAll("#moodGrid .mood-button").forEach(button=>{
     button.onclick=()=>{
-        mood=button.dataset.mood;
-        moodDate=getDateKey();
-        const previous=moodHistory.find(item=>item.date===moodDate);
-        if(previous) previous.mood=mood;
-        else moodHistory.unshift({date:moodDate,mood});
-        const minutes=mood==="疲れた" ? 5 : mood==="元気"||mood==="集中" ? 30 : 15;
-        selectedMinutes=minutes;
-        selectedGoal=dream+"を"+minutes+"分だけ試す";
+        setTodayMood(button.dataset.mood);
+        const topic=getCurrentTopic();
+        selectedGoal=topic ? topic+"について"+selectedMinutes+"分調べてみる" : "気になることを5分だけ探してみる";
         updateHome();
         save();
     };
@@ -2523,29 +2637,7 @@ document.querySelectorAll(".reflection-button").forEach(button=>{
     };
 });
 
-document.querySelectorAll(".review-button").forEach(button=>{
-    button.onclick=()=>{
-        selectedReview=button.dataset.review;
-        document.querySelectorAll(".review-button").forEach(item=>item.classList.remove("selected"));
-        button.classList.add("selected");
-    };
-});
-
-$("saveReview").onclick=()=>{
-    const discovery=$("discoveryInput").value.trim();
-    if(!selectedReview&&!discovery) return;
-    const today=getDateKey();
-    const existing=actionReviews.find(item=>item.date===today);
-    if(existing){
-        existing.review=selectedReview||existing.review;
-        existing.discovery=discovery||existing.discovery;
-    }else{
-        actionReviews.unshift({date:today,review:selectedReview,discovery});
-    }
-    save();
-    $("saveReview").textContent="保存しました";
-    updateProcess();
-};
+/* 振り返りは各スワイプカード内で処理します。 */
 
 $("saveDreamLog").onclick=()=>{
     const text=$("dreamLogInput").value.trim();
@@ -2565,32 +2657,7 @@ $("saveFutureLetter").onclick=()=>{
     renderFutureLetters();
 };
 
-$("secondCompleteButton").onclick=()=>{
-    if(completedToday||secondCompletedDate===getDateKey()) return;
-    const today=getDateKey();
-    const yesterday=getDateKey(new Date(Date.now()-86400000));
-    if(completedDate!==yesterday) streak=0;
-    completedToday=true;
-    completedDate=today;
-    secondCompletedDate=today;
-    streak++;
-    totalMinutes+=secondMinutes;
-    const xp=Math.max(5,Math.floor(secondMinutes/5)*5);
-    records.unshift({date:today,title:secondGoal,minutes:secondMinutes,xp,type:"secondary"});
-    addXP(xp);
-    updateHome();
-    save();
-    updateRecords();
-};
-
-$("saveSecondMinutes").onclick=()=>{
-    if(completedToday||!secondGoal) return;
-    const minutes=Number($("secondMinutesInput").value);
-    if(!minutes||minutes<1||minutes>180) return;
-    secondMinutes=minutes;
-    updateSecondAction();
-    save();
-};
+/* 旧0.5歩機能は複数カード方式へ統合しました。 */
 
 $("defaultMinutesSetting").onchange=()=>{
     const minutes=Number($("defaultMinutesSetting").value);
@@ -2619,6 +2686,25 @@ $("notificationSetting").onchange=()=>{
     save();
 };
 
+$("detailRecordSetting").onchange=()=>{
+    detailRecordEnabled=$("detailRecordSetting").checked;
+    save();
+    updateRecords();
+};
+
+$("conditionRecordSetting").onchange=()=>{
+    conditionRecordEnabled=$("conditionRecordSetting").checked;
+    save();
+    updateRecords();
+};
+
+$("processSetting").onchange=()=>{
+    processEnabled=$("processSetting").checked;
+    save();
+    updateHome();
+};
+
+
 $("resetDataButton").onclick=()=>{
     if(!confirm("すべてのデータを初期化しますか？")) return;
     localStorage.removeItem("willBetterData");
@@ -2627,248 +2713,34 @@ $("resetDataButton").onclick=()=>{
 };
 
 $("addHalfStep").onclick=()=>{
-    if(completedToday||!selectedExperiment) return;
-    secondGoal=selectedExperiment[0];
-    secondMinutes=selectedExperiment[2];
+    if(!selectedExperiment) return;
+    addSuggestedAction(selectedExperiment[0],selectedExperiment[2],"🧪");
     selectedExperiment=null;
-    $("experimentSelection").hidden=true;
-    updateHome();
+    if($("experimentSelection")) $("experimentSelection").hidden=true;
     save();
 };
 
 
 /* =====================
- 15分
+ 今日の一歩
 ===================== */
 
-$("completeButton").onclick=()=>{
-
-    syncDailyState();
-
-    if(completedToday){
-        return;
-
-    }
-
-
-    const today=getDateKey();
-    const yesterday=getDateKey(
-        new Date(Date.now()-86400000)
-    );
-
-    if(completedDate!==yesterday)
-        streak=0;
-
-    completedToday=true;
-    completedDate=today;
-    streak++;
-
-    totalMinutes+=selectedMinutes;
-
-
-    const xp=Math.max(
-        5,
-        Math.floor(selectedMinutes/5)*5
-    );
-
-
-    $("completeButton").textContent=
-        "✓ "+selectedMinutes+"分達成！";
-
-
-    $("completeButton").classList.add(
-        "done"
-    );
-
-
-    $("extra").classList.add(
-        "show"
-    );
-
-
-    records.unshift({
-
-        date:getDateKey(),
-
-        title:selectedGoal,
-
-        minutes:selectedMinutes,
-
-        xp,
-
-        type:"challenge"
-
-    });
-
-
-    save();
-
-    updateHome();
-    updateRecords();
-
-};
-
-
-/* =====================
- 追加時間
-===================== */
-
-$("extraButton").onclick=()=>{
-
-    if(completedToday) return;
-
-    const minutes=
-        Number(
-            $("extraMinutes").value
-        );
-
-    const xp=
-        Math.max(
-            5,
-            Math.floor(minutes/5)*5
-        );
-
-
-    totalMinutes+=minutes;
-
-
-    addXP(xp);
-
-
-    records.unshift({
-
-        date:getDateKey(),
-
-        title:
-            selectedGoal+
-            "（追加）",
-
-        minutes,
-
-        xp
-
-    });
-
-
-    $("extraMinutes").value="";
-
-
-    save();
-
-    updateRecords();
-
-
-    alert(
-        "＋"+
-        minutes+
-        "分！ ＋"+
-        xp+
-        "XP！"
-    );
-
-};
-
-
-/* =====================
- 今日の行動を自由に追加
-===================== */
+if($("extraButton")) $("extraButton").onclick=()=>{};
 
 $("addActionButton").onclick=()=>{
-
-    $("actionEditor")
-        .classList
-        .toggle("show");
-
+    $("actionEditor").classList.toggle("show");
 };
-
 
 $("saveAction").onclick=()=>{
-
-    if(completedToday) return;
-
-    const title=
-        $("newAction")
-        .value
-        .trim();
-
-
-    const minutes=
-        Number(
-            $("newMinutes").value
-        );
-
-
-    if(!title){
-
-        alert(
-            "やることを入力してください"
-        );
-
-        return;
-
-    }
-
-
-    if(!minutes || minutes<=0){
-
-        alert(
-            "時間を入力してください"
-        );
-
-        return;
-
-    }
-
-
-    secondGoal=title;
-    secondMinutes=minutes;
-
-
-    $("todayGoal").textContent=
-        title;
-
-
-    $("todayMinutes").textContent=
-        minutes+
-        "分";
-
-
-    $("goalIcon").textContent=
-        "🌱";
-
-
-    syncDailyState();
-
-    $("completeButton").textContent=
-        completedToday
-            ? "✓ "+selectedMinutes+"分達成！"
-            : selectedMinutes+"分できた！";
-
-
-    $("completeButton").classList.toggle(
-        "done",
-        completedToday
-    );
-
-
-    $("extra")
-        .classList
-        .remove("show");
-
-
+    const title=$("newAction").value.trim();
+    const minutes=Number($("newMinutes").value);
+    if(!title){alert("やることを入力してください");return;}
+    if(!minutes||minutes<=0){alert("時間を入力してください");return;}
+    addSuggestedAction(title,minutes,"🌱");
     $("newAction").value="";
-
-
-    $("actionEditor")
-        .classList
-        .remove("show");
-
-    updateHome();
-
-    save();
-
+    $("newMinutes").value=15;
+    $("actionEditor").classList.remove("show");
 };
-
 
 /* =====================
  夢を探す
@@ -2961,7 +2833,7 @@ $("randomSet").onclick=()=>{
 
     selectedGoal=
         dream+
-        "について15分調べる";
+        "について15分調べてみる";
 
 
     save();
@@ -3284,65 +3156,47 @@ function updateJobList(){
 ===================== */
 
 function updateRecords(){
-
-    const list=
-        $("recordList");
-
+    const list=$("recordList");
     renderDreamLogs();
+    renderRecordMood();
     renderFutureLetters();
     renderMoodHistory();
     renderActionReviewHistory();
-
+    const conditionCard=document.getElementById("recordMoodGrid")?.closest(".card");
+    if(conditionCard) conditionCard.style.display=conditionRecordEnabled ? "" : "none";
 
     if(records.length===0){
-
-        list.innerHTML=
-            "まだ記録がありません。";
-
+        list.innerHTML="まだ記録がありません。";
         updateCalendar();
-
         return;
-
     }
 
-
     list.innerHTML="";
-
-    records
-        .slice(0,30)
-        .forEach(r=>{
-
-            const item=
-                document.createElement(
-                    "div"
-                );
-
-
-            item.className=
-                "record-item";
-
-
-            item.innerHTML=`
-                <div>
-                    <div>${r.date}</div>
-                    <small>${r.title||""}</small>
-                </div>
-
-                <div class="record-time">
-                    ${r.type==="feeding" ? "餌やり" : r.type==="reflection" ? "振り返り" : r.minutes+"分"}<br>
-                    +${r.xp}XP
-                </div>
-            `;
-
-
-            list.appendChild(item);
-
-        });
-
+    records.slice(0,30).forEach(r=>{
+        const item=document.createElement("div");
+        item.className="record-item";
+        const title=escapeHTML(r.title||"記録");
+        const type=r.type==="feeding" ? "餌やり" : r.type==="reflection" ? "振り返り" : ((r.minutes||0)+"分");
+        const review=actionReviews.find(x=>x.actionId===r.actionId) || actionReviews.find(x=>x.date===r.date);
+        const detail=[];
+        if(detailRecordEnabled){
+            if(review&&review.review) detail.push("どうだった？："+review.review);
+            if(review&&review.discovery) detail.push("発見："+review.discovery);
+            if(review&&review.nextStep) detail.push("次の一歩："+review.nextStep);
+            if(r.xp) detail.push("+"+r.xp+" XP");
+        }
+        item.innerHTML=`
+          <div class="record-main">
+            <div class="record-title">${title}</div>
+            <div class="record-meta">${r.date} ・ ${type}</div>
+          </div>
+          <div class="record-chevron">⌄</div>
+          <div class="record-expanded">${detail.length?detail.map(escapeHTML).join("<br>"):"この記録にはまだ詳しい内容がありません。"}</div>`;
+        item.onclick=()=>item.classList.toggle("expanded");
+        list.appendChild(item);
+    });
     updateCalendar();
-
 }
-
 
 /* =====================
  NAV
@@ -3396,11 +3250,10 @@ function showScreen(id){
         updateRecords();
 
 
-    if(id==="dreamSearch")
+    if(id==="dreamSearch"){
         updateJobList();
-
-    if(id==="discover")
         updatePossibilityMap();
+    }
 
     if(id==="settings")
         updateSettings();
@@ -3430,6 +3283,10 @@ $("calendarNext").onclick=()=>{
     updateCalendar();
 };
 
+
+if($("whyDreamLink")){
+    $("whyDreamLink").onclick=()=>showScreen("game");
+}
 
 navItems.forEach(n=>{
 
@@ -3580,7 +3437,11 @@ function save(){
 
             reflectionEnabled,
 
-            notificationEnabled
+            notificationEnabled,
+            detailRecordEnabled,
+            conditionRecordEnabled,
+            processEnabled,
+            todayActions
 
         })
 
@@ -3688,6 +3549,14 @@ function load(){
     halfStepDefaultMinutes=d.halfStepDefaultMinutes||5;
     reflectionEnabled=d.reflectionEnabled!==false;
     notificationEnabled=d.notificationEnabled===true;
+    detailRecordEnabled=d.detailRecordEnabled!==false;
+    conditionRecordEnabled=d.conditionRecordEnabled!==false;
+    processEnabled=d.processEnabled!==false;
+    todayActions=Array.isArray(d.todayActions)?d.todayActions:[];
+    activeActionIndex=0;
+    if(!selectedGoal && todayActions.length) selectedGoal=todayActions[0].title||"";
+    latestDiscovery=d.latestDiscovery||"";
+    nextStepHint=d.nextStepHint||"";
 
     searchIdeas=
         d.searchIdeas||
