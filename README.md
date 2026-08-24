@@ -1,4 +1,4 @@
-# 🌱 Will Better
+# 🌱 Will Better. Ver.1.1
 
 ## 「夢がない」からでも始められる。今日の一歩を応援する。
 
