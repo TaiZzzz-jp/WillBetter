@@ -86,7 +86,7 @@ button{
     border-radius:18px;
     color:white;
     font-weight:700;
-    background:linear-gradient(135deg,#5c9369,#78b684);
+    background:linear-gradient(135deg,var(--theme-main),#78b684);
     box-shadow:0 10px 25px rgba(92,147,105,.25);
 }
 
@@ -96,7 +96,7 @@ button{
     border:0;
     border-radius:17px;
     background:rgba(255,255,255,.7);
-    color:#52715b;
+    color:var(--theme-text);
     margin-top:10px;
 }
 
@@ -159,7 +159,7 @@ button{
 }
 
 .interest-tile.selected{
-    background:#e2f3e6;
+    background:var(--theme-light);
     border:2px solid #72a97d;
     transform:scale(1.02);
 }
@@ -190,28 +190,28 @@ button{
 
 .choice-card.selected{
     border:2px solid #72a97d;
-    background:#e2f3e6;
+    background:var(--theme-light);
 }
 
 .setup-connection{
     margin:0 0 14px;
     padding:12px 14px;
     border-radius:15px;
-    background:#e2f3e6;
-    color:#3f7950;
+    background:var(--theme-light);
+    color:var(--theme-dark);
     font-size:13px;
     line-height:1.6;
 }
 
 .process-card{margin:0 20px 8px;padding:15px 16px;border-radius:20px;background:rgba(255,255,255,.68);border:1px solid rgba(255,255,255,.9)}
-.process-title{margin:0 0 12px;font-size:14px;color:#52715b}
+.process-title{margin:0 0 12px;font-size:14px;color:var(--theme-text)}
 .process-steps{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center}
 .process-step{position:relative;color:#98a39b;font-size:10px;line-height:1.35}
 .process-step span{display:flex;width:30px;height:30px;margin:0 auto 4px;align-items:center;justify-content:center;border-radius:50%;background:#edf1ed;font-size:16px}
-.process-step.active{color:#3f7950;font-weight:bold}
+.process-step.active{color:var(--theme-dark);font-weight:bold}
 .process-step.active span{background:#d7eedc;box-shadow:0 0 0 2px #78b684}
-.process-step.done{color:#52715b}
-.process-step.done span{background:#e2f3e6}
+.process-step.done{color:var(--theme-text)}
+.process-step.done span{background:var(--theme-light)}
 .process-note{margin:10px 0 0;color:#718078;font-size:12px;text-align:center}
 
 .choice-card.recommended{
@@ -360,20 +360,20 @@ header h1{
     padding:16px;
     border:0;
     border-radius:20px;
-    background:linear-gradient(135deg,#5c9369,#78b684);
+    background:linear-gradient(135deg,var(--theme-main),#78b684);
     color:white;
     font-weight:700;
 }
 
 .complete-button.done{
     background:#ffffff;
-    color:#52715b;
+    color:var(--theme-text);
     box-shadow:none;
 }
 
 .primary-button.game-done{
     background:#ffffff;
-    color:#52715b;
+    color:var(--theme-text);
     box-shadow:none;
 }
 
@@ -404,8 +404,8 @@ header h1{
     border:0;
     border-radius:15px;
     padding:13px 16px;
-    background:#e2f3e6;
-    color:#52715b;
+    background:var(--theme-light);
+    color:var(--theme-text);
     font-weight:bold;
 }
 
@@ -416,7 +416,7 @@ header h1{
     border:1px dashed #91ae99;
     border-radius:18px;
     background:rgba(255,255,255,.45);
-    color:#52715b;
+    color:var(--theme-text);
 }
 
 .action-editor{
@@ -582,19 +582,19 @@ header h1{
 }
 
 .record-time{
-    color:#5c9369;
+    color:var(--theme-main);
     font-weight:bold;
 }
 
 .calendar-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .calendar-header h2{margin:0;font-size:18px}
 .calendar-nav{display:flex;gap:6px}
-.calendar-nav button{width:34px;height:34px;border:0;border-radius:12px;background:rgba(255,255,255,.75);color:#52715b}
+.calendar-nav button{width:34px;height:34px;border:0;border-radius:12px;background:rgba(255,255,255,.75);color:var(--theme-text)}
 .calendar-weekdays,.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center}
 .calendar-weekdays{color:#718078;font-size:11px;margin-bottom:6px}
 .calendar-day{min-height:38px;padding:5px 2px;border-radius:11px;color:#52645a;font-size:13px}
 .calendar-day.today{outline:2px solid #78b684;outline-offset:-2px}
-.calendar-day.completed{background:#e2f3e6;color:#3f7950;font-weight:bold}
+.calendar-day.completed{background:var(--theme-light);color:var(--theme-dark);font-weight:bold}
 .calendar-day.fed{box-shadow:inset 0 -3px #f2c879}
 .calendar-day.empty{visibility:hidden}
 .calendar-legend{margin:12px 0 0;color:#718078;font-size:12px}
@@ -602,27 +602,27 @@ header h1{
 .secondary-action[hidden]{display:none}
 .half-step-controls{display:flex;gap:8px;margin-top:10px}
 .half-step-controls input{width:90px;padding:11px;border:1px solid rgba(255,255,255,.9);border-radius:13px;background:#fff;outline:none}
-.half-step-controls button{flex:1;border:0;border-radius:13px;background:#e2f3e6;color:#52715b;font-weight:700}
-.day-complete-message{margin-top:12px;padding:14px;border-radius:16px;background:#e2f3e6;color:#3f7950;text-align:center;font-weight:bold}
+.half-step-controls button{flex:1;border:0;border-radius:13px;background:var(--theme-light);color:var(--theme-text);font-weight:700}
+.day-complete-message{margin-top:12px;padding:14px;border-radius:16px;background:var(--theme-light);color:var(--theme-dark);text-align:center;font-weight:bold}
 .day-complete-message[hidden]{display:none}
 .action-review{margin-top:12px;padding:15px;border-radius:17px;background:#f7eee2;color:#6f5a3f}
 .action-review[hidden]{display:none}
 .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
 .review-button{padding:11px 6px;border:0;border-radius:13px;background:#fff;color:#6f5a3f;font-size:12px}
-.review-button.selected{background:#e2f3e6;color:#3f7950;box-shadow:inset 0 0 0 2px #78b684}
+.review-button.selected{background:var(--theme-light);color:var(--theme-dark);box-shadow:inset 0 0 0 2px #78b684}
 .discovery-input{width:100%;min-height:64px;margin-top:10px;padding:11px;border:1px solid rgba(255,255,255,.9);border-radius:13px;background:#fff;outline:none;resize:vertical}
 .chart-wrap{display:grid;grid-template-columns:42px 1fr;align-items:start}
 .chart-scale{height:150px;display:flex;justify-content:space-between;flex-direction:column;color:#718078;font-size:10px;padding:2px 0 3px;text-align:right}
 
 .mood-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
 .mood-button{padding:10px 4px;border:0;border-radius:14px;background:rgba(255,255,255,.72);color:#52645a;font-size:12px}
-.mood-button.selected{background:#e2f3e6;color:#3f7950;font-weight:bold;box-shadow:inset 0 0 0 2px #78b684}
+.mood-button.selected{background:var(--theme-light);color:var(--theme-dark);font-weight:bold;box-shadow:inset 0 0 0 2px #78b684}
 .experiment-list{display:grid;gap:8px}
 .experiment-button{padding:13px;text-align:left;border:1px solid rgba(255,255,255,.9);border-radius:15px;background:rgba(255,255,255,.7);color:#385541}
 .experiment-button strong{display:block;margin-bottom:3px}
 .experiment-button small{color:#718078}
-.experiment-button.selected{background:#e2f3e6;border-color:#78b684;box-shadow:inset 0 0 0 2px #78b684}
-.experiment-add{width:100%;padding:12px;border:0;border-radius:14px;background:#5c9369;color:#fff;font-weight:700}
+.experiment-button.selected{background:var(--theme-light);border-color:#78b684;box-shadow:inset 0 0 0 2px #78b684}
+.experiment-add{width:100%;padding:12px;border:0;border-radius:14px;background:var(--theme-main);color:#fff;font-weight:700}
 .experiment-selection{display:grid;gap:8px;margin-top:10px}
 .experiment-selection[hidden]{display:none}
 .reflection-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
@@ -639,8 +639,8 @@ header h1{
 .map-node small{color:#718078}
 .empty-state{padding:12px 0;color:#718078;font-size:14px}
 .condition-chart{width:100%;height:170px;display:block;overflow:visible}
-.condition-chart .chart-line{fill:none;stroke:#5c9369;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.condition-chart .chart-point{fill:#fff;stroke:#5c9369;stroke-width:3}
+.condition-chart .chart-line{fill:none;stroke:var(--theme-main);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.condition-chart .chart-point{fill:#fff;stroke:var(--theme-main);stroke-width:3}
 .chart-labels{display:flex;justify-content:space-between;color:#718078;font-size:11px;margin-top:4px}
 .settings-list{display:grid;gap:10px}
 .settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(100,120,105,.12)}
@@ -648,8 +648,8 @@ header h1{
 .settings-row strong{display:block;font-size:14px}
 .settings-row small{display:block;color:#718078;margin-top:3px;line-height:1.5}
 .settings-row input[type="number"],.settings-row select{width:92px;padding:9px;border:1px solid rgba(255,255,255,.9);border-radius:12px;background:#fff;color:#385541}
-.settings-row input[type="checkbox"]{width:22px;height:22px;accent-color:#5c9369}
-.settings-heading{margin:22px 0 8px;color:#52715b;font-size:13px;font-weight:700}
+.settings-row input[type="checkbox"]{width:22px;height:22px;accent-color:var(--theme-main)}
+.settings-heading{margin:22px 0 8px;color:var(--theme-text);font-size:13px;font-weight:700}
 .danger-button{width:100%;padding:13px;border:0;border-radius:15px;background:#f7e4e0;color:#a34d42;font-weight:700}
 
 /* =====================
@@ -766,7 +766,7 @@ header h1{
 .topic-panel{padding:16px;border-radius:22px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.92);box-shadow:0 10px 30px rgba(60,85,68,.07);}
 .topic-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 .topic-head strong{font-size:15px;}
-.topic-edit{border:0;background:#e2f3e6;color:#52715b;border-radius:12px;padding:7px 10px;font-size:12px;font-weight:700;}
+.topic-edit{border:0;background:var(--theme-light);color:var(--theme-text);border-radius:12px;padding:7px 10px;font-size:12px;font-weight:700;}
 .topic-list{display:flex;gap:7px;overflow-x:auto;padding:2px 1px 4px;scrollbar-width:none;}
 .topic-list::-webkit-scrollbar{display:none;}
 .topic-chip{flex:0 0 auto;padding:9px 12px;border-radius:14px;background:#f7faf7;color:#385541;font-size:13px;font-weight:700;border:1px solid rgba(114,169,125,.18);}
@@ -787,7 +787,7 @@ header h1{
 .action-counter{display:flex;justify-content:space-between;align-items:center;margin:9px 2px 0;color:#718078;font-size:12px;}
 .action-dots{display:flex;justify-content:center;gap:7px;margin:7px 0 2px;}
 .action-dot{width:7px;height:7px;border:0;border-radius:50%;padding:0;background:#b9c7bc;transition:.2s;}
-.action-dot.active{width:20px;border-radius:10px;background:#5c9369;}
+.action-dot.active{width:20px;border-radius:10px;background:var(--theme-main);}
 .action-add-wrap{margin-top:10px;}
 .compact-section{padding-top:6px;}
 .home-link-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 16px;margin:0 20px 12px;border-radius:20px;background:rgba(255,255,255,.68);border:1px solid rgba(255,255,255,.9);color:#385541;}
@@ -815,7 +815,7 @@ header h1{
 .info-sheet{width:min(500px,calc(100% - 20px));max-height:68vh;overflow:auto;background:#f8fbf8;border-radius:20px;padding:12px;box-shadow:0 18px 50px rgba(30,55,40,.20);}
 .info-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px;}
 .info-head h2{margin:0;color:#385541;font-size:17px;}
-.info-close{border:0;background:#e2f3e6;color:#52715b;border-radius:9px;width:30px;height:30px;font-size:17px;line-height:1;}
+.info-close{border:0;background:var(--theme-light);color:var(--theme-text);border-radius:9px;width:30px;height:30px;font-size:17px;line-height:1;}
 .info-sheet>.description{margin:3px 2px 7px;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .info-item{border:1px solid rgba(255,255,255,.95);border-radius:11px;background:#fff;margin-top:5px;overflow:hidden;}
 .info-item button{width:100%;border:0;background:transparent;padding:9px 11px;text-align:left;color:#385541;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center;min-height:36px;}
@@ -838,12 +838,191 @@ header h1{
 .guide-tooltip p{margin:0;color:#607168;font-size:13px;line-height:1.65;}
 .guide-actions{display:flex;gap:8px;margin-top:13px;}
 .guide-actions button{flex:1;padding:11px;border:0;border-radius:13px;font-weight:700;}
-.guide-next{background:linear-gradient(135deg,#5c9369,#78b684);color:#fff;}
-.guide-skip{background:#eef4ef;color:#52715b;}
+.guide-next{background:linear-gradient(135deg,var(--theme-main),#78b684);color:#fff;}
+.guide-skip{background:#eef4ef;color:var(--theme-text);}
 .guide-hint{margin-top:8px;color:#8a958e;font-size:11px;text-align:center;}
 .pagination-box{max-height:330px;overflow-y:auto;padding-right:2px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;}
-.pagination-more{width:100%;margin-top:10px;padding:11px;border:0;border-radius:14px;background:#eef4ef;color:#52715b;font-weight:700;}
+.pagination-more{width:100%;margin-top:10px;padding:11px;border:0;border-radius:14px;background:#eef4ef;color:var(--theme-text);font-weight:700;}
 .pagination-count{text-align:center;color:#718078;font-size:11px;margin-top:7px;}
+
+
+
+/* ===== Will Better 追加設定 ===== */
+:root{
+  --wb-main:var(--theme-main);
+  --wb-light:var(--theme-light);
+  --wb-dark:var(--theme-dark);
+}
+body.theme-green{--wb-main:var(--theme-main);--wb-light:var(--theme-light);--wb-dark:var(--theme-dark)}
+body.theme-blue{--wb-main:#4d82b8;--wb-light:#e1eef9;--wb-dark:#315f8d}
+body.theme-purple{--wb-main:#8065ad;--wb-light:#eee7f7;--wb-dark:#624a88}
+body.theme-orange{--wb-main:#d58a45;--wb-light:#faeadb;--wb-dark:#a9662e}
+body.theme-pink{--wb-main:#c66d91;--wb-light:#f8e4ec;--wb-dark:#984e6d}
+body.theme-green .primary-button,body.theme-green .complete-button,body.theme-green .guide-next,body.theme-blue .primary-button,body.theme-blue .complete-button,body.theme-blue .guide-next,body.theme-purple .primary-button,body.theme-purple .complete-button,body.theme-purple .guide-next,body.theme-orange .primary-button,body.theme-orange .complete-button,body.theme-orange .guide-next,body.theme-pink .primary-button,body.theme-pink .complete-button,body.theme-pink .guide-next{background:linear-gradient(135deg,var(--wb-main),color-mix(in srgb,var(--wb-main),white 25%))}
+body.theme-blue .process-step.active,body.theme-purple .process-step.active,body.theme-orange .process-step.active,body.theme-pink .process-step.active,body.theme-green .process-step.active{color:var(--wb-dark)}
+body.theme-blue .process-step.active span,body.theme-purple .process-step.active span,body.theme-orange .process-step.active span,body.theme-pink .process-step.active span,body.theme-green .process-step.active span{background:var(--wb-light);box-shadow:0 0 0 2px var(--wb-main)}
+body.theme-blue .interest-tile.selected,body.theme-purple .interest-tile.selected,body.theme-orange .interest-tile.selected,body.theme-pink .interest-tile.selected,body.theme-green .interest-tile.selected,body.theme-blue .choice-card.selected,body.theme-purple .choice-card.selected,body.theme-orange .choice-card.selected,body.theme-pink .choice-card.selected,body.theme-green .choice-card.selected{background:var(--wb-light);border-color:var(--wb-main)}
+body.theme-blue .exp,body.theme-purple .exp,body.theme-orange .exp,body.theme-pink .exp,body.theme-green .exp{background:linear-gradient(90deg,var(--wb-main),color-mix(in srgb,var(--wb-main),white 25%))}
+body.theme-blue .nav-item.active,body.theme-purple .nav-item.active,body.theme-orange .nav-item.active,body.theme-pink .nav-item.active,body.theme-green .nav-item.active{color:var(--wb-main)}
+body.theme-blue .record-time,body.theme-purple .record-time,body.theme-orange .record-time,body.theme-pink .record-time,body.theme-green .record-time{color:var(--wb-main)}
+.settings-select{width:150px;padding:10px 12px;border:1px solid rgba(100,120,105,.15);border-radius:13px;background:rgba(255,255,255,.8);color:#385541;outline:none}
+.settings-note{margin:8px 0 0;color:#718078;font-size:12px;line-height:1.6}
+
+
+/* ===== FULL THEME COLOR OVERRIDE ===== */
+:root{
+  --theme-main:#5c9369;
+  --theme-light:#e2f3e6;
+  --theme-dark:#3f7950;
+  --theme-text:#52715b;
+  --theme-soft:rgba(92,147,105,.12);
+  --theme-shadow:rgba(92,147,105,.22);
+}
+.theme-blue{
+  --theme-main:#4d82b8; --theme-light:#e1eef9; --theme-dark:#315f8d;
+  --theme-text:#416b92; --theme-soft:rgba(77,130,184,.12); --theme-shadow:rgba(77,130,184,.22);
+}
+.theme-purple{
+  --theme-main:#8065ad; --theme-light:#eee7f7; --theme-dark:#624a88;
+  --theme-text:#67518b; --theme-soft:rgba(128,101,173,.12); --theme-shadow:rgba(128,101,173,.22);
+}
+.theme-orange{
+  --theme-main:#d58a45; --theme-light:#faeadb; --theme-dark:#a9662e;
+  --theme-text:#9a6537; --theme-soft:rgba(213,138,69,.12); --theme-shadow:rgba(213,138,69,.22);
+}
+.theme-pink{
+  --theme-main:#c66d91; --theme-light:#f8e4ec; --theme-dark:#984e6d;
+  --theme-text:#985773; --theme-soft:rgba(198,109,145,.12); --theme-shadow:rgba(198,109,145,.22);
+}
+.theme-green{
+  --theme-main:#5c9369; --theme-light:#e2f3e6; --theme-dark:#3f7950;
+  --theme-text:#52715b; --theme-soft:rgba(92,147,105,.12); --theme-shadow:rgba(92,147,105,.22);
+}
+
+/* Buttons / controls */
+button.primary-button,
+button.complete-button,
+button.action-button,
+button.game-button,
+button.start-button{
+  background:linear-gradient(135deg,var(--theme-main),var(--theme-dark)) !important;
+  border-color:var(--theme-main) !important;
+}
+button.secondary-button,
+button.outline-button,
+button.ghost-button{
+  color:var(--theme-text) !important;
+  border-color:var(--theme-main) !important;
+}
+button:hover{
+  border-color:var(--theme-main);
+}
+
+/* Text / headings / links */
+a, .link, .settings-heading, .section-title, .accent,
+.info-link, .nav-item.active, .tab.active{
+  color:var(--theme-text) !important;
+}
+strong, .highlight{
+  accent-color:var(--theme-main);
+}
+
+/* Cards / selections / inputs */
+.interest-tile.selected,
+.choice-card.selected,
+.option-card.selected,
+.goal-card.selected,
+.condition-card.selected{
+  background:var(--theme-light) !important;
+  border-color:var(--theme-main) !important;
+  color:var(--theme-dark) !important;
+}
+input:focus, textarea:focus, select:focus{
+  border-color:var(--theme-main) !important;
+  box-shadow:0 0 0 3px var(--theme-soft) !important;
+}
+input[type="checkbox"]:checked,
+input[type="radio"]:checked{
+  accent-color:var(--theme-main);
+}
+
+/* Progress / XP / level */
+.exp,
+.xp-bar-fill,
+.progress-fill,
+.progress-inner{
+  background:linear-gradient(90deg,var(--theme-main),var(--theme-dark)) !important;
+}
+.exp-bar,
+.xp-bar,
+.progress-bar{
+  border-color:var(--theme-main);
+}
+.level-badge,
+.level,
+.level-tag{
+  background:var(--theme-light) !important;
+  color:var(--theme-dark) !important;
+  border-color:var(--theme-main) !important;
+}
+
+/* Process / steps / icons */
+.process-step.active,
+.process-step.current{
+  color:var(--theme-dark) !important;
+}
+.process-step.active span,
+.process-step.current span{
+  background:var(--theme-light) !important;
+  border-color:var(--theme-main) !important;
+  box-shadow:0 0 0 2px var(--theme-main);
+}
+.process-line.active,
+.step-line.active{
+  background:var(--theme-main) !important;
+}
+
+/* Navigation / tabs */
+.nav-item.active,
+.bottom-nav .active,
+.tab.active{
+  color:var(--theme-main) !important;
+}
+.nav-item.active::before,
+.tab.active::after{
+  background:var(--theme-main) !important;
+}
+
+/* Small accent elements */
+.badge,
+.tag,
+.chip.selected,
+.filter.active,
+.pagination-more{
+  background:var(--theme-light) !important;
+  color:var(--theme-dark) !important;
+  border-color:var(--theme-main) !important;
+}
+
+/* Toggle switches */
+.switch input:checked + .slider,
+.toggle input:checked + .slider{
+  background:var(--theme-main) !important;
+}
+
+/* Quote / guide accents */
+.quote-card,
+.guide-tooltip{
+  border-color:var(--theme-main);
+}
+.guide-next{
+  background:var(--theme-main) !important;
+}
+
+/* Remove remaining common green accent declarations at runtime via theme variables */
+body{
+  --accent:var(--theme-main);
+}
 
 </style>
 </head>
@@ -1322,6 +1501,26 @@ style="margin-top:10px"
 </div>
 </div>
 <div class="card">
+<div class="settings-heading">🎨 デザイン</div>
+<div class="settings-list">
+<div class="settings-row"><div><strong>テーマカラー</strong><small>Will Betterのアクセントカラーを変更します</small></div><select id="themeColorSetting" class="settings-select"><option value="green">🌿 グリーン</option><option value="blue">🔵 ブルー</option><option value="purple">🟣 パープル</option><option value="orange">🟠 オレンジ</option><option value="pink">🌸 ピンク</option></select></div>
+<div class="settings-row"><div><strong>レベルアップ演出</strong><small>魚がレベルアップしたときのアニメーション</small></div><input id="levelUpAnimationSetting" type="checkbox"></div>
+</div>
+</div>
+
+<div class="card">
+<div class="settings-heading">🐟 成長</div>
+<p class="description">魚の成長だけを最初からやり直します。記録や夢は残ります。</p>
+<button id="resetXPButton" class="secondary-button">🔄 XP・レベルをリセット</button>
+</div>
+
+<div class="card">
+<div class="settings-heading">📖 ガイド</div>
+<p class="description">初回に表示されたWill Betterの使い方をもう一度確認できます。</p>
+<button id="showGuideAgainButton" class="secondary-button">📖 使い方ガイドを見る</button>
+</div>
+
+<div class="card">
 <div class="settings-heading">データ</div>
 <p class="description">バックアップや機種変更のために、Will Betterのデータを保存・復元できます。</p>
 <button id="exportDataButton" class="secondary-button">📦 データを書き出す</button>
@@ -1692,6 +1891,8 @@ let conditionRecordEnabled=true;
 let processEnabled=true;
 let todayActions=[];
 let activeActionIndex=0;
+let themeColor="green";
+let levelUpAnimationEnabled=true;
 
 
 /* =====================
@@ -2325,6 +2526,13 @@ function updateProcess(){
 
 function updateSecondAction(){ /* 複数カード方式に統合 */ }
 
+function applyThemeColor(){
+    document.body.classList.remove("theme-green","theme-blue","theme-purple","theme-orange","theme-pink");
+    document.body.classList.add("theme-"+(themeColor||"green"));
+    const setting=$("themeColorSetting");
+    if(setting) setting.value=themeColor||"green";
+}
+
 function updateSettings(){
     $("defaultMinutesSetting").value=defaultMinutes;
     $("halfStepMinutesSetting").value=halfStepDefaultMinutes;
@@ -2333,6 +2541,9 @@ function updateSettings(){
     $("detailRecordSetting").checked=detailRecordEnabled;
     $("conditionRecordSetting").checked=conditionRecordEnabled;
     $("processSetting").checked=processEnabled;
+    if($("themeColorSetting")) $("themeColorSetting").value=themeColor||"green";
+    if($("levelUpAnimationSetting")) $("levelUpAnimationSetting").checked=levelUpAnimationEnabled;
+    applyThemeColor();
 }
 
 
@@ -2570,7 +2781,7 @@ function addXP(amount){
         level++;
         leveledUp=true;
     }
-    if(leveledUp){
+    if(leveledUp && levelUpAnimationEnabled){
         $("fish").classList.remove("bounce");
         void $("fish").offsetWidth;
         $("fish").classList.add("bounce");
@@ -2741,6 +2952,30 @@ $("processSetting").onchange=()=>{
     updateHome();
 };
 
+$("themeColorSetting").onchange=()=>{
+    themeColor=$("themeColorSetting").value;
+    applyThemeColor();
+    save();
+};
+
+$("levelUpAnimationSetting").onchange=()=>{
+    levelUpAnimationEnabled=$("levelUpAnimationSetting").checked;
+    save();
+};
+
+$("resetXPButton").onclick=()=>{
+    if(!confirm("XPとレベルをリセットしますか？\n\n魚の成長だけがLv.1・XP 0に戻ります。\n記録・夢・ポイントは残ります。")) return;
+    level=1;
+    exp=0;
+    save();
+    updateHome();
+    alert("XPとレベルをリセットしました。\n魚はLv.1から再スタートです。");
+};
+
+$("showGuideAgainButton").onclick=()=>{
+    showGuide();
+};
+
 
 function buildBackupData(){
     const raw=localStorage.getItem("willBetterData");
@@ -2803,6 +3038,8 @@ function normalizeImportedData(input){
     out.detailRecordEnabled=d.detailRecordEnabled!==false;
     out.conditionRecordEnabled=d.conditionRecordEnabled!==false;
     out.processEnabled=d.processEnabled!==false;
+    out.themeColor=["green","blue","purple","orange","pink"].includes(d.themeColor)?d.themeColor:"green";
+    out.levelUpAnimationEnabled=d.levelUpAnimationEnabled!==false;
     return out;
 }
 
@@ -3591,7 +3828,9 @@ function save(){
             detailRecordEnabled,
             conditionRecordEnabled,
             processEnabled,
-            todayActions
+            todayActions,
+            themeColor,
+            levelUpAnimationEnabled
 
         })
 
@@ -3702,6 +3941,8 @@ function load(){
     detailRecordEnabled=d.detailRecordEnabled!==false;
     conditionRecordEnabled=d.conditionRecordEnabled!==false;
     processEnabled=d.processEnabled!==false;
+    themeColor=typeof d.themeColor==="string" && ["green","blue","purple","orange","pink"].includes(d.themeColor) ? d.themeColor : "green";
+    levelUpAnimationEnabled=d.levelUpAnimationEnabled!==false;
     todayActions=Array.isArray(d.todayActions)?d.todayActions:[];
     activeActionIndex=0;
     if(!selectedGoal && todayActions.length) selectedGoal=todayActions[0].title||"";
