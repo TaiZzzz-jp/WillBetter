@@ -823,6 +823,28 @@ header h1{
 .info-item.open .info-detail{display:block;}
 @media(max-width:420px){.home-quick-row{grid-template-columns:1fr;} .info-sheet{width:calc(100% - 14px);padding:10px;border-radius:17px;}.info-item button{padding:8px 10px;}}
 
+
+/* =====================
+   初回使い方ガイド
+===================== */
+.guide{position:fixed;inset:0;z-index:9999;display:none;pointer-events:none;}
+.guide-backdrop{position:absolute;inset:0;background:rgba(20,35,26,.58);backdrop-filter:blur(2px);pointer-events:auto;}
+.guide-spotlight{position:fixed;z-index:10001;border-radius:22px;box-shadow:0 0 0 4px rgba(255,255,255,.95),0 0 0 9999px rgba(20,35,26,.58),0 12px 45px rgba(0,0,0,.28);pointer-events:none;transition:all .35s ease;}
+.guide-tooltip{position:fixed;z-index:10002;width:min(360px,calc(100vw - 28px));padding:17px 17px 14px;background:#fff;border-radius:20px;box-shadow:0 16px 45px rgba(0,0,0,.24);pointer-events:auto;transition:top .35s ease,left .35s ease;}
+.guide-tooltip::before{content:"";position:absolute;width:14px;height:14px;background:#fff;transform:rotate(45deg);top:-7px;left:32px;}
+.guide-tooltip.above::before{top:auto;bottom:-7px;}
+.guide-mini{display:flex;justify-content:space-between;align-items:center;color:#718078;font-size:12px;margin-bottom:8px;}
+.guide-tooltip h3{margin:0 0 7px;color:#385541;font-size:17px;}
+.guide-tooltip p{margin:0;color:#607168;font-size:13px;line-height:1.65;}
+.guide-actions{display:flex;gap:8px;margin-top:13px;}
+.guide-actions button{flex:1;padding:11px;border:0;border-radius:13px;font-weight:700;}
+.guide-next{background:linear-gradient(135deg,#5c9369,#78b684);color:#fff;}
+.guide-skip{background:#eef4ef;color:#52715b;}
+.guide-hint{margin-top:8px;color:#8a958e;font-size:11px;text-align:center;}
+.pagination-box{max-height:330px;overflow-y:auto;padding-right:2px;-webkit-overflow-scrolling:touch;scrollbar-width:thin;}
+.pagination-more{width:100%;margin-top:10px;padding:11px;border:0;border-radius:14px;background:#eef4ef;color:#52715b;font-weight:700;}
+.pagination-count{text-align:center;color:#718078;font-size:11px;margin-top:7px;}
+
 </style>
 </head>
 
@@ -947,6 +969,21 @@ placeholder="例：ゲームを作ってみたい">
 
 </div>
 
+
+<!-- =====================
+ 初回使い方ガイド
+===================== -->
+<div id="guide" class="guide" aria-hidden="true">
+  <div class="guide-backdrop" id="guideBackdrop"></div>
+  <div id="guideSpotlight" class="guide-spotlight"></div>
+  <div id="guideTooltip" class="guide-tooltip">
+    <div class="guide-mini"><span>Will Better GUIDE</span><span id="guideStep">1 / 6</span></div>
+    <h3 id="guideTitle">今日の流れ</h3>
+    <p id="guideText">実際の画面を見ながら、Will Betterの使い方を案内します。</p>
+    <div class="guide-actions"><button id="guideSkip" class="guide-skip">スキップ</button><button id="guideNext" class="guide-next">次へ</button></div>
+    <div id="guideHint" class="guide-hint">この部分を目印に覚えておこう</div>
+  </div>
+</div>
 
 <!-- =====================
  HOME
@@ -1326,7 +1363,7 @@ style="margin-top:10px"
 <div id="actionReviewHistory"></div>
 </div>
 
-<div class="card">
+<div id="dreamLogGuideTarget" class="card">
 <h2 class="section-title">🌱 夢の芽ログ</h2>
 <p class="description">今日の発見や「もっとやりたい」を残せます。</p>
 <textarea id="dreamLogInput" class="log-input" placeholder="例：調べてみたら、作る方が楽しそうだった"></textarea>
@@ -1466,7 +1503,7 @@ style="margin-top:10px"
 魚が成長していきます。
 </p>
 
-<button id="gameButton" class="primary-button">
+<button id="gameButton" class="primary-button secret-feed-button">
 魚にエサをあげる 🐟
 </button>
 
@@ -1689,7 +1726,7 @@ interests.forEach(x=>{
             selectedInterests.push(x);
 
         }
-
+z
         $("selectedCount").textContent=
             selectedInterests.length+"個選択中";
     };
@@ -1997,13 +2034,36 @@ $("startFinalButton").onclick=()=>{
 
     $("setup").style.display="none";
 
-    ensureTodayActions();
-    showScreen("home");
-    updateHome();
-    updateProcess();
+    showGuide();
 
 };
 
+
+
+/* =====================
+   初回使い方ガイド：実際のUIをスポット表示
+===================== */
+const guideSteps=[
+ {target:'.process-card',title:'今のプロセス',text:'ここでは「好き → 気になる → 小さくやる → 記録」という、Will Betterの流れを確認できます。今どこにいるかが分かります。'},
+ {target:'#actionCarousel',title:'今日の一歩',text:'ここが一番大事。今日できそうな小さな行動が表示されます。終わったら「やってみた！」を押して記録します。'},
+ {target:'#homeConditionLink',title:'コンディション',text:'今日の調子に合わせて、一歩の重さを変えられます。疲れている日は小さく、元気な日は少し挑戦できます。'},
+ {target:'#infoLink',title:'各種情報',text:'あとからいつでも使い方を確認できます。分からなくなってもここに戻ればOKです。'},
+ {target:'.quote-card',title:'今日のひとこと',text:'毎日変わるひとことが、ちょっと考えるきっかけになります。ここにある格言は消えません。'},
+ {target:'#dreamLogGuideTarget',title:'夢の芽ログ',text:'記録画面には、やってみて見つけたことを残す「夢の芽ログ」があります。記録が増えても、ページが長くなりすぎないように分けて表示します。',screen:'records'}
+];
+let guideIndex=0;
+function showGuide(){const guide=$("guide");if(!guide)return;guide.style.display='block';guide.setAttribute('aria-hidden','false');guideIndex=0;renderGuideStep();}
+function getGuideTarget(step){return document.querySelector(step.target);}
+function positionGuideTooltip(target){const spotlight=$("guideSpotlight"),tooltip=$("guideTooltip");if(!target||!spotlight||!tooltip)return;const r=target.getBoundingClientRect(),pad=5;spotlight.style.left=Math.max(4,r.left-pad)+'px';spotlight.style.top=Math.max(4,r.top-pad)+'px';spotlight.style.width=Math.max(20,r.width+pad*2)+'px';spotlight.style.height=Math.max(20,r.height+pad*2)+'px';const tw=Math.min(360,window.innerWidth-24),th=tooltip.offsetHeight||150;let left=Math.min(Math.max(12,r.left),window.innerWidth-tw-12),top=r.bottom+14;tooltip.classList.remove('above');if(top+th>window.innerHeight-10){top=r.top-th-14;tooltip.classList.add('above');}if(top<10){top=10;tooltip.classList.remove('above');}tooltip.style.width=tw+'px';tooltip.style.left=left+'px';tooltip.style.top=top+'px';}
+function renderGuideStep(){const step=guideSteps[guideIndex];showScreen(step.screen||'home');const target=getGuideTarget(step);if(!target){setTimeout(renderGuideStep,80);return;}target.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});setTimeout(()=>{$("guideStep").textContent=(guideIndex+1)+' / '+guideSteps.length;$("guideTitle").textContent=step.title;$("guideText").textContent=step.text;$("guideNext").textContent=guideIndex===guideSteps.length-1?'ホームへ':'次へ';$("guideHint").textContent=step.screen?'記録画面の実際の場所を案内しています':'この部分を目印に覚えておこう';positionGuideTooltip(target);},320);}
+$("guideNext").onclick=()=>{if(guideIndex<guideSteps.length-1){guideIndex++;renderGuideStep();}else completeGuide();};$("guideSkip").onclick=()=>completeGuide();$("guideBackdrop").onclick=()=>completeGuide();window.addEventListener('resize',()=>{if($("guide")&&$("guide").style.display!=='none')positionGuideTooltip(getGuideTarget(guideSteps[guideIndex]));});
+function completeGuide(){$("guide").style.display='none';$("guide").setAttribute('aria-hidden','true');localStorage.setItem('guideCompleted','true');showScreen('home');ensureTodayActions();updateHome();updateProcess();}
+
+/* =====================
+   魚 SECRET
+===================== */
+let fishTapCount=0;
+$("fish").onclick=()=>{$("fish").classList.remove('bounce');void $("fish").offsetWidth;$("fish").classList.add('bounce');fishTapCount++;if(fishTapCount===3)$("fishName").textContent='……何か気づいた？';if(fishTapCount>=5){$("fishName").textContent='🐟 Secret Found!';$("gameButton").style.display='block';updateGameButton();}};
 
 /* =====================
  HOME
@@ -2394,51 +2454,17 @@ function updatePossibilityMap(){
     });
 }
 
-function renderDreamLogs(){
-    const list=$("dreamLogList");
-    list.innerHTML="";
-    dreamLogs.slice(0,5).forEach(log=>{
-        const item=document.createElement("div");
-        item.className="log-item";
-        item.textContent=log.text;
-        const date=document.createElement("small");
-        date.textContent=log.date;
-        item.appendChild(date);
-        list.appendChild(item);
-    });
-}
+let dreamLogVisible=10;
+let futureLetterVisible=5;
+let actionReviewVisible=10;
+let moodHistoryVisible=10;
+let recordVisible=10;
+function makePaginationMore(container,shown,total,onMore){if(shown>=total)return;const button=document.createElement("button");button.className="pagination-more";button.textContent=`さらに表示（${Math.min(10,total-shown)}件）`;button.onclick=onMore;container.appendChild(button);const count=document.createElement("div");count.className="pagination-count";count.textContent=`${shown} / ${total}件を表示中`;container.appendChild(count);}
+function renderDreamLogs(){const list=$("dreamLogList");list.innerHTML="";const wrap=document.createElement("div");wrap.className="pagination-box";dreamLogs.slice(0,dreamLogVisible).forEach(log=>{const item=document.createElement("div");item.className="log-item";item.textContent=log.text;const date=document.createElement("small");date.textContent=log.date;item.appendChild(date);wrap.appendChild(item);});list.appendChild(wrap);makePaginationMore(list,Math.min(dreamLogVisible,dreamLogs.length),dreamLogs.length,()=>{dreamLogVisible+=10;renderDreamLogs();});}
 
-function renderFutureLetters(){
-    const list=$("futureLetterList");
-    list.innerHTML="";
-    futureLetters.slice(0,3).forEach(letter=>{
-        const item=document.createElement("div");
-        item.className="log-item";
-        item.textContent=letter.text;
-        const date=document.createElement("small");
-        date.textContent=letter.date;
-        item.appendChild(date);
-        list.appendChild(item);
-    });
-}
+function renderFutureLetters(){const list=$("futureLetterList");list.innerHTML="";const wrap=document.createElement("div");wrap.className="pagination-box";futureLetters.slice(0,futureLetterVisible).forEach(letter=>{const item=document.createElement("div");item.className="log-item";item.textContent=letter.text;const date=document.createElement("small");date.textContent=letter.date;item.appendChild(date);wrap.appendChild(item);});list.appendChild(wrap);makePaginationMore(list,Math.min(futureLetterVisible,futureLetters.length),futureLetters.length,()=>{futureLetterVisible+=5;renderFutureLetters();});}
 
-function renderActionReviewHistory(){
-    const list=$("actionReviewHistory");
-    list.innerHTML="";
-    if(actionReviews.length===0){
-        list.innerHTML='<div class="empty-state">行動すると、ここに気づきが残ります。</div>';
-        return;
-    }
-    actionReviews.slice(0,10).forEach(item=>{
-        const row=document.createElement("div");
-        row.className="log-item";
-        row.textContent=(item.review||"")+(item.discovery ? "：「"+item.discovery+"」" : "")+(item.nextStep ? " → 次は「"+item.nextStep+"」" : "");
-        const date=document.createElement("small");
-        date.textContent=item.date;
-        row.appendChild(date);
-        list.appendChild(row);
-    });
-}
+function renderActionReviewHistory(){const list=$("actionReviewHistory");list.innerHTML="";if(actionReviews.length===0){list.innerHTML='<div class="empty-state">行動すると、ここに気づきが残ります。</div>';return;}const wrap=document.createElement("div");wrap.className="pagination-box";actionReviews.slice(0,actionReviewVisible).forEach(item=>{const row=document.createElement("div");row.className="log-item";row.textContent=(item.review||"")+(item.discovery?"：「"+item.discovery+"」":"")+(item.nextStep?" → 次は「"+item.nextStep+"」":"");const date=document.createElement("small");date.textContent=item.date;row.appendChild(date);wrap.appendChild(row);});list.appendChild(wrap);makePaginationMore(list,Math.min(actionReviewVisible,actionReviews.length),actionReviews.length,()=>{actionReviewVisible+=10;renderActionReviewHistory();});}
 
 function renderRecordMood(){
     const grid=$("recordMoodGrid");
@@ -2472,40 +2498,7 @@ function setTodayMood(nextMood){
     save();
 }
 
-function renderMoodHistory(){
-    const list=$("moodHistoryList");
-    const chart=$("conditionChart");
-    const labels=$("conditionChartLabels");
-    list.innerHTML="";
-    chart.innerHTML="";
-    labels.innerHTML="";
-    if(moodHistory.length===0){
-        list.innerHTML='<div class="empty-state">まだコンディションの記録がありません。</div>';
-        return;
-    }
-    const values={"疲れた":1,"普通":2,"元気":3,"集中":4,"好奇心":5};
-    const history=moodHistory.slice(0,7).reverse();
-    const points=history.map((item,index)=>{
-        const x=history.length===1 ? 180 : 20+index*(320/(history.length-1));
-        const y=130-(values[item.mood]||2)*25;
-        return {x,y,item};
-    });
-    chart.innerHTML='<path class="chart-line" d="'+points.map((point,index)=>(index?"L":"M")+point.x+" "+point.y).join(" ")+'"></path>'+points.map(point=>'<circle class="chart-point" cx="'+point.x+'" cy="'+point.y+'" r="5"></circle>').join("");
-    points.forEach(point=>{
-        const label=document.createElement("span");
-        label.textContent=point.item.date.slice(5);
-        labels.appendChild(label);
-    });
-    moodHistory.slice(0,10).forEach(item=>{
-        const row=document.createElement("div");
-        row.className="log-item";
-        row.textContent=item.mood+"（"+(values[item.mood]||2)+" / 5）";
-        const date=document.createElement("small");
-        date.textContent=item.date;
-        row.appendChild(date);
-        list.appendChild(row);
-    });
-}
+function renderMoodHistory(){const list=$("moodHistoryList"),chart=$("conditionChart"),labels=$("conditionChartLabels");list.innerHTML="";chart.innerHTML="";labels.innerHTML="";if(moodHistory.length===0){list.innerHTML='<div class="empty-state">まだコンディションの記録がありません。</div>';return;}const values={"疲れた":1,"普通":2,"元気":3,"集中":4,"好奇心":5};const history=moodHistory.slice(0,7).reverse();const points=history.map((item,index)=>{const x=history.length===1?180:20+index*(320/(history.length-1));const y=130-(values[item.mood]||2)*25;return{x,y,item};});chart.innerHTML='<path class="chart-line" d="'+points.map((point,index)=>(index?"L":"M")+point.x+" "+point.y).join(" ")+'"></path>'+points.map(point=>'<circle class="chart-point" cx="'+point.x+'" cy="'+point.y+'" r="5"></circle>').join("");points.forEach(point=>{const label=document.createElement("span");label.textContent=point.item.date.slice(5);labels.appendChild(label);});const wrap=document.createElement("div");wrap.className="pagination-box";moodHistory.slice(0,moodHistoryVisible).forEach(item=>{const row=document.createElement("div");row.className="log-item";row.textContent=item.mood+"（"+(values[item.mood]||2)+" / 5）";const date=document.createElement("small");date.textContent=item.date;row.appendChild(date);wrap.appendChild(row);});list.appendChild(wrap);makePaginationMore(list,Math.min(moodHistoryVisible,moodHistory.length),moodHistory.length,()=>{moodHistoryVisible+=10;renderMoodHistory();});}
 
 $("mixButton").onclick=()=>{
     const pool=[...selectedInterests,...searchIdeas];
@@ -2685,6 +2678,7 @@ $("saveDreamLog").onclick=()=>{
     const text=$("dreamLogInput").value.trim();
     if(!text) return;
     dreamLogs.unshift({date:getDateKey(),text});
+    dreamLogVisible=Math.max(10,dreamLogVisible);
     $("dreamLogInput").value="";
     save();
     renderDreamLogs();
@@ -2694,6 +2688,7 @@ $("saveFutureLetter").onclick=()=>{
     const text=$("futureLetterInput").value.trim();
     if(!text) return;
     futureLetters.unshift({date:getDateKey(),text});
+    futureLetterVisible=Math.max(5,futureLetterVisible);
     $("futureLetterInput").value="";
     save();
     renderFutureLetters();
@@ -2832,6 +2827,7 @@ $("resetDataButton").onclick=()=>{
     if(!confirm("すべてのデータを初期化しますか？")) return;
     localStorage.removeItem("willBetterData");
     localStorage.removeItem("setupCompleted");
+    localStorage.removeItem("guideCompleted");
     location.reload();
 };
 
@@ -3295,7 +3291,9 @@ function updateRecords(){
     }
 
     list.innerHTML="";
-    records.slice(0,30).forEach(r=>{
+    const wrap=document.createElement("div");
+    wrap.className="pagination-box";
+    records.slice(0,recordVisible).forEach(r=>{
         const item=document.createElement("div");
         item.className="record-item";
         const title=escapeHTML(r.title||"記録");
@@ -3316,8 +3314,10 @@ function updateRecords(){
           <div class="record-chevron">⌄</div>
           <div class="record-expanded">${detail.length?detail.map(escapeHTML).join("<br>"):"この記録にはまだ詳しい内容がありません。"}</div>`;
         item.onclick=()=>item.classList.toggle("expanded");
-        list.appendChild(item);
+        wrap.appendChild(item);
     });
+    list.appendChild(wrap);
+    makePaginationMore(list,Math.min(recordVisible,records.length),records.length,()=>{recordVisible+=10;updateRecords();});
     updateCalendar();
 }
 
@@ -3733,26 +3733,16 @@ function load(){
 ===================== */
 
 if(
-
-    localStorage.getItem(
-        "setupCompleted"
-    )==="true"
-
+    localStorage.getItem("setupCompleted")==="true"
     &&
-
     load()
-
 ){
-
-    $("setup").style.display=
-        "none";
-
-
-    showScreen(
-        "home"
-    );
-
-
+    $("setup").style.display="none";
+    if(localStorage.getItem("guideCompleted")==="true"){
+        showScreen("home");
+    }else{
+        showGuide();
+    }
 }else{
 
     $("setup").style.display=
