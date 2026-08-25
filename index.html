@@ -1024,6 +1024,79 @@ body{
   --accent:var(--theme-main);
 }
 
+
+/* 追加方法ポップアップ専用CSS（既存CSSは変更しない） */
+.qr-install-overlay{
+    position:fixed;
+    inset:0;
+    z-index:999999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(20,30,24,.58);
+}
+.qr-install-card{
+    position:relative;
+    width:min(380px,calc(100vw - 32px));
+    max-height:calc(100vh - 40px);
+    overflow:auto;
+    padding:28px 24px 24px;
+    border-radius:24px;
+    background:#fff;
+    box-shadow:0 20px 60px rgba(0,0,0,.28);
+    text-align:center;
+}
+.qr-install-card h3{
+    margin:8px 0 10px;
+    font-size:20px;
+    color:var(--theme-dark);
+}
+.qr-install-card p{
+    margin:0 0 14px;
+    color:#59665e;
+    font-size:13px;
+    line-height:1.7;
+}
+.qr-install-card img{
+    display:block;
+    width:220px;
+    height:220px;
+    object-fit:contain;
+    margin:12px auto 16px;
+    border-radius:8px;
+}
+.qr-install-card strong{
+    display:block;
+    margin-top:10px;
+    color:#4f5d54;
+    font-size:12px;
+    line-height:1.6;
+}
+.qr-install-close{
+    position:absolute;
+    top:8px;
+    right:10px;
+    width:32px;
+    height:32px;
+    padding:0;
+    border:0;
+    background:transparent;
+    color:#6d7770;
+    font-size:24px;
+    line-height:32px;
+    cursor:pointer;
+}
+.qr-install-steps{
+    margin:12px 0 0;
+    padding:12px 14px;
+    border-radius:14px;
+    background:#f5f7f5;
+    color:#536158;
+    font-size:12px;
+    line-height:1.7;
+    text-align:left;
+}
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -4066,7 +4139,11 @@ function updateInstallBanner(){
     const text=notice.querySelector("p");
     const levelMessage=notice.querySelector(".level5-install-message");
     const monthMessage=notice.querySelector(".month-install-message");
+    const stepButton=notice.querySelector("#todayStepChange");
     const milestone=streak>=30 ? "month" : (level>=5 ? "level5" : "install");
+
+    if(stepButton) stepButton.hidden = !(milestone==="month" || milestone==="level5");
+
     if(milestone==="month"){
         if(title) title.textContent="🌱 1ヶ月続けた今、今日の一歩を見直してみませんか？";
         if(text) text.textContent="1ヶ月継続できました。今の自分に合う「今日の一歩」へ変更するのをおすすめします。";
@@ -4085,33 +4162,22 @@ function updateInstallBanner(){
     }
 }
 
-(function setupInstallBanner(){
+function setupInstallBanner(){
     const notice=$("iosInstallNotice");
     const okButton=$("iosInstallOk");
+    const stepButton=$("todayStepChange");
     if(!notice) return;
+
     updateInstallBanner();
+
+    // 「追加方法」はLv.5や1ヶ月継続後も常に残す
     if(okButton){
-        okButton.textContent=(level>=5 || streak>=30) ? "一歩を変更" : "追加方法";
+        okButton.textContent="追加方法";
         okButton.onclick=()=>{
-            if(level>=5 || streak>=30){
-                const action=todayActions[activeActionIndex];
-                if(action){
-                    const next=prompt("今日の一歩を変更してみましょう。\n今の自分に合う小さな一歩を入力してください。",action.title||"");
-                    if(next!==null && next.trim()){
-                        action.title=next.trim();
-                        action.completed=false;
-                        action.date=getDateKey();
-                        renderActionCarousel();
-                        save();
-                        updateInstallBanner();
-                    }
-                }
-                return;
-            }
             const ua=navigator.userAgent||"";
             const isIOS=/iPhone|iPad|iPod/i.test(ua);
             const isAndroid=/Android/i.test(ua);
-            const isPC=/Macintosh|Mac OS X|Windows/i.test(ua);
+            const isPC=!isIOS && !isAndroid;
 
             if(isPC){
                 const overlay=document.createElement("div");
@@ -4119,11 +4185,23 @@ function updateInstallBanner(){
                 overlay.innerHTML=`
                     <div class="qr-install-card">
                         <button type="button" class="qr-install-close" aria-label="閉じる">×</button>
-                        <div class="qr-install-icon">📱</div>
+                        <div class="ios-install-icon">📱</div>
                         <h3>スマホでWill Betterを使う</h3>
-                        <p>iPhone・Androidのカメラで<br>このQRコードを読み取ってください。</p>
-                        <img src="qr1234.png" alt="Will Betterを開くQRコード">
-                        <strong>スマホで開いたら、ホーム画面への追加をおすすめします。</strong>
+                        <p>パソコンでご覧の場合は、スマートフォンで開いてからホーム画面に追加するのがおすすめです。</p>
+                        <img src="./qr1234.png" alt="Will Betterを開くQRコード"
+                             onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
+                        <div class="qr-install-steps" hidden>
+                            <b>QRコード画像が読み込めません。</b><br>
+                            GitHubの <code>index.html</code> と同じ場所に
+                            <code>qr1234.png</code> を置いてください。
+                        </div>
+                        <div class="qr-install-steps">
+                            <b>使い方</b><br>
+                            ① スマートフォンのカメラでQRコードを読み取る<br>
+                            ② Will Betterを開く<br>
+                            ③ 「ホーム画面に追加」して、アプリのようにすぐ起動
+                        </div>
+                        <strong>iPhone・Androidどちらでも、ホーム画面への追加を強くおすすめします。</strong>
                     </div>`;
                 document.body.appendChild(overlay);
                 overlay.querySelector(".qr-install-close").onclick=()=>overlay.remove();
@@ -4139,20 +4217,35 @@ function updateInstallBanner(){
             }
         };
     }
-})();
 
-document.addEventListener("DOMContentLoaded",()=>{
-    updateInstallBanner();
-    const okButton=$("iosInstallOk");
-    if(okButton && (level>=5 || streak>=30)) okButton.textContent="一歩を変更";
-});
+    if(stepButton){
+        stepButton.onclick=()=>{
+            const action=todayActions[activeActionIndex];
+            if(!action) return;
+            const next=prompt(
+                "今日の一歩を変更してみましょう。\n今の自分に合う小さな一歩を入力してください。",
+                action.title||""
+            );
+            if(next!==null && next.trim()){
+                action.title=next.trim();
+                action.completed=false;
+                action.date=getDateKey();
+                renderActionCarousel();
+                save();
+                updateInstallBanner();
+            }
+        };
+    }
+}
+
+document.addEventListener('DOMContentLoaded', setupInstallBanner);
 
 if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
         navigator.serviceWorker.register("./sw.js").catch(()=>{});
     });
 }
-// ホーム画面追加バナーは常時表示。前回のやつは消した
+// ホーム画面追加バナーは常時表示。旧ウェルカムモーダル処理は使用しません。
 
 </script>
 
@@ -4167,7 +4260,10 @@ if("serviceWorker" in navigator){
             <div class="level5-install-message" hidden>Lv.5になったら、今の自分に合う「今日の一歩」へ変更するのがおすすめです。</div>
             <div class="month-install-message" hidden>1ヶ月継続したら、今の自分に合う「今日の一歩」へ見直すのがおすすめです。</div>
         </div>
-        <button id="iosInstallOk" class="ios-install-ok" type="button">追加方法</button>
+        <div class="ios-install-actions">
+            <button id="iosInstallOk" class="ios-install-ok" type="button">追加方法</button>
+            <button id="todayStepChange" class="ios-install-ok" type="button" hidden>一歩を変更</button>
+        </div>
     </div>
 </div>
 
