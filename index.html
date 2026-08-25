@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -810,7 +811,7 @@ header h1{
 .home-quick-card{border:1px solid rgba(255,255,255,.9);border-radius:18px;padding:13px 14px;background:rgba(255,255,255,.68);color:#385541;text-align:left;cursor:pointer;box-shadow:0 8px 22px rgba(60,85,68,.05);}
 .home-quick-card strong{display:block;font-size:13px;}
 .home-quick-card small{display:block;color:#718078;margin-top:4px;line-height:1.45;}
-.info-modal{position:fixed;inset:0;background:rgba(35,55,43,.24);backdrop-filter:blur(3px);z-index:1000;display:none;align-items:center;justify-content:center;padding:12px;}
+.info-modal{position:fixed;inset:0;background:rgba(35,55,43,.24);backdrop-filter:none;-webkit-backdrop-filter:none;z-index:1000;display:none;align-items:center;justify-content:center;padding:12px;}
 .info-modal.show{display:flex;}
 .info-sheet{width:min(500px,calc(100% - 20px));max-height:68vh;overflow:auto;background:#f8fbf8;border-radius:20px;padding:12px;box-shadow:0 18px 50px rgba(30,55,40,.20);}
 .info-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:5px;}
@@ -4123,17 +4124,13 @@ if(
         window.matchMedia("(display-mode: standalone)").matches ||
         window.navigator.standalone===true;
 
-    const alreadyShown=
-        localStorage.getItem("iosInstallNoticeShown")==="true";
-
-    if(!isIOS || isStandalone || alreadyShown || iosInstallEnabled===false) return;
+    if(!isIOS || isStandalone || iosInstallEnabled===false) return;
 
     setTimeout(()=>{
         notice.hidden=false;
     },700);
 
     okButton.onclick=()=>{
-        localStorage.setItem("iosInstallNoticeShown","true");
         notice.hidden=true;
     };
 
@@ -4147,26 +4144,21 @@ if("serviceWorker" in navigator){
 }
 // ① 初回起動の処理が完了したタイミングで呼び出す関数
 function showWelcomeModal() {
-    // 過去に案内を表示済みかチェック（localStorageを使用）
-    const isNoticeShown = localStorage.getItem('willbetter_notice_shown');
-
-    if (!isNoticeShown) {
-        // hiddenを外して画面に表示
-        const noticeElement = document.getElementById('iosInstallNotice');
-        if (noticeElement) {
-            noticeElement.removeAttribute('hidden');
-        }
+    const noticeElement = document.getElementById('iosInstallNotice');
+    if (noticeElement) {
+        noticeElement.removeAttribute('hidden');
     }
 }
 
 // ② 「OK」ボタンを押した時の処理
-
 document.getElementById('iosInstallOk').addEventListener('click', () => {
-
+    // 案内済みフラグを保存（次回以降は表示されない）
+    localStorage.setItem('willbetter_notice_shown', 'true');
+    
     // モーダルを非表示にする
     document.getElementById('iosInstallNotice').setAttribute('hidden', '');
-
 });
+
 
 </script>
 
