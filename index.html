@@ -4160,14 +4160,13 @@ function showWelcomeModal() {
 }
 
 // ② 「OK」ボタンを押した時の処理
+
 document.getElementById('iosInstallOk').addEventListener('click', () => {
-    // 案内済みフラグを保存（次回以降は表示されない）
-    localStorage.setItem('willbetter_notice_shown', 'true');
-    
+
     // モーダルを非表示にする
     document.getElementById('iosInstallNotice').setAttribute('hidden', '');
-});
 
+});
 
 </script>
 
