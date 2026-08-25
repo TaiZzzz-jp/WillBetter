@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Will Better</title>
-
+<link rel="icon" href="W.png">
 <style>
 *{box-sizing:border-box}
 
@@ -4136,6 +4136,10 @@ if(
 function updateInstallBanner(){
     const notice=$("iosInstallNotice");
     if(!notice) return;
+    if(localStorage.getItem("installBannerDismissed")==="true") {
+        notice.hidden=true;
+        return;
+    }
     notice.hidden=false;
     const title=notice.querySelector("h2");
     const text=notice.querySelector("p");
@@ -4171,6 +4175,22 @@ function setupInstallBanner(){
     if(!notice) return;
 
     updateInstallBanner();
+
+    // バナーを閉じたら、同じ端末では再表示しない
+    if(!notice.querySelector("#installBannerDismiss")){
+        const dismiss=document.createElement("button");
+        dismiss.id="installBannerDismiss";
+        dismiss.type="button";
+        dismiss.textContent="×";
+        dismiss.setAttribute("aria-label","ホーム画面追加のおすすめを閉じる");
+        dismiss.style.cssText="position:absolute;top:4px;right:7px;width:28px;height:28px;padding:0;border:0;background:transparent;color:#6d7770;font-size:22px;line-height:28px;cursor:pointer;";
+        notice.style.position="fixed";
+        notice.appendChild(dismiss);
+        dismiss.onclick=()=>{
+            localStorage.setItem("installBannerDismissed","true");
+            notice.hidden=true;
+        };
+    }
 
     // 「追加方法」はLv.5や1ヶ月継続後も常に残す
     if(okButton){
