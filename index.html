@@ -1875,6 +1875,26 @@ style="margin-top:10px"
 
 <script>
 
+
+/* =====================
+app ver
+===================== */
+
+const APP_VERSION = "1.2.0";
+const SAVED_VERSION = localStorage.getItem("willbetter_app_version");
+
+if (SAVED_VERSION !== APP_VERSION) {
+    localStorage.removeItem("guideSeen");
+    localStorage.removeItem("installBannerClosed");
+
+    localStorage.setItem("willbetter_app_version", APP_VERSION);
+}
+
+
+
+
+
+
 /* =====================
  DATA
 ===================== */
