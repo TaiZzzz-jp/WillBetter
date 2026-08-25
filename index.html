@@ -2354,12 +2354,14 @@ $("startFinalButton").onclick=()=>{
    初回使い方ガイド：実際のUIをスポット表示
 ===================== */
 const guideSteps=[
- {target:'.process-card',title:'今のプロセス',text:'ここでは「好き → 気になる → 小さくやる → 記録」という、Will Betterの流れを確認できます。今どこにいるかが分かります。'},
- {target:'#actionCarousel',title:'今日の一歩',text:'ここが一番大事。今日できそうな小さな行動が表示されます。終わったら「やってみた！」を押して記録します。'},
- {target:'#homeConditionLink',title:'コンディション',text:'今日の調子に合わせて、一歩の重さを変えられます。疲れている日は小さく、元気な日は少し挑戦できます。'},
+ {target:'.process-card',title:'Will Betterってどんなアプリ？',text:'Will Betterは、夢を最初から決めるためのアプリではありません。「好き」「気になる」をきっかけに、小さくやってみて、発見を重ねながら自分の進みたい方向を探していくアプリです。'},
+ {target:'.process-card',title:'夢は、あとから見えてくる',text:'「好き → 気になる → 小さくやる → 記録 → どうだった？ → 深まる → 夢になる」。この流れを何度も繰り返すことで、最初は分からなかった「もっとやりたい」が少しずつ見えてきます。'},
+ {target:'#whyDreamLink',title:'なぜ夢に向かうの？',text:'夢は「絶対に叶えなければいけない目標」ではありません。進む方向を考える目印です。夢がなくても大丈夫。「気になる」から小さく動き、やってみて違うと気づくことも前進です。'},
+ {target:'#actionCarousel',title:'今日の一歩',text:'ここが一番大事。今日できそうな小さな行動が表示されます。大きな目標ではなく、まずは今日できる一歩をやってみましょう。終わったら「やってみた！」を押して記録します。'},
+ {target:'#homeConditionLink',title:'コンディション',text:'今日の調子に合わせて、一歩の重さを変えられます。疲れている日は小さく、元気な日は少し挑戦できます。無理なく続けることが大切です。'},
  {target:'#infoLink',title:'各種情報',text:'あとからいつでも使い方を確認できます。分からなくなってもここに戻ればOKです。'},
  {target:'.quote-card',title:'今日のひとこと',text:'毎日変わるひとことが、ちょっと考えるきっかけになります。ここにある格言は消えません。'},
- {target:'#dreamLogGuideTarget',title:'夢の芽ログ',text:'記録画面には、やってみて見つけたことを残す「夢の芽ログ」があります。記録が増えても、ページが長くなりすぎないように分けて表示します。',screen:'records'}
+ {target:'#dreamLogGuideTarget',title:'夢の芽ログ',text:'記録画面には、やってみて見つけたことを残す「夢の芽ログ」があります。「もっとやりたい」「思っていたのと違った」など、どんな発見も次の一歩につながります。',screen:'records'}
 ];
 let guideIndex=0;
 function showGuide(){const guide=$("guide");if(!guide)return;guide.style.display='block';guide.setAttribute('aria-hidden','false');guideIndex=0;renderGuideStep();}
@@ -4186,8 +4188,8 @@ function setupInstallBanner(){
                     <div class="qr-install-card">
                         <button type="button" class="qr-install-close" aria-label="閉じる">×</button>
                         <div class="ios-install-icon">📱</div>
-                        <h3>スマホでWill Betterを使う</h3>
-                        <p>パソコンでご覧の場合は、スマートフォンで開いてからホーム画面に追加するのがおすすめです。</p>
+                        <h3>このサイトはスマートフォンでの利用をおすすめします</h3>
+                        <p>Will Betterは、毎日の「今日の一歩」を確認したり、やってみたことを記録したりしながら使うアプリです。スマートフォンなら、いつでもすぐに開いて使えます。</p>
                         <img src="./qr1234.png" alt="Will Betterを開くQRコード"
                              onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
                         <div class="qr-install-steps" hidden>
@@ -4196,12 +4198,12 @@ function setupInstallBanner(){
                             <code>qr1234.png</code> を置いてください。
                         </div>
                         <div class="qr-install-steps">
-                            <b>使い方</b><br>
+                            <b>スマートフォンで使う方法</b><br>
                             ① スマートフォンのカメラでQRコードを読み取る<br>
                             ② Will Betterを開く<br>
                             ③ 「ホーム画面に追加」して、アプリのようにすぐ起動
                         </div>
-                        <strong>iPhone・Androidどちらでも、ホーム画面への追加を強くおすすめします。</strong>
+                        <strong>QRコードはスマートフォンでWill Betterを開くための方法です。iPhone・Androidどちらでも、ホーム画面への追加をおすすめします。</strong>
                     </div>`;
                 document.body.appendChild(overlay);
                 overlay.querySelector(".qr-install-close").onclick=()=>overlay.remove();
