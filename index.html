@@ -1023,80 +1023,6 @@ input[type="radio"]:checked{
 body{
   --accent:var(--theme-main);
 }
-
-
-/* 追加方法ポップアップ専用CSS（既存CSSは変更しない） */
-.qr-install-overlay{
-    position:fixed;
-    inset:0;
-    z-index:999999;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    background:rgba(20,30,24,.58);
-}
-.qr-install-card{
-    position:relative;
-    width:min(380px,calc(100vw - 32px));
-    max-height:calc(100vh - 40px);
-    overflow:auto;
-    padding:28px 24px 24px;
-    border-radius:24px;
-    background:#fff;
-    box-shadow:0 20px 60px rgba(0,0,0,.28);
-    text-align:center;
-}
-.qr-install-card h3{
-    margin:8px 0 10px;
-    font-size:20px;
-    color:var(--theme-dark);
-}
-.qr-install-card p{
-    margin:0 0 14px;
-    color:#59665e;
-    font-size:13px;
-    line-height:1.7;
-}
-.qr-install-card img{
-    display:block;
-    width:220px;
-    height:220px;
-    object-fit:contain;
-    margin:12px auto 16px;
-    border-radius:8px;
-}
-.qr-install-card strong{
-    display:block;
-    margin-top:10px;
-    color:#4f5d54;
-    font-size:12px;
-    line-height:1.6;
-}
-.qr-install-close{
-    position:absolute;
-    top:8px;
-    right:10px;
-    width:32px;
-    height:32px;
-    padding:0;
-    border:0;
-    background:transparent;
-    color:#6d7770;
-    font-size:24px;
-    line-height:32px;
-    cursor:pointer;
-}
-.qr-install-steps{
-    margin:12px 0 0;
-    padding:12px 14px;
-    border-radius:14px;
-    background:#f5f7f5;
-    color:#536158;
-    font-size:12px;
-    line-height:1.7;
-    text-align:left;
-}
 </style>
 
 <link rel="manifest" href="manifest.json">
@@ -1107,23 +1033,227 @@ body{
 <link rel="apple-touch-icon" href="icons/icon-180.png">
 
 
-<style>
-.ios-install-notice{position:fixed;right:16px;bottom:92px;z-index:99999;width:min(390px,calc(100vw - 32px));display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:17px;background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.95);box-shadow:0 10px 28px rgba(40,60,45,.16);text-align:left}
-.ios-install-notice[hidden]{display:none}
-.ios-install-card{display:contents}
-.ios-install-icon{width:38px;height:38px;flex:0 0 38px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--theme-light);font-size:21px}
-.ios-install-card h2{margin:0;color:var(--theme-dark);font-size:13px;line-height:1.3}
-.ios-install-card p{margin:2px 0 0;color:#647169;font-size:10px;line-height:1.35}
-.ios-install-steps{display:none}
-.level5-install-message{margin-top:5px;font-size:11px;line-height:1.45;font-weight:700;color:var(--theme-dark);}
-.ios-install-ok{flex:0 0 auto;padding:8px 10px;border:0;border-radius:10px;color:#fff;font-weight:700;font-size:10px;background:linear-gradient(135deg,var(--theme-main),var(--theme-dark));box-shadow:none}
-.ios-install-notice::after{content:'強くおすすめします';position:absolute;left:50px;bottom:-14px;color:var(--theme-dark);font-size:9px;font-weight:700;white-space:nowrap}
-@media(max-width:430px){.ios-install-notice{right:9px;bottom:86px;width:calc(100vw - 18px);padding:10px}.ios-install-icon{width:34px;height:34px;flex-basis:34px;font-size:19px}.ios-install-card h2{font-size:12px}.ios-install-card p{font-size:9.5px}.ios-install-ok{padding:7px 9px}}
+
+
+<style id="final-fix">
+.mobile-recommendation-note{
+    margin:12px 0 18px;
+    padding:12px 14px;
+    border-radius:14px;
+    background:rgba(92,147,105,.10);
+    border:1px solid rgba(92,147,105,.22);
+    font-size:13px;
+    line-height:1.65;
+}
+@media(min-width:700px){
+    .guide-tooltip,.guide-popover,.guide-card,.tutorial-card{
+        max-width:430px !important;
+        width:calc(100vw - 40px) !important;
+        box-sizing:border-box !important;
+    }
+    .guide-overlay,.tutorial-overlay{
+        position:fixed !important;
+        inset:0 !important;
+        overflow:auto !important;
+    }
+}
 </style>
+
+
+
 </head>
+<style id="mobile-install-recommend-style">
 
+/* ================================
+   スマホ：ホーム画面追加おすすめ
+   ================================ */
+
+#mobileInstallRecommend{
+    position:fixed;
+    left:50%;
+    bottom:86px;
+    transform:translateX(-50%);
+    width:min(410px,calc(100vw - 20px));
+    padding:17px 16px 15px;
+    background:rgba(255,255,255,.97);
+    border:2px solid var(--theme-main);
+    border-radius:22px;
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.22),
+        0 0 0 5px var(--theme-soft);
+    z-index:1000000;
+    display:none;
+    animation:mobileInstallPop .45s ease;
+}
+
+#mobileInstallRecommend.show{
+    display:block;
+}
+
+@keyframes mobileInstallPop{
+    0%{
+        opacity:0;
+        transform:translate(-50%,20px) scale(.94);
+    }
+    100%{
+        opacity:1;
+        transform:translate(-50%,0) scale(1);
+    }
+}
+
+.mobile-install-head{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    margin-bottom:9px;
+}
+
+.mobile-install-icon{
+    width:48px;
+    height:48px;
+    flex:0 0 48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:15px;
+    background:var(--theme-light);
+    font-size:27px;
+}
+
+.mobile-install-title{
+    color:var(--theme-dark);
+    font-size:17px;
+    line-height:1.4;
+    font-weight:800;
+}
+
+.mobile-install-title strong{
+    color:var(--theme-main);
+}
+
+.mobile-install-text{
+    margin:0 0 11px;
+    color:#536158;
+    font-size:13px;
+    line-height:1.65;
+}
+
+.mobile-install-arrow{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    padding:11px 12px;
+    margin-bottom:11px;
+    border-radius:15px;
+    background:var(--theme-light);
+    color:var(--theme-dark);
+    font-size:13px;
+    font-weight:800;
+}
+
+.mobile-install-share{
+    display:inline-flex;
+    width:34px;
+    height:34px;
+    align-items:center;
+    justify-content:center;
+    border-radius:10px;
+    background:#fff;
+    border:1px solid rgba(0,0,0,.08);
+    font-size:21px;
+}
+
+.mobile-install-arrow-mark{
+    font-size:20px;
+    animation:installArrowMove 1.1s ease-in-out infinite;
+}
+
+@keyframes installArrowMove{
+    0%,100%{transform:translateX(0)}
+    50%{transform:translateX(5px)}
+}
+
+.mobile-install-actions{
+    display:flex;
+    gap:8px;
+}
+
+.mobile-install-ok{
+    flex:1;
+    border:0;
+    border-radius:13px;
+    padding:11px;
+    background:var(--theme-main);
+    color:#fff;
+    font-weight:800;
+}
+
+.mobile-install-later{
+    width:92px;
+    border:0;
+    border-radius:13px;
+    padding:11px;
+    background:#eef2ef;
+    color:#68746d;
+    font-weight:700;
+}
+
+@media(min-width:700px){
+    #mobileInstallRecommend{
+        display:none!important;
+    }
+}
+
+</style>
 <body>
+<!-- =================================
+     スマホ：ホーム画面追加おすすめ
+     ================================= -->
+<div id="mobileInstallRecommend" aria-live="polite">
 
+    <div class="mobile-install-head">
+
+        <div class="mobile-install-icon">
+            📱
+        </div>
+
+        <div class="mobile-install-title">
+            スマホでも<br>
+            <strong>ホーム画面への追加をおすすめします</strong>
+        </div>
+
+    </div>
+
+    <p class="mobile-install-text">
+        Will Betterはスマートフォンで使うと、もっと便利です。<br>
+        ホーム画面に追加して、いつでもすぐ開けるようにするのがおすすめです。
+    </p>
+
+    <div class="mobile-install-arrow">
+        <span class="mobile-install-share">□↑</span>
+        <span class="mobile-install-arrow-mark">→</span>
+        <span>
+            「ホーム画面に追加」を選んでください
+        </span>
+    </div>
+
+    <div class="mobile-install-actions">
+        <button
+            id="mobileInstallOk"
+            class="mobile-install-ok"
+            type="button">
+            ホーム画面に追加する方法を見る
+        </button>
+
+        <button
+            id="mobileInstallLater"
+            class="mobile-install-later"
+            type="button">
+            あとで
+        </button>
+    </div>
+
+</div>
 <div class="app">
 
 <!-- =====================
@@ -1875,6 +2005,157 @@ style="margin-top:10px"
 
 <script>
 
+/* =========================================
+   スマホ：ホーム画面追加おすすめ
+   ========================================= */
+
+(function(){
+
+    function isMobileDevice(){
+        const ua = navigator.userAgent || "";
+
+        return /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+    }
+
+    function isIOS(){
+        const ua = navigator.userAgent || "";
+
+        return /iPhone|iPad|iPod/i.test(ua) ||
+            (navigator.platform === "MacIntel" &&
+             navigator.maxTouchPoints > 1);
+    }
+
+    function isStandalone(){
+        return window.matchMedia &&
+            window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true;
+    }
+
+    function showMobileInstallRecommend(){
+
+        const box =
+            document.getElementById("mobileInstallRecommend");
+
+        if(!box) return;
+
+        if(!isMobileDevice()) return;
+
+        /* すでにホーム画面アプリとして起動しているなら不要 */
+        if(isStandalone()){
+            box.classList.remove("show");
+            return;
+        }
+
+        /* 設定でOFFにしている場合 */
+        if(typeof iosInstallEnabled !== "undefined" &&
+           iosInstallEnabled === false){
+            box.classList.remove("show");
+            return;
+        }
+
+        box.classList.add("show");
+    }
+
+    function hideMobileInstallRecommend(){
+
+        const box =
+            document.getElementById("mobileInstallRecommend");
+
+        if(box){
+            box.classList.remove("show");
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded",function(){
+
+        const box =
+            document.getElementById("mobileInstallRecommend");
+
+        if(!box) return;
+
+        const ok =
+            document.getElementById("mobileInstallOk");
+
+        const later =
+            document.getElementById("mobileInstallLater");
+
+        /*
+         * 「ホーム画面に追加する方法を見る」
+         */
+        if(ok){
+
+            ok.addEventListener("click",function(){
+
+                if(isIOS()){
+
+                    alert(
+                        "iPhoneの場合\n\n" +
+                        "① Safariの「共有」ボタン（□↑）をタップ\n\n" +
+                        "② 「ホーム画面に追加」をタップ\n\n" +
+                        "③ 「追加」をタップ\n\n" +
+                        "これでホーム画面からWill Betterをすぐ開けます。"
+                    );
+
+                }else{
+
+                    alert(
+                        "ブラウザのメニューから\n" +
+                        "「ホーム画面に追加」または\n" +
+                        "「アプリをインストール」を選んでください。"
+                    );
+
+                }
+
+            });
+
+        }
+
+        /*
+         * あとで
+         */
+        if(later){
+
+            later.addEventListener("click",function(){
+
+                hideMobileInstallRecommend();
+
+                /*
+                 * 完全に永久消去ではなく、
+                 * 今回の表示だけ閉じる。
+                 */
+            });
+
+        }
+
+        /*
+         * 初回設定・チュートリアルが終わった後に表示
+         */
+        setTimeout(function(){
+
+            const setupDone =
+                localStorage.getItem("setupCompleted") === "true";
+
+            const guideDone =
+                localStorage.getItem("guideCompleted") === "true";
+
+            if(setupDone && guideDone){
+                showMobileInstallRecommend();
+            }
+
+        },700);
+
+    });
+
+    /*
+     * 他の処理から呼べるようにする
+     */
+    window.showMobileInstallRecommend =
+        showMobileInstallRecommend;
+
+    window.hideMobileInstallRecommend =
+        hideMobileInstallRecommend;
+
+})();
 
 /* =====================
 app ver
@@ -2389,42 +2670,27 @@ function getGuideTarget(step){return document.querySelector(step.target);}
 function positionGuideTooltip(target){const spotlight=$("guideSpotlight"),tooltip=$("guideTooltip");if(!target||!spotlight||!tooltip)return;const r=target.getBoundingClientRect(),pad=5;spotlight.style.left=Math.max(4,r.left-pad)+'px';spotlight.style.top=Math.max(4,r.top-pad)+'px';spotlight.style.width=Math.max(20,r.width+pad*2)+'px';spotlight.style.height=Math.max(20,r.height+pad*2)+'px';const tw=Math.min(360,window.innerWidth-24),th=tooltip.offsetHeight||150;let left=Math.min(Math.max(12,r.left),window.innerWidth-tw-12),top=r.bottom+14;tooltip.classList.remove('above');if(top+th>window.innerHeight-10){top=r.top-th-14;tooltip.classList.add('above');}if(top<10){top=10;tooltip.classList.remove('above');}tooltip.style.width=tw+'px';tooltip.style.left=left+'px';tooltip.style.top=top+'px';}
 function renderGuideStep(){const step=guideSteps[guideIndex];showScreen(step.screen||'home');const target=getGuideTarget(step);if(!target){setTimeout(renderGuideStep,80);return;}target.scrollIntoView({behavior:'smooth',block:'center',inline:'nearest'});setTimeout(()=>{$("guideStep").textContent=(guideIndex+1)+' / '+guideSteps.length;$("guideTitle").textContent=step.title;$("guideText").textContent=step.text;$("guideNext").textContent=guideIndex===guideSteps.length-1?'ホームへ':'次へ';$("guideHint").textContent=step.screen?'記録画面の実際の場所を案内しています':'この部分を目印に覚えておこう';positionGuideTooltip(target);},320);}
 $("guideNext").onclick=()=>{if(guideIndex<guideSteps.length-1){guideIndex++;renderGuideStep();}else completeGuide();};$("guideSkip").onclick=()=>completeGuide();$("guideBackdrop").onclick=()=>completeGuide();window.addEventListener('resize',()=>{if($("guide")&&$("guide").style.display!=='none')positionGuideTooltip(getGuideTarget(guideSteps[guideIndex]));});
-function completeGuide(){$("guide").style.display='none';$("guide").setAttribute('aria-hidden','true');localStorage.setItem('guideCompleted','true');showScreen('home');ensureTodayActions();updateHome();updateProcess();}
+function isPCDevice(){
+    const ua = navigator.userAgent || "";
+    const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+    const touchMac = /Macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
+    return !mobile && !touchMac;
+}
 
-/* =====================
-   魚 SECRET
-===================== */
-let fishTapCount=0;
-$("fish").onclick=()=>{$("fish").classList.remove('bounce');void $("fish").offsetWidth;$("fish").classList.add('bounce');fishTapCount++;if(fishTapCount===3)$("fishName").textContent='……何か気づいた？';if(fishTapCount>=5){$("fishName").textContent='🐟 Secret Found!';$("gameButton").style.display='block';updateGameButton();}};
-
-/* =====================
- HOME
-===================== */
-
-function updateHome(){
-    syncDailyState();
+function completeGuide(){
+    $("guide").style.display='none';
+    $("guide").setAttribute('aria-hidden','true');
+    localStorage.setItem('guideCompleted','true');
+    showScreen('home');
     ensureTodayActions();
-    renderActionCarousel();
-
-    $("points").textContent=points;
-    $("streak").textContent=streak;
-    $("totalMinutes").textContent=totalMinutes;
-    $("level").textContent="Lv."+level;
-    const xpNeed=getXPToNextLevel();
-    $("exp").style.width=Math.min(100,(exp/xpNeed)*100)+"%";
-    $("expText").textContent=exp+" / "+xpNeed+" XP";
-    $("gamePoints").textContent=points;
-    updateFishAppearance();
-    updateMood();
-    const homeConditionText=$("homeConditionText");
-    if(homeConditionText) homeConditionText.textContent=(moodDate===getDateKey()&&mood)?("今日："+mood+"　変更する →"):"今の調子を記録する →";
-    updateExperiments();
-    updateSettings();
-    updateDiscoveryCard();
-    renderMyTopics();
+    updateHome();
     updateProcess();
-    const processCard=document.querySelector(".process-card");
-    if(processCard) processCard.style.display=processEnabled ? "" : "none";
+
+    setTimeout(function(){
+        if(typeof window.showPcRightRecommend === "function"){
+            window.showPcRightRecommend();
+        }
+    }, 450);
 }
 
 function ensureTodayActions(){
@@ -2915,7 +3181,7 @@ function addXP(amount){
         leveledUp=true;
     }
     if(level>=5 && previousLevel<5){
-        setTimeout(updateInstallBanner,0);
+        
     }
     if(leveledUp && levelUpAnimationEnabled){
         $("fish").classList.remove("bounce");
@@ -3208,7 +3474,7 @@ $("iosInstallSetting").onchange=()=>{
     }else{
         const notice=$("iosInstallNotice");
         if(notice) notice.hidden=false;
-        updateInstallBanner();
+        
     }
 };
 
@@ -3217,7 +3483,7 @@ $("resetDataButton").onclick=()=>{
     localStorage.removeItem("willBetterData");
     localStorage.removeItem("setupCompleted");
     localStorage.removeItem("guideCompleted");
-    location.reload();
+        location.reload();
 };
 
 $("addHalfStep").onclick=()=>{
@@ -4153,161 +4419,202 @@ if(
    ホーム画面追加おすすめ・常時表示バナー
    iPhone / Android / PC すべてで表示
 ===================== */
-function updateInstallBanner(){
-    const notice=$("iosInstallNotice");
-    if(!notice) return;
-    if(localStorage.getItem("installBannerDismissed")==="true") {
-        notice.hidden=true;
-        return;
-    }
-    notice.hidden=false;
-    const title=notice.querySelector("h2");
-    const text=notice.querySelector("p");
-    const levelMessage=notice.querySelector(".level5-install-message");
-    const monthMessage=notice.querySelector(".month-install-message");
-    const stepButton=notice.querySelector("#todayStepChange");
-    const milestone=streak>=30 ? "month" : (level>=5 ? "level5" : "install");
 
-    if(stepButton) stepButton.hidden = !(milestone==="month" || milestone==="level5");
-
-    if(milestone==="month"){
-        if(title) title.textContent="🌱 1ヶ月続けた今、今日の一歩を見直してみませんか？";
-        if(text) text.textContent="1ヶ月継続できました。今の自分に合う「今日の一歩」へ変更するのをおすすめします。";
-        if(levelMessage) levelMessage.hidden=true;
-        if(monthMessage) monthMessage.hidden=false;
-    }else if(milestone==="level5"){
-        if(title) title.textContent="🌱 今日の一歩を、そろそろ見直してみませんか？";
-        if(text) text.textContent="Lv.5になりました。今の自分に合う「今日の一歩」へ変更するのをおすすめします。";
-        if(levelMessage) levelMessage.hidden=false;
-        if(monthMessage) monthMessage.hidden=true;
-    }else{
-        if(title) title.textContent="Will Betterをホーム画面に追加";
-        if(text) text.textContent="iPhone・Androidどちらでも、アプリのようにすぐ起動できます。";
-        if(levelMessage) levelMessage.hidden=true;
-        if(monthMessage) monthMessage.hidden=true;
-    }
-}
-
-function setupInstallBanner(){
-    const notice=$("iosInstallNotice");
-    const okButton=$("iosInstallOk");
-    const stepButton=$("todayStepChange");
-    if(!notice) return;
-
-    updateInstallBanner();
-
-    // バナーを閉じたら、同じ端末では再表示しない
-    if(!notice.querySelector("#installBannerDismiss")){
-        const dismiss=document.createElement("button");
-        dismiss.id="installBannerDismiss";
-        dismiss.type="button";
-        dismiss.textContent="×";
-        dismiss.setAttribute("aria-label","ホーム画面追加のおすすめを閉じる");
-        dismiss.style.cssText="position:absolute;top:4px;right:7px;width:28px;height:28px;padding:0;border:0;background:transparent;color:#6d7770;font-size:22px;line-height:28px;cursor:pointer;";
-        notice.style.position="fixed";
-        notice.appendChild(dismiss);
-        dismiss.onclick=()=>{
-            localStorage.setItem("installBannerDismissed","true");
-            notice.hidden=true;
-        };
-    }
-
-    // 「追加方法」はLv.5や1ヶ月継続後も常に残す
-    if(okButton){
-        okButton.textContent="追加方法";
-        okButton.onclick=()=>{
-            const ua=navigator.userAgent||"";
-            const isIOS=/iPhone|iPad|iPod/i.test(ua);
-            const isAndroid=/Android/i.test(ua);
-            const isPC=!isIOS && !isAndroid;
-
-            if(isPC){
-                const overlay=document.createElement("div");
-                overlay.className="qr-install-overlay";
-                overlay.innerHTML=`
-                    <div class="qr-install-card">
-                        <button type="button" class="qr-install-close" aria-label="閉じる">×</button>
-                        <div class="ios-install-icon">📱</div>
-                        <h3>このサイトはスマートフォンでの利用をおすすめします</h3>
-                        <p>Will Betterは、毎日の「今日の一歩」を確認したり、やってみたことを記録したりしながら使うアプリです。スマートフォンなら、いつでもすぐに開いて使えます。</p>
-                        <img src="./qr1234.png" alt="Will Betterを開くQRコード"
-                             onerror="this.style.display='none'; this.nextElementSibling.hidden=false;">
-                        <div class="qr-install-steps" hidden>
-                            <b>QRコード画像が読み込めません。</b><br>
-                            GitHubの <code>index.html</code> と同じ場所に
-                            <code>qr1234.png</code> を置いてください。
-                        </div>
-                        <div class="qr-install-steps">
-                            <b>スマートフォンで使う方法</b><br>
-                            ① スマートフォンのカメラでQRコードを読み取る<br>
-                            ② Will Betterを開く<br>
-                            ③ 「ホーム画面に追加」して、アプリのようにすぐ起動
-                        </div>
-                        <strong>QRコードはスマートフォンでWill Betterを開くための方法です。iPhone・Androidどちらでも、ホーム画面への追加をおすすめします。</strong>
-                    </div>`;
-                document.body.appendChild(overlay);
-                overlay.querySelector(".qr-install-close").onclick=()=>overlay.remove();
-                overlay.addEventListener("click",e=>{
-                    if(e.target===overlay) overlay.remove();
-                });
-            }else if(isIOS){
-                alert("iPhone：Safariの「共有」→「ホーム画面に追加」から追加できます。");
-            }else if(isAndroid){
-                alert("Android：Chromeのメニューから「ホーム画面に追加」または「アプリをインストール」を選んでください。");
-            }else{
-                alert("スマートフォンでこのページを開き、「ホーム画面に追加」するとアプリのようにすぐ使えます。");
-            }
-        };
-    }
-
-    if(stepButton){
-        stepButton.onclick=()=>{
-            const action=todayActions[activeActionIndex];
-            if(!action) return;
-            const next=prompt(
-                "今日の一歩を変更してみましょう。\n今の自分に合う小さな一歩を入力してください。",
-                action.title||""
-            );
-            if(next!==null && next.trim()){
-                action.title=next.trim();
-                action.completed=false;
-                action.date=getDateKey();
-                renderActionCarousel();
-                save();
-                updateInstallBanner();
-            }
-        };
-    }
-}
-
-document.addEventListener('DOMContentLoaded', setupInstallBanner);
 
 if("serviceWorker" in navigator){
     window.addEventListener("load",()=>{
         navigator.serviceWorker.register("./sw.js").catch(()=>{});
     });
 }
-// ホーム画面追加バナーは常時表示。旧ウェルカムモーダル処理は使用しません。
+// PCではチュートリアル完了後にスマートフォン利用おすすめを表示します。
+
+
+/* =================================================
+   PC専用：毎回表示する「ホームに追加」案内
+================================================= */
+function setupPCMobileRecommend(){
+    const overlay = document.getElementById("pcMobileRecommendOverlay");
+    const ok = document.getElementById("pcMobileRecommendOk");
+    const close = document.getElementById("pcMobileRecommendClose");
+
+    if(!overlay) return;
+
+    if(ok){
+        ok.onclick = closePCMobileRecommend;
+    }
+
+    if(close){
+        close.onclick = closePCMobileRecommend;
+    }
+
+    // 背景クリックでは閉じない
+    overlay.addEventListener("click",(event)=>{
+        if(event.target === overlay){
+            event.stopPropagation();
+        }
+    });
+
+    // ESCで閉じる
+    document.addEventListener("keydown",(event)=>{
+        if(event.key === "Escape" && !overlay.hidden){
+            closePCMobileRecommend();
+        }
+    });
+
+    // 既に初回設定・チュートリアルを完了しているPCは、
+    // サイトを開くたびに表示する。
+    const setupCompleted =
+        localStorage.getItem("setupCompleted") === "true";
+    const guideCompleted =
+        localStorage.getItem("guideCompleted") === "true";
+
+    if(isPCDevice() && setupCompleted && guideCompleted){
+        setTimeout(showPCMobileRecommend, 500);
+    }else if(!isPCDevice()){
+        overlay.hidden = true;
+    }
+}
+
+document.addEventListener("DOMContentLoaded", setupPCMobileRecommend);
 
 </script>
 
 
-<!-- ホーム画面追加おすすめ・常時表示バナー -->
-<div id="iosInstallNotice" class="ios-install-notice">
-    <div class="ios-install-card">
-        <div class="ios-install-icon">🌱</div>
-        <div>
-            <h2>Will Betterをホーム画面に追加</h2>
-            <p>iPhone・Androidどちらでも、アプリのようにすぐ起動できます。</p>
-            <div class="level5-install-message" hidden>Lv.5になったら、今の自分に合う「今日の一歩」へ変更するのがおすすめです。</div>
-            <div class="month-install-message" hidden>1ヶ月継続したら、今の自分に合う「今日の一歩」へ見直すのがおすすめです。</div>
-        </div>
-        <div class="ios-install-actions">
-            <button id="iosInstallOk" class="ios-install-ok" type="button">追加方法</button>
-            <button id="todayStepChange" class="ios-install-ok" type="button" hidden>一歩を変更</button>
-        </div>
-    </div>
+
+
+
 </div>
+
+
+<style id="pc-right-recommend-style">
+/* PC/Macだけ：右側の余白に表示するスマホ推奨カード */
+#pcRightMobileRecommend{
+    position:fixed;
+    right:24px;
+    top:50%;
+    transform:translateY(-50%);
+    z-index:999999;
+    width:320px;
+    box-sizing:border-box;
+    padding:26px 24px 22px;
+    background:#fff;
+    border:1px solid rgba(92,147,105,.18);
+    border-radius:22px;
+    box-shadow:0 18px 55px rgba(0,0,0,.18);
+    font-family:inherit;
+}
+#pcRightMobileRecommend[hidden]{display:none!important}
+#pcRightMobileRecommend .pc-right-icon{
+    width:58px;height:58px;margin-bottom:14px;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:17px;
+    background:var(--theme-light);
+    font-size:31px;
+}
+#pcRightMobileRecommend .pc-right-label{
+    display:inline-block;
+    margin-bottom:10px;
+    padding:5px 10px;
+    border-radius:999px;
+    background:rgba(92,147,105,.12);
+    color:var(--theme-dark);
+    font-size:11px;
+    font-weight:800;
+}
+#pcRightMobileRecommend h3{
+    margin:0 0 10px;
+    color:var(--theme-dark);
+    font-size:21px;
+    line-height:1.45;
+}
+#pcRightMobileRecommend p{
+    margin:0 0 18px;
+    color:#59645d;
+    font-size:13px;
+    line-height:1.7;
+}
+#pcRightMobileRecommend .pc-right-close{
+    width:100%;
+    padding:11px 14px;
+    border:0;
+    border-radius:12px;
+    background:var(--theme-main);
+    color:#fff;
+    font-size:14px;
+    font-weight:800;
+    cursor:pointer;
+}
+#pcRightMobileRecommend .pc-right-close:hover{opacity:.9}
+@media(max-width:1100px){
+    #pcRightMobileRecommend{right:12px;width:280px}
+}
+@media(max-width:900px){
+    #pcRightMobileRecommend{display:none!important}
+}
+</style>
+
+<div id="pcRightMobileRecommend" hidden aria-live="polite">
+    <div class="pc-right-icon">📱</div>
+    <div class="pc-right-label">スマートフォンでの利用をおすすめ</div>
+    <h3>Will Betterは<br>スマートフォン向けです</h3>
+    <p>
+        スマートフォンで開いて、実際に動かしてみてください。<br>
+        PCではこのまま利用することもできます。
+    </p>
+    <button class="pc-right-close" type="button">確認しました</button>
+</div>
+
+<script>
+(function(){
+    function pcRightIsPC(){
+        var ua = navigator.userAgent || "";
+        var mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(ua);
+        var touchMac = /Macintosh/i.test(ua) && navigator.maxTouchPoints > 1;
+        return !mobile && !touchMac;
+    }
+
+    function showPcRightRecommend(){
+        var box = document.getElementById("pcRightMobileRecommend");
+        if(!box || !pcRightIsPC()) return;
+        box.hidden = false;
+    }
+
+    function closePcRightRecommend(){
+        var box = document.getElementById("pcRightMobileRecommend");
+        if(box) box.hidden = true;
+    }
+
+    window.showPcRightRecommend = showPcRightRecommend;
+
+    document.addEventListener("DOMContentLoaded", function(){
+        var box = document.getElementById("pcRightMobileRecommend");
+        if(!box) return;
+
+        var button = box.querySelector(".pc-right-close");
+        if(button) button.addEventListener("click", closePcRightRecommend);
+
+        /*
+         * PC/Macでは毎回表示。
+         * 初回チュートリアル中は邪魔しない。
+         * チュートリアル完了済みなら起動時に表示。
+         */
+        if(pcRightIsPC()){
+            var setupDone = localStorage.getItem("setupCompleted") === "true";
+            var guideDone = localStorage.getItem("guideCompleted") === "true";
+
+            if(setupDone && guideDone){
+                setTimeout(showPcRightRecommend, 500);
+            }
+        }
+    });
+
+    /*
+     * チュートリアル完了関数から呼べるように、
+     * 完了後に少し遅れて右側へ表示する。
+     */
+    var originalCompleteGuide = window.completeGuide;
+})();
+</script>
 
 </body>
 </html>
