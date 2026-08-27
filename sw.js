@@ -1,4 +1,4 @@
-const CACHE_NAME = "will-better-v1";
+const CACHE_NAME = "will-better-v1.2.0";
 const APP_SHELL = [
   "./",
   "./index.html",
